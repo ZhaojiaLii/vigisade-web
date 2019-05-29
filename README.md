@@ -13,7 +13,7 @@ __PHP__
 * Comments MUST be [helpful](https://blog.codinghorror.com/code-tells-you-how-comments-tell-you-why/) for other developers;
 
 __Symfony__
-* Annotations MUST NOT be used. Then, YML files MUST be used for routes or doctrines entities;
+* Annotations MUST NOT be used EXCEPT for doctrine entities.
 * Translations MUST use the `translations/` directory.
 * DataFixtures MUST be set when creating a new doctrine entity.
 
