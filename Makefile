@@ -3,7 +3,7 @@ COMPOSER=.bin/composer -T --ansi
 
 .PHONY: init-db
 init-db:
-	$(PHP) bin/console doctrine:database:drop --force
+	$(PHP) bin/console doctrine:database:drop --if-exists --force
 	$(PHP) bin/console doctrine:database:create
 	$(PHP) bin/console doctrine:migrations:migrate
 
