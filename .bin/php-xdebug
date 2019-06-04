@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-export BIN_PHP_COMMAND=composer
+export BIN_PHP_COMMAND=php-xdebug
 
 exec $(dirname $0)/php "$@"

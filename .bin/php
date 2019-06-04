@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+SERVICE=php
+BIN_PHP_COMMAND=${BIN_PHP_COMMAND:-php}
+
 set -e
 
 OPTIONS=
@@ -13,9 +16,9 @@ for p in "$@"; do
 done
 
 if [ -f "/.dockerenv" ]; then
-    exec /usr/local/bin/php "$@"
+    exec "$BIN_PHP_COMMAND" "$@"
 fi
 
-exec $(dirname $0)/../../.docker/exec $OPTIONS php php "$@"
+exec $(dirname $0)/../../.docker/exec.sh $OPTIONS "$SERVICE" "$BIN_PHP_COMMAND" "$@"
 
 # vim: ts=4 sts=4 sw=4 et:
