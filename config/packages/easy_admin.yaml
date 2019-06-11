@@ -1,5 +1,5 @@
 easy_admin:
-    site_name: "Vigisade Backend"
+    site_name: "Vigisade BO"
     design:
         brand_color: '#388ed1'
         #Menu du BO
@@ -30,6 +30,7 @@ easy_admin:
     entities:
         Header:
             class: App\Entity\Header
+            disabled_actions: ['new', 'search', 'delete']
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { property: 'logoText', label: 'Text' }
