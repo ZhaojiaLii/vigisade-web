@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller as SfController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-abstract class Controller extends SfController
+abstract class Controller extends AbstractController
 {
     // @todo: use this for common controller code.
 }
