@@ -1,12 +1,24 @@
 PHP=.bin/php -T
 COMPOSER=.bin/composer -T --ansi
 
-.PHONY: init-db
+.PHONY: db-init
 init-db:
 	$(PHP) bin/console doctrine:database:drop --if-exists --force
 	$(PHP) bin/console doctrine:database:create
+
+.PHONY: db-prepare
+db-prepare:
+	$(PHP) bin/console make:migration
 	$(PHP) bin/console doctrine:migrations:migrate
 
-.PHONY: composer-install
+.PHONY: db-prepare-fixtures
+db-prepare-fixtures: db-prepare
+	$(PHP) bin/console doctrine:fixtures:loads
+
+.PHONY: assets-init
+assets-init:
+	$(PHP) bin/console assets:install --symlink
+
+.PHONY: packages-init
 composer-install:
 	$(COMPOSER) install

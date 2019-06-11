@@ -28,3 +28,11 @@ __Git__
 * Each redmine issue MUST have a dedicated feature branch;
 * Each feature branch MUST be merged into a sprint branch using a Gitlab Merge Request;
 * At the end of a sprint, the sprint branch MUST be merged into master;
+
+
+## Make commands
+
+__When working from scratch, you should initialize the database:__
+
+* Without fixtures: `make db-prepare`;
+* With fixtures: `make db-prepare-fixtures`;
