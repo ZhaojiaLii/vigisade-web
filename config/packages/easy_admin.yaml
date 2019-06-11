@@ -1,0 +1,49 @@
+easy_admin:
+    site_name: "Vigisade BO"
+    design:
+        brand_color: '#388ed1'
+        #Menu du BO
+        menu:
+            - label: 'Management'
+            - { entity: 'Header', label: 'Header and News', icon: 'newspaper' }
+            - { entity: 'Header', label: 'Survey', icon: 'poll-h' }
+            - label: 'Direction - Area - Entity'
+              icon: 'network-wired'
+              children:
+                  - { label: 'Direction', icon: 'network-wired', entity: 'Header' }
+                  - { label: 'Area', icon: 'project-diagram', entity: 'Header' }
+                  - { label: 'Entity', icon: 'neuter', entity: 'Header' }
+            - { entity: 'Header', label: 'Types of dangerous situations', icon: 'exclamation-circle' }
+            - { entity: 'Header', label: 'Types of good practice', icon: 'award'}
+            - { entity: 'Header', label: 'Users', icon: 'users'}
+
+    #Action configuration
+    list:
+        actions:
+            - { name: 'search', icon: 'search', label: 'Search' }
+            - { name: 'new', icon: 'plus-circle', label: 'New' }
+            - { name: 'edit', icon: 'edit', label: '' }
+            - { name: 'delete', icon: 'trash', label: '' }
+            - { name: 'show', icon: 'eye', label: '' }
+
+    #Entities configuration
+    entities:
+        Header:
+            class: App\Entity\Header
+            disabled_actions: ['new', 'search', 'delete']
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { property: 'logoText', label: 'Text' }
+                    - { property: 'news', type: 'fos_ckeditor' }
+                    - { property: 'logoImage', label: 'Logo', type: 'vich_image', type_options: { allow_delete: false} }
+            list:
+                title: 'List of header'
+                fields:
+                    - { property: 'logoText', label: 'Text' }
+                    - { property: 'news'}
+                    - { property: 'image', type: 'image', base_path: '%app.path.header_images%' }
+            show:
+                fields:
+                    - { property: 'logoText', label: 'Text' }
+                    - { property: 'news'}
+                    - { property: 'image', type: 'image', base_path: '%app.path.header_images%' }
