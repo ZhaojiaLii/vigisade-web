@@ -13,7 +13,7 @@ db-prepare:
 
 .PHONY: db-prepare-fixtures
 db-prepare-fixtures: db-prepare
-	$(PHP) bin/console doctrine:fixtures:loads
+	$(PHP) bin/console doctrine:fixtures:load
 
 .PHONY: assets-init
 assets-init:
