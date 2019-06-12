@@ -1,9 +1,10 @@
 # This file is the entry point to configure your own HTTP routes.
 # Files in the routes/ subdirectory configure the routes for your dependencies.
 
-#index:
-#    path: /
-#    defaults: { _controller: 'App\Controller\DefaultController::index' }
+api:
+  resource: routes/api.yaml
+  prefix: /api
+
 ajax_request_area:
   path: /ajax_request_area
   controller: App\Controller\Back\AsyncController::getSpecificAreaSelect

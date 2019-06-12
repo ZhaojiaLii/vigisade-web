@@ -1,0 +1,14 @@
+api.user.get:
+  path: '/'
+  controller: App\Controller\Api\UserController::getUser
+  methods: GET
+
+api.user.update:
+  path: /update/
+  controller: App\Controller\Api\UserController::updateUser
+  methods: POST
+
+api.user.create:
+  path: /create/
+  controller: App\Controller\Api\UserController::createUser
+  methods: POST

@@ -1,0 +1,4 @@
+api.dangerous_situation.create:
+  path: /create/
+  controller: App\Controller\Api\DangerousSituationController::create
+  methods: POST

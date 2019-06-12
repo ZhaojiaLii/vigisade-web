@@ -1,0 +1,20 @@
+api.user:
+  resource: api/user.yaml
+  prefix: /user
+
+api.survey:
+  resource: api/survey.yaml
+  prefix: /survey
+
+api.corrective_action:
+  resource: api/corrective_action.yaml
+  prefix: /corrective-action
+
+api.dangerous_situation:
+  resource: api/dangerous_situation.yaml
+  prefix: /dangerous-situation
+
+api.settings:
+  path: /settings/
+  controller: App\Controller\Api\SettingsController::getSettings
+  methods: GET
