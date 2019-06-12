@@ -2,7 +2,8 @@
 
 * [Guidelines](#guidelines)
 * [Git Workflow](#git-workflow)
-
+* [API documentation](#api-documentation)
+* [Make commands](#make-commands)
 
 ## Guidelines
 
@@ -28,6 +29,11 @@ __Git__
 * Each redmine issue MUST have a dedicated feature branch;
 * Each feature branch MUST be merged into a sprint branch using a Gitlab Merge Request;
 * At the end of a sprint, the sprint branch MUST be merged into master;
+
+
+## Api documentation
+
+For a quick look on all API routes, you can find a Postman collection in `doc/vigisade.postman_collection.json`.
 
 
 ## Make commands

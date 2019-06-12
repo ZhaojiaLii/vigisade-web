@@ -1,0 +1,301 @@
+{
+	"info": {
+		"_postman_id": "d89b9e4d-df3d-47d9-9dcd-4a200afb0569",
+		"name": "Vigisade",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Web API",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "user/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/user/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"user",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "user/update/",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/user/update/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"update",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "user/create/",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/user/create/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"create",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Survey",
+					"item": [
+						{
+							"name": "survey/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/survey/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"survey",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "survey/history/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/survey/history/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"survey",
+										"history",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "survey/history/{id}/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/survey/history/1/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"survey",
+										"history",
+										"1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "survey/update/",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/survey/update/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"survey",
+										"update",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "survey/create/",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/survey/create/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"survey",
+										"create",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Corrective Action",
+					"item": [
+						{
+							"name": "corrective-action/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/corrective-action/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"corrective-action",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "corrective-action/create/",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/corrective-action/create/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"corrective-action",
+										"create",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "corrective-action/update/",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/corrective-action/update/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"corrective-action",
+										"update",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Dangerous Situation",
+					"item": [
+						{
+							"name": "dangerous-situation/create/",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/dangerous-situation/create/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"dangerous-situation",
+										"create",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Settings",
+					"item": [
+						{
+							"name": "settings/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/settings/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"settings",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
