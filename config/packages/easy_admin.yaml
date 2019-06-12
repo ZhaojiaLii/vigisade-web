@@ -10,12 +10,12 @@ easy_admin:
             - label: 'Direction - Area - Entity'
               icon: 'network-wired'
               children:
-                  - { label: 'Direction', icon: 'network-wired', entity: 'Header' }
-                  - { label: 'Area', icon: 'project-diagram', entity: 'Header' }
-                  - { label: 'Entity', icon: 'neuter', entity: 'Header' }
+                  - { label: 'Direction', icon: 'network-wired', entity: 'Direction' }
+                  - { label: 'Area', icon: 'project-diagram', entity: 'Area' }
+                  - { label: 'Entity', icon: 'neuter', entity: 'Entity' }
             - { entity: 'Header', label: 'Types of dangerous situations', icon: 'exclamation-circle' }
             - { entity: 'Header', label: 'Types of good practice', icon: 'award'}
-            - { entity: 'Header', label: 'Users', icon: 'users'}
+            - { entity: 'User', label: 'Users', icon: 'users'}
 
     #Action configuration
     list:
@@ -28,6 +28,7 @@ easy_admin:
 
     #Entities configuration
     entities:
+        #Management Header & News
         Header:
             class: App\Entity\Header
             disabled_actions: ['new', 'search', 'delete']
@@ -47,3 +48,55 @@ easy_admin:
                     - { property: 'logoText', label: 'Text' }
                     - { property: 'news'}
                     - { property: 'image', type: 'image', base_path: '%app.path.header_images%' }
+
+        #Management Direction
+        Direction:
+            class: App\Entity\Direction
+
+        #Management Area
+        Area:
+            class: App\Entity\Area
+
+        #Management Entity
+        Entity:
+            class: App\Entity\Entity
+
+        #Management User
+        User:
+            class: App\Entity\User
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { type: 'group', columns: 5, label: 'User Details', icon: 'user' }
+                    - { property: 'email', type: 'email' }
+                    #- { property: 'password', type: 'password', help: 'Passwords must have at least 8 characters'}
+                    - { property: 'password', type: 'text', type_options: { required: false } }
+                    - { property: 'firstname' }
+                    - { property: 'lastname' }
+                    - { property: 'imageFile', type: 'vich_image', css_class: '' }
+                    - { type: 'group', columns: 7, label: 'Direction - Area - Entity', icon: 'network-wired' }
+                    - { property: 'direction' }
+                    - { property: 'area' }
+                    - { property: 'entity' }
+                    - { type: 'section', label: 'Role & status', icon: 'minus-square',
+                        help: 'Role is preferred'}
+                    - { property: 'roles', type: 'choice', type_options: {
+                        multiple: true,
+                        expanded: false,
+                        mapped: true,
+                        choices: {
+                            'ROLE_CONDUCTEUR': 'ROLE_CONDUCTEUR',
+                            'ROLE_MANAGER': 'ROLE_MANAGER',
+                            'ROLE_ADMIN': 'ROLE_ADMIN'
+                        }}}
+                    - { property: 'actif'}
+            list:
+                fields:
+                    - { property: 'email' }
+                    - { property: 'firstname' }
+                    - { property: 'lastname' }
+                    - { property: 'image', type: 'image', base_path: '%app.path.user_images%' }
+                    - { property: 'actif' }
+                    - { property: 'direction' }
+                    - { property: 'area' }
+                    - { property: 'entity' }
+                    - { property: 'roles'}

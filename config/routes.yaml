@@ -4,3 +4,10 @@
 #index:
 #    path: /
 #    defaults: { _controller: 'App\Controller\DefaultController::index' }
+ajax_request_area:
+  path: /ajax_request_area
+  controller: App\Controller\Back\AsyncController::getSpecificAreaSelect
+
+ajax_request_entity:
+  path: /ajax_request_entity
+  controller: App\Controller\Back\AsyncController::getSpecificEntitySelect
