@@ -1,0 +1,72 @@
+{% extends '@!EasyAdmin/default/edit.html.twig' %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $('#user_direction').change(function() {
+            var directionSelector = $(this);
+
+            // Request the area of the selected direction.
+            $.ajax({
+                url:'{{ path('ajax_request_area') }}',
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "id_direction": directionSelector.val()
+                },
+                async: true,
+                success: function (areas)
+                {
+                    var areaSelect = $("#user_area");
+
+                    // Remove current options
+                    areaSelect.html('');
+
+                    // Empty value ...
+                    areaSelect.append('<option value> Select a area of ' + directionSelector.find("option:selected").text() + ' ...</option>');
+
+                    $.each(areas, function (key, area) {
+                        areaSelect.append('<option value="' + area.id + '">' + area.name + '</option>');
+                    });
+                },
+                error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                }
+            })
+
+        });
+
+        $('#user_area').change(function() {
+            var areaSelector = $(this);
+
+            // Request the area of the selected direction.
+            $.ajax({
+                url:'{{ path('ajax_request_entity') }}',
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "id_area": this.value
+                },
+                async: true,
+                success: function (entities)
+                {
+                    var entitySelect = $("#user_entity");
+
+                    // Remove current options
+                    entitySelect.html('');
+
+                    // Empty value ...
+                    entitySelect.append('<option value> Select a entity of ' + areaSelector.find("option:selected").text() + ' ...</option>');
+
+                    $.each(entities, function (key, entity) {
+                        entitySelect.append('<option value="' + entity.id + '">' + entity.name + '</option>');
+                    });
+                },
+                error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                }
+            })
+
+        });
+    </script>
+{% endblock %}
