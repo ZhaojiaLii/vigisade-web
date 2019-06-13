@@ -26,12 +26,12 @@ class Direction
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Area", mappedBy="direction")
      */
-    private $Areas;
+    private $areas;
 
 
     public function __construct()
     {
-        $this->Areas = new ArrayCollection();
+        $this->areas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,18 +51,23 @@ class Direction
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * @return Collection|Area[]
      */
     public function getAreas(): Collection
     {
-        return $this->Areas;
+        return $this->areas;
     }
 
     public function addArea(Area $area): self
     {
-        if (!$this->Areas->contains($area)) {
-            $this->Areas[] = $area;
+        if (!$this->areas->contains($area)) {
+            $this->areas[] = $area;
             $area->setDirection($this);
         }
 
@@ -71,8 +76,8 @@ class Direction
 
     public function removeArea(Area $area): self
     {
-        if ($this->Areas->contains($area)) {
-            $this->Areas->removeElement($area);
+        if ($this->areas->contains($area)) {
+            $this->areas->removeElement($area);
             // set the owning side to null (unless already changed)
             if ($area->getDirection() === $this) {
                 $area->setDirection(null);
@@ -80,10 +85,5 @@ class Direction
         }
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->name;
     }
 }
