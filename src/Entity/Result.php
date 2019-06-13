@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -95,6 +96,12 @@ class Result
      * @ORM\OneToMany(targetEntity="App\Entity\ResultQuestion", mappedBy="result")
      */
     private $questions;
+
+    public function __construct()
+    {
+        $this->teamMembers = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+    }
 
     public function getId()
     {

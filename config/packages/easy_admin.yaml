@@ -6,7 +6,7 @@ easy_admin:
         menu:
             - label: 'Management'
             - { entity: 'Header', label: 'Header and News', icon: 'newspaper' }
-            - { entity: 'Header', label: 'Survey', icon: 'poll-h' }
+            - { entity: 'Survey', label: 'Survey', icon: 'poll-h' }
             - label: 'Direction - Area - Entity'
               icon: 'network-wired'
               children:
@@ -100,3 +100,45 @@ easy_admin:
                     - { property: 'area' }
                     - { property: 'entity' }
                     - { property: 'roles'}
+
+        #Management Survey
+        Survey:
+            class: App\Entity\Survey
+            disabled_actions: ['edit', 'show', 'delete']
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { type: 'tab' , label: 'FR' }
+                    - { property: 'title', label: 'Titre' }
+                    - { property: 'bestPracticeLabel', label: 'Bonne Pratique Question' }
+                    - { property: 'bestPracticeHelp', label: 'Bonne Pratique Help'}
+                    - { property: 'team', type: 'choice', type_options: {
+                        multiple: false,
+                        expanded: false,
+                        mapped: true,
+                        choices: {
+                            'Equipe': 'Equipe',
+                            'Responsable': 'Responsable',
+                            'Aucun': 'Aucun'
+                        }}}
+                    - { property: 'direction' }
+                    - property: 'categories'
+                      label: 'Rubrique'
+                      type: 'collection'
+                      type_options:
+                          entry_type: App\Form\SurveyCategoryEmbeddedForm
+                          allow_delete: true
+                          allow_add: true
+                          by_reference: false
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'title' }
+                    - { property: 'direction' }
+                    - { property: 'team' }
+                    - { property: 'categories' }
+            show:
+                fields:
+                    - { property: 'title' }
+                    - { property: 'direction' }
+                    - { property: 'categories' }
+

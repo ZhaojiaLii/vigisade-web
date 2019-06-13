@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -64,17 +65,17 @@ class User implements UserInterface
     private $updatedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Direction", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Direction")
      */
     private $direction;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Area", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Area")
      */
     private $area;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Entity", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entity")
      */
     private $entity;
 
@@ -88,6 +89,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Survey", mappedBy="user")
      */
     private $results;
+
+    public function __construct()
+    {
+        $this->results = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

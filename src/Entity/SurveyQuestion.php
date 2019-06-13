@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\SurveyQuestionRepository")
  * @ORM\Table(name="survey_question")
  */
 class SurveyQuestion
@@ -18,62 +18,60 @@ class SurveyQuestion
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SurveyCategory")
-     * @ORM\JoinColumn()
-     */
-    private $category;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $label;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $help;
 
-    public function getId()
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SurveyCategory", inversedBy="questions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    public function setCategory($category)
-    {
-        $this->category = $category;
-        return $this;
-    }
-
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    public function setLabel($label)
+    public function setLabel(string $label): self
     {
         $this->label = $label;
+
         return $this;
     }
 
-    public function getHelp()
+    public function getHelp(): ?string
     {
         return $this->help;
     }
 
-    public function setHelp($help)
+    public function setHelp(?string $help): self
     {
         $this->help = $help;
+
         return $this;
     }
+
+    public function getCategory(): ?SurveyCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?SurveyCategory $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
 }

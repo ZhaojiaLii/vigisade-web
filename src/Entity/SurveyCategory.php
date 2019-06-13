@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\SurveyCategoryRepository")
  * @ORM\Table(name="survey_category")
  */
 class SurveyCategory
@@ -21,24 +21,24 @@ class SurveyCategory
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Survey", inversedBy="categories")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(nullable=false)
      */
     private $survey;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @var \DateTime
      */
     private $updatedAt;
 
     /**
      * @var Collection|SurveyQuestion[]
-     * @ORM\OneToMany(targetEntity="App\Entity\SurveyQuestion", mappedBy="category", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\SurveyQuestion", mappedBy="category", cascade={"persist", "remove"})
      */
     private $questions;
 
@@ -47,51 +47,50 @@ class SurveyCategory
         $this->questions = new ArrayCollection();
     }
 
-
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function getSurvey()
-    {
-        return $this->survey;
-    }
-
-    public function setSurvey($survey)
-    {
-        $this->survey = $survey;
-        return $this;
-    }
-
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTime $updatedAt): SurveyCategory
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 
+    public function getSurvey(): ?Survey
+    {
+        return $this->survey;
+    }
+
+    public function setSurvey(?Survey $survey): self
+    {
+        $this->survey = $survey;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SurveyQuestion[]
+     */
     public function getQuestions(): Collection
     {
         return $this->questions;
@@ -111,6 +110,7 @@ class SurveyCategory
     {
         if ($this->questions->contains($question)) {
             $this->questions->removeElement($question);
+            // set the owning side to null (unless already changed)
             if ($question->getCategory() === $this) {
                 $question->setCategory(null);
             }
@@ -118,4 +118,5 @@ class SurveyCategory
 
         return $this;
     }
+
 }

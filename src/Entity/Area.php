@@ -29,8 +29,7 @@ class Area
     private $entities;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Direction", inversedBy="Areas")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Direction", inversedBy="areas")
      */
     private $direction;
 
@@ -104,5 +103,4 @@ class Area
     {
         return $this->name;
     }
-
 }
