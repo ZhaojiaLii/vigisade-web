@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -81,6 +82,12 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $actif;
+
+    /**
+     * @var Collection|Result[]
+     * @ORM\OneToMany(targetEntity="App\Entity\Survey", mappedBy="user")
+     */
+    private $results;
 
     public function getId(): ?int
     {
@@ -268,6 +275,34 @@ class User implements UserInterface
     public function setActif(bool $actif): self
     {
         $this->actif = $actif;
+
+        return $this;
+    }
+
+    public function getResults(): Collection
+    {
+        return $this->results;
+    }
+
+    public function addResult(Result $result): self
+    {
+        if (!$this->results->contains($result)) {
+            $this->results[] = $result;
+            $result->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResult(Result $result): self
+    {
+        if ($this->results->contains($result)) {
+            $this->results->removeElement($result);
+
+            if ($result->getUser() === $this) {
+                $result->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +18,7 @@ class SurveyQuestion
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Direction")
+     * @ORM\ManyToOne(targetEntity="App\Entity\SurveyCategory")
      * @ORM\JoinColumn()
      */
     private $category;
