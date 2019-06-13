@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
-abstract class ApiController extends Controller
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+abstract class ApiController extends AbstractController
 {
 
 }
