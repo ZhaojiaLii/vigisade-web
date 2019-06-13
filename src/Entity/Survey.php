@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -57,9 +58,14 @@ class Survey
 
     /**
      * @var Collection|SurveyCategory[]
-     * @ORM\OneToMany(targetEntity="App\Entity\SurveyCategory", mappedBy="survey")
+     * @ORM\OneToMany(targetEntity="App\Entity\SurveyCategory", mappedBy="survey", cascade={"persist"})
      */
     private $categories;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId()
     {
