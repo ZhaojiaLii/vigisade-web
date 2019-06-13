@@ -38,7 +38,8 @@ For a quick look on all API routes, you can find a Postman collection in `doc/vi
 
 ## Make commands
 
-__When working from scratch, you should initialize the database:__
+* When working from scratch, you should initialize the database:
+    * Without fixtures: `make db-prepare`
+    * With fixtures: `make db-prepare-fixtures`
+* You can reset the database with`db-reset`. It resets migrations files.
 
-* Without fixtures: `make db-prepare`;
-* With fixtures: `make db-prepare-fixtures`;
