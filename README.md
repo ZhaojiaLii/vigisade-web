@@ -2,7 +2,8 @@
 
 * [Guidelines](#guidelines)
 * [Git Workflow](#git-workflow)
-
+* [API documentation](#api-documentation)
+* [Make commands](#make-commands)
 
 ## Guidelines
 
@@ -30,9 +31,15 @@ __Git__
 * At the end of a sprint, the sprint branch MUST be merged into master;
 
 
+## Api documentation
+
+For a quick look on all API routes, you can find a Postman collection in `doc/vigisade.postman_collection.json`.
+
+
 ## Make commands
 
-__When working from scratch, you should initialize the database:__
+* When working from scratch, you should initialize the database:
+    * Without fixtures: `make db-prepare`
+    * With fixtures: `make db-prepare-fixtures`
+* You can reset the database with`db-reset`. It resets migrations files.
 
-* Without fixtures: `make db-prepare`;
-* With fixtures: `make db-prepare-fixtures`;
