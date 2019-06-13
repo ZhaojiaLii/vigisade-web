@@ -13,7 +13,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class BestPracticeTranslation
 {
-    use ORMBehaviors\Translatable\Translatable;
+    use ORMBehaviors\Translatable\Translation;
 
     /**
      * @ORM\Id()
@@ -44,4 +44,9 @@ class BestPracticeTranslation
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->type;
+    }
+
 }

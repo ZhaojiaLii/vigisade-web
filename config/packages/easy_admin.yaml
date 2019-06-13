@@ -14,7 +14,7 @@ easy_admin:
                   - { label: 'Area', icon: 'project-diagram', entity: 'Area' }
                   - { label: 'Entity', icon: 'neuter', entity: 'Entity' }
             - { entity: 'Header', label: 'Types of dangerous situations', icon: 'exclamation-circle' }
-            - { entity: 'Header', label: 'Types of good practice', icon: 'award'}
+            - { entity: 'BestPractice', label: 'Types of Best practice', icon: 'award'}
             - { entity: 'User', label: 'Users', icon: 'users'}
 
     #Action configuration
@@ -143,3 +143,14 @@ easy_admin:
                     - { property: 'direction' }
                     - { property: 'categories' }
 
+        #Management Best practice
+        BestPractice:
+            class: App\Entity\BestPractice
+            label: 'Best Practice'
+            list:
+                fields:
+                  - { property: 'id'}
+                  - { property: 'type' }
+            form:
+                fields:
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
