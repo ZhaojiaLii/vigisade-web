@@ -64,6 +64,7 @@ easy_admin:
         #Management User
         User:
             class: App\Entity\User
+            disabled_actions: ['show']
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { type: 'group', columns: 5, label: 'User Details', icon: 'user' }
