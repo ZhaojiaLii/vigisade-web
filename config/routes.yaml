@@ -5,6 +5,9 @@ api:
   resource: routes/api.yaml
   prefix: /api
 
+api_login_check:
+  path: /api/login_check
+
 ajax_request_area:
   path: /ajax_request_area
   controller: App\Controller\Back\AsyncController::getSpecificAreaSelect
