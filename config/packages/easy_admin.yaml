@@ -69,8 +69,7 @@ easy_admin:
                 fields:
                     - { type: 'group', columns: 5, label: 'User Details', icon: 'user' }
                     - { property: 'email', type: 'email' }
-                    #- { property: 'password', type: 'password', help: 'Passwords must have at least 8 characters'}
-                    - { property: 'password', type: 'text', type_options: { required: false } }
+                    - { property: 'password', type: 'password', help: 'Passwords must have at least 8 characters'}
                     - { property: 'firstname' }
                     - { property: 'lastname' }
                     - { property: 'imageFile', type: 'vich_image', css_class: '' }
