@@ -13,7 +13,7 @@ easy_admin:
                   - { label: 'Direction', icon: 'network-wired', entity: 'Direction' }
                   - { label: 'Area', icon: 'project-diagram', entity: 'Area' }
                   - { label: 'Entity', icon: 'neuter', entity: 'Entity' }
-            - { entity: 'Header', label: 'Types of dangerous situations', icon: 'exclamation-circle' }
+            - { entity: 'DangerousSituation', label: 'Types of dangerous situations', icon: 'exclamation-circle' }
             - { entity: 'BestPractice', label: 'Types of Best practice', icon: 'award'}
             - { entity: 'User', label: 'Users', icon: 'users'}
 
@@ -151,6 +151,18 @@ easy_admin:
                 fields:
                   - { property: 'id'}
                   - { property: 'type' }
+            form:
+                fields:
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
+
+        #Management Dangerous Situation
+        DangerousSituation:
+            class: App\Entity\DangerousSituation
+            label: 'List of Dangerous Situation'
+            list:
+                fields:
+                    - { property: 'id'}
+                    - { property: 'type' }
             form:
                 fields:
                     - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }

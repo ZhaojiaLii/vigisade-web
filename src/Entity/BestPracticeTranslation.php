@@ -48,5 +48,4 @@ class BestPracticeTranslation
     {
         return $this->type;
     }
-
 }
