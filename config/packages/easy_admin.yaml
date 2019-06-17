@@ -53,7 +53,7 @@ easy_admin:
         Direction:
             class: App\Entity\Direction
             list:
-                title: 'List of direction'
+                title: 'List of directions'
                 fields:
                     - { property: 'id', label: 'ID' }
                     - { property: 'name', label: 'Name' }
@@ -61,10 +61,18 @@ easy_admin:
         #Management Area
         Area:
             class: App\Entity\Area
+            list:
+                title: 'List of areas'
+                fields:
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'name', label: 'Name' }
+                    - { property: 'direction', label: 'Direction' }
 
         #Management Entity
         Entity:
             class: App\Entity\Entity
+            list:
+                title: 'List of entities'
 
         #Management User
         User:
