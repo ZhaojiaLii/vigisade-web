@@ -52,6 +52,11 @@ easy_admin:
         #Management Direction
         Direction:
             class: App\Entity\Direction
+            list:
+                title: 'List of direction'
+                fields:
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'name', label: 'Name' }
 
         #Management Area
         Area:
