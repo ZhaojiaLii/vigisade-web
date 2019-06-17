@@ -1,0 +1,10 @@
+App\Entity\SurveyQuestion:
+  exclusion_policy: ALL
+  access_type: public_method
+  properties:
+    label:
+      type: string
+      groups: [SURVEY]
+    help:
+      type: string
+      groups: [SURVEY]

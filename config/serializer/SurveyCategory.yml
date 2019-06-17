@@ -1,0 +1,11 @@
+App\Entity\SurveyCategory:
+  exclusion_policy: ALL
+  access_type: public_method
+  properties:
+    title:
+      type: string
+      groups: [SURVEY]
+    questions:
+      type: ArrayCollection<App\Entity\SurveyQuestion>
+      read_only: true
+      groups: [SURVEY]

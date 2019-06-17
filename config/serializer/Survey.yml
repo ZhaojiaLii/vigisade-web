@@ -1,0 +1,17 @@
+App\Entity\Survey:
+  exclusion_policy: ALL
+  access_type: public_method
+  properties:
+    title:
+      type: string
+      groups: [SURVEY]
+    categories:
+      type: ArrayCollection<App\Entity\SurveyCategory>
+      read_only: true
+      groups: [SURVEY]
+    bestPracticeLabel:
+      type: string
+      groups: [SURVEY]
+    bestPracticeHelp:
+      type: string
+      groups: [SURVEY]

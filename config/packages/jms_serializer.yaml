@@ -1,0 +1,14 @@
+jms_serializer:
+#    visitors:
+#        xml_serialization:
+#            format_output: '%kernel.debug%'
+    metadata:
+        auto_detection: true
+        cache: file
+        debug: "%kernel.debug%"
+        file_cache:
+            dir: "%kernel.cache_dir%/serializer"
+        directories:
+            vigisade_entities:
+                namespace_prefix: "App\\Entity"
+                path: "%kernel.root_dir%/../config/serializer"
