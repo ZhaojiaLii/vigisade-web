@@ -57,6 +57,9 @@ easy_admin:
                 fields:
                     - { property: 'id', label: 'ID' }
                     - { property: 'name', label: 'Name' }
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { property: 'name', label: 'Name' }
 
         #Management Area
         Area:
@@ -67,12 +70,19 @@ easy_admin:
                     - { property: 'id', label: 'ID' }
                     - { property: 'name', label: 'Name' }
                     - { property: 'direction', label: 'Direction' }
-
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { property: 'name', label: 'Name' }
+                    - { property: 'direction', label: 'Direction' }
         #Management Entity
         Entity:
             class: App\Entity\Entity
             list:
                 title: 'List of entities'
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { property: 'name', label: 'Name' }
+                    - { property: 'area', label: 'Area' }
 
         #Management User
         User:
