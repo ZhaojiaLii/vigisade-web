@@ -104,7 +104,6 @@ easy_admin:
         #Management Survey
         Survey:
             class: App\Entity\Survey
-            disabled_actions: ['edit', 'show', 'delete']
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { type: 'tab' , label: 'FR' }
