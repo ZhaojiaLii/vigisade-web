@@ -64,6 +64,8 @@ easy_admin:
         #Management User
         User:
             class: App\Entity\User
+            controller: App\Controller\UserController
+            password_encoding: { algorithm: 'bcrypt', cost: 12 }
             disabled_actions: ['show']
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
