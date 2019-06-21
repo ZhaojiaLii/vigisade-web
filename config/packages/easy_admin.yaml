@@ -52,14 +52,37 @@ easy_admin:
         #Management Direction
         Direction:
             class: App\Entity\Direction
+            list:
+                title: 'List of directions'
+                fields:
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'name', label: 'Name' }
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { property: 'name', label: 'Name' }
 
         #Management Area
         Area:
             class: App\Entity\Area
-
+            list:
+                title: 'List of areas'
+                fields:
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'name', label: 'Name' }
+                    - { property: 'direction', label: 'Direction' }
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { property: 'name', label: 'Name' }
+                    - { property: 'direction', label: 'Direction' }
         #Management Entity
         Entity:
             class: App\Entity\Entity
+            list:
+                title: 'List of entities'
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { property: 'name', label: 'Name' }
+                    - { property: 'area', label: 'Area' }
 
         #Management User
         User:
