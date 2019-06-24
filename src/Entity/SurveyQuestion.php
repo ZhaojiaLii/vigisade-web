@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SurveyQuestionRepository")
@@ -10,22 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SurveyQuestion
 {
+    use ORMBehaviors\Translatable\Translatable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $label;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $help;
+    protected $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SurveyCategory", inversedBy="questions")
@@ -33,33 +26,33 @@ class SurveyQuestion
      */
     private $category;
 
+    /**
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        $method = 'get'. ucfirst($name);
+        $arguments = [];
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLabel(): ?string
-    {
-        return $this->label;
-    }
-
-    public function setLabel(string $label): self
-    {
-        $this->label = $label;
-
-        return $this;
-    }
-
-    public function getHelp(): ?string
-    {
-        return $this->help;
-    }
-
-    public function setHelp(?string $help): self
-    {
-        $this->help = $help;
-
-        return $this;
     }
 
     public function getCategory(): ?SurveyCategory
@@ -73,5 +66,4 @@ class SurveyQuestion
 
         return $this;
     }
-
 }
