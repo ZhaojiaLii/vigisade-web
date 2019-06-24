@@ -1,0 +1,10 @@
+App\Entity\Header:
+  exclusion_policy: ALL
+  access_type: public_method
+  properties:
+    news:
+      type: string
+      groups: [HEADER]
+    image:
+      type: string
+      groups: [HEADER]
