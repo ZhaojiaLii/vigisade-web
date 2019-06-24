@@ -1,0 +1,27 @@
+# Read the documentation: https://symfony.com/doc/master/bundles/FOSRestBundle/index.html
+fos_rest:
+
+  format_listener:
+    rules:
+      - { path: ^/api, prefer_extension: true, fallback_format: json, priorities: [ json ] }
+      - { path: '^/', prefer_extension: true, fallback_format: html, priorities: ['text/html', '*/*'] }
+
+  allowed_methods_listener: true
+
+  view:
+    view_response_listener: force
+    formats:
+      xml: false
+      json: true
+    templating_formats:
+      html: true
+    force_redirects:
+      html: true
+    failed_validation: HTTP_BAD_REQUEST
+    default_engine: twig
+
+  routing_loader:
+    default_format: json
+
+  serializer:
+    serialize_null: true

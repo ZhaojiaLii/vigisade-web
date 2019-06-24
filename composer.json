@@ -8,6 +8,8 @@
         "a2lix/translation-form-bundle": "^3.0",
         "easycorp/easyadmin-bundle": "^2.1",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
+        "friendsofsymfony/rest-bundle": "^2.5",
+        "jms/serializer-bundle": "^3.3",
         "lexik/jwt-authentication-bundle": "^2.6",
         "knplabs/doctrine-behaviors": "~1.1",
         "sensio/framework-extra-bundle": "^5.3",
