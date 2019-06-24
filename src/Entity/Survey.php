@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SurveyRepository")
@@ -12,17 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Survey
 {
+    use ORMBehaviors\Translatable\Translatable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
      */
-    private $title;
+    private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Direction", cascade={"persist"})
@@ -41,25 +45,33 @@ class Survey
     private $countTeam;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $bestPracticeLabel;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $bestPracticeHelp;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @var \DateTime
-     */
-    private $updatedAt;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\SurveyCategory", mappedBy="survey", cascade={"persist", "remove"})
      */
     private $categories;
+
+    /**
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        $method = 'get'. ucfirst($name);
+        $arguments = [];
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
 
     public function __construct()
     {
@@ -71,14 +83,27 @@ class Survey
         return $this->id;
     }
 
-    public function getTitle(): ?string
+
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->title;
+        return $this->updatedAt;
     }
 
-    public function setTitle(string $title): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->title = $title;
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getDirection(): ?Direction
+    {
+        return $this->direction;
+    }
+
+    public function setDirection(?Direction $direction): self
+    {
+        $this->direction = $direction;
 
         return $this;
     }
@@ -103,54 +128,6 @@ class Survey
     public function setCountTeam(?int $countTeam): self
     {
         $this->countTeam = $countTeam;
-
-        return $this;
-    }
-
-    public function getBestPracticeLabel(): ?string
-    {
-        return $this->bestPracticeLabel;
-    }
-
-    public function setBestPracticeLabel(string $bestPracticeLabel): self
-    {
-        $this->bestPracticeLabel = $bestPracticeLabel;
-
-        return $this;
-    }
-
-    public function getBestPracticeHelp(): ?string
-    {
-        return $this->bestPracticeHelp;
-    }
-
-    public function setBestPracticeHelp(?string $bestPracticeHelp): self
-    {
-        $this->bestPracticeHelp = $bestPracticeHelp;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getDirection(): ?Direction
-    {
-        return $this->direction;
-    }
-
-    public function setDirection(?Direction $direction): self
-    {
-        $this->direction = $direction;
 
         return $this;
     }
@@ -184,10 +161,5 @@ class Survey
         }
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->name;
     }
 }

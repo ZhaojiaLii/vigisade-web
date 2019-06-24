@@ -106,10 +106,7 @@ easy_admin:
             class: App\Entity\Survey
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { type: 'tab' , label: 'FR' }
-                    - { property: 'title', label: 'Titre' }
-                    - { property: 'bestPracticeLabel', label: 'Bonne Pratique Question' }
-                    - { property: 'bestPracticeHelp', label: 'Bonne Pratique Help'}
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
                     - { property: 'team', type: 'choice', type_options: {
                         multiple: false,
                         expanded: false,

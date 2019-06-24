@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use App\Entity\SurveyQuestion;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,11 +14,7 @@ class SurveyQuestionEmbeddedForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('label', TextType::class,  [
-                'label' => 'Question '
-            ])
-            ->add('help')
-        ;
+            ->add('translations', TranslationsType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

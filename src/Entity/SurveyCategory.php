@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SurveyCategoryRepository")
@@ -12,23 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SurveyCategory
 {
+    use ORMBehaviors\Translatable\Translatable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Survey", inversedBy="categories")
      * @ORM\JoinColumn(nullable=false)
      */
     private $survey;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -42,6 +40,30 @@ class SurveyCategory
      */
     private $questions;
 
+    /**
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        $method = 'get'. ucfirst($name);
+        $arguments = [];
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -50,18 +72,6 @@ class SurveyCategory
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
@@ -87,6 +97,7 @@ class SurveyCategory
 
         return $this;
     }
+
 
     /**
      * @return Collection|SurveyQuestion[]
@@ -119,4 +130,8 @@ class SurveyCategory
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
