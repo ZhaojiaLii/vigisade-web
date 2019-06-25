@@ -294,6 +294,31 @@
 						}
 					],
 					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Header",
+					"item": [
+						{
+							"name": "header/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/header/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"header",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
 				}
 			]
 		}

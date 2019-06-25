@@ -1,0 +1,4 @@
+api.header.get:
+  path: /
+  controller: App\Controller\Api\HeaderController::getHeader
+  methods: GET

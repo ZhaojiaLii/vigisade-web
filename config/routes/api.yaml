@@ -18,3 +18,7 @@ api.settings:
   path: /settings/
   controller: App\Controller\Api\SettingsController::getSettings
   methods: GET
+
+api.header:
+  resource: api/header.yaml
+  prefix: /header
