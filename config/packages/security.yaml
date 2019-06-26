@@ -16,8 +16,16 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         admin:
-            pattern: ^/admin/
             anonymous: true
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                target: /login
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
         login:
             pattern: ^/api/login
             stateless: true
@@ -40,6 +48,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }

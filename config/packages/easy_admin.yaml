@@ -1,5 +1,8 @@
 easy_admin:
     site_name: "Vigisade BO"
+    user:
+        name_property_path: 'firstname'
+        #avatar_property_path: 'gravatar'
     design:
         brand_color: '#388ed1'
         #Menu du BO
@@ -87,6 +90,8 @@ easy_admin:
         #Management User
         User:
             class: App\Entity\User
+            controller: App\Controller\UserController
+            password_encoding: { algorithm: 'auto' }
             disabled_actions: ['show']
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
