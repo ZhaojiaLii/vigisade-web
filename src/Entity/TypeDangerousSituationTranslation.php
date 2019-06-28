@@ -11,7 +11,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 /**
  * @ORM\Entity()
  */
-class DangerousSituationTranslation
+class TypeDangerousSituationTranslation
 {
     use ORMBehaviors\Translatable\Translation;
 

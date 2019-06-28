@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\DangerousSituationRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TypeDangerousSituationRepository")
  */
-class DangerousSituation
+class TypeDangerousSituation
 {
     use ORMBehaviors\Translatable\Translatable;
 
