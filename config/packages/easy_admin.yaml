@@ -55,37 +55,50 @@ easy_admin:
         #Management Direction
         Direction:
             class: App\Entity\Direction
+            disabled_actions: ['delete']
             list:
                 title: 'List of directions'
                 fields:
                     - { property: 'id', label: 'ID' }
                     - { property: 'name', label: 'Name' }
+                    - { property: 'etat', label: 'Etat' }
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { property: 'name', label: 'Name' }
+                    - { property: 'etat', label: 'Actif' }
 
         #Management Area
         Area:
             class: App\Entity\Area
+            disabled_actions: ['delete']
             list:
                 title: 'List of areas'
                 fields:
                     - { property: 'id', label: 'ID' }
                     - { property: 'name', label: 'Name' }
                     - { property: 'direction', label: 'Direction' }
+                    - { property: 'etat', label: 'Etat' }
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { property: 'name', label: 'Name' }
                     - { property: 'direction', label: 'Direction' }
+                    - { property: 'etat', label: 'Actif' }
         #Management Entity
         Entity:
             class: App\Entity\Entity
+            disabled_actions: ['delete']
             list:
                 title: 'List of entities'
+                fields:
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'name', label: 'Name' }
+                    - { property: 'area', label: 'Area' }
+                    - { property: 'etat', label: 'Etat' }
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { property: 'name', label: 'Name' }
                     - { property: 'area', label: 'Area' }
+                    - { property: 'etat', label: 'Actif' }
 
         #Management User
         User:
