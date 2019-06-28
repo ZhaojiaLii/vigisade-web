@@ -28,6 +28,11 @@ class Direction
      */
     private $areas;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $etat;
+
 
     public function __construct()
     {
@@ -83,6 +88,18 @@ class Direction
                 $area->setDirection(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

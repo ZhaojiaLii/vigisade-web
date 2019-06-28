@@ -33,6 +33,11 @@ class Area
      */
     private $direction;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $etat;
+
 
     public function __construct()
     {
@@ -102,5 +107,17 @@ class Area
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
     }
 }

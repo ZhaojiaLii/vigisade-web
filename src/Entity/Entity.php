@@ -29,6 +29,11 @@ class Entity
      */
     private $area;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $etat;
+
 
     public function __construct()
     {
@@ -67,6 +72,18 @@ class Entity
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
     }
 
 }
