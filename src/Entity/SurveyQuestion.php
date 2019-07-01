@@ -27,6 +27,11 @@ class SurveyQuestion
     private $category;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $questionType;
+
+    /**
      * @param $method
      * @param $arguments
      * @return mixed
@@ -63,6 +68,18 @@ class SurveyQuestion
     public function setCategory(?SurveyCategory $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getQuestionType(): ?string
+    {
+        return $this->questionType;
+    }
+
+    public function setQuestionType(string $questionType): self
+    {
+        $this->questionType = $questionType;
 
         return $this;
     }
