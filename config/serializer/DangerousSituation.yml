@@ -1,0 +1,25 @@
+App\Entity\DangerouseS:
+  exclusion_policy: ALL
+  access_type: public_method
+  properties:
+    typeDangerousSituation:
+      type: App\Entity\DangerousSituation
+      groups: [DangerousSituation]
+    date:
+      type: DateTime
+      groups: [DangerousSituation]
+    comment:
+      type: string
+      groups: [DangerousSituation]
+    photo:
+      type: string
+      groups: [DangerousSituation]
+    direction:
+      type: App\Entity\Direction
+      groups: [DangerousSituation]
+    zone:
+      type: App\Entity\Area
+      groups: [DangerousSituation]
+    entity:
+      type: App\Entity\Entity
+      groups: [DangerousSituation]
