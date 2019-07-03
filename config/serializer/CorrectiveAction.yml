@@ -1,0 +1,30 @@
+App\Entity\CorrectiveAction:
+  exclusion_policy: ALL
+  access_type: public_method
+  properties:
+    id:
+      type: string
+      read_only: true
+      groups: [CorrectiveAction]
+    user:
+      type: string
+      groups: [CorrectiveAction]
+    survey:
+      type: App\Entity\Survey
+      groups: [CorrectiveAction]
+    category:
+      type: App\Entity\SurveyCategory
+      groups: [CorrectiveAction]
+    question:
+      type: App\Entity\SurveyQuestion
+      groups: [CorrectiveAction]
+    dateControlle:
+      type: DateTime
+      groups: [CorrectiveAction]
+    placeConstruction:
+      type: string
+      groups: [CorrectiveAction]
+    status:
+      type: string
+      groups: [CorrectiveAction]
+
