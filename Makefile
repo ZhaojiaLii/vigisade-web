@@ -27,7 +27,7 @@ db-reset: db-init db-reset-migrations db-prepare-fixtures
 
 .PHONY: db-reset-migrations
 db-reset-migrations:
-	rm src/Migrations/*
+	rm -f src/Migrations/*
 
 .PHONY: assets-init
 assets-init:
