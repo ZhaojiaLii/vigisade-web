@@ -12,6 +12,7 @@ class EntityFixtures extends BaseFixture
         $this->createMany(30, 'main_entity', function($i) use ($manager) {
             $entity = new Entity();
             $entity->setName($this->faker->state);
+            $entity->setEtat(true);
             return $entity;
         });
         $manager->flush();

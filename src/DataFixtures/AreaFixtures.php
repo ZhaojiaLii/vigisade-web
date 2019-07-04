@@ -13,6 +13,7 @@ class AreaFixtures extends BaseFixture implements DependentFixtureInterface
         $this->createMany(30, 'main_area', function($i) use ($manager) {
             $area = new Area();
             $area->setName($this->faker->city);
+            $area->setEtat(true);
             $area->addEntity($this->getRandomReference('main_entity'));
 
             return $area;

@@ -13,6 +13,7 @@ class DirectionFixtures extends BaseFixture implements DependentFixtureInterface
         $this->createMany(30, 'main_direction', function($i) use ($manager) {
             $direction = new Direction();
             $direction->setName($this->faker->country);
+            $direction->setEtat(true);
             $direction->addArea($this->getRandomReference('main_area'));
 
             return $direction;
