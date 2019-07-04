@@ -9,6 +9,59 @@
 			"name": "Web API",
 			"item": [
 				{
+					"name": "Authentication",
+					"item": [
+						{
+							"name": "login_check/",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "da047e96-ec14-4fe8-9978-0a7aac320e26",
+										"exec": [
+											"pm.test('Setting access token', () => {",
+											"    var data = pm.response.json();",
+											"    ",
+											"    if(data.token) {",
+											"        pm.environment.set('token', data.token)",
+											"    }",
+											"})    "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"test@gmail.com\",\n\t\"password\": \"vigisade\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/login_check",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"login_check"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "User",
 					"item": [
 						{
@@ -79,6 +132,16 @@
 						{
 							"name": "survey/",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -286,31 +349,6 @@
 									"path": [
 										"api",
 										"settings",
-										""
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "Header",
-					"item": [
-						{
-							"name": "header/",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{domain}}/api/header/",
-									"host": [
-										"{{domain}}"
-									],
-									"path": [
-										"api",
-										"header",
 										""
 									]
 								}
