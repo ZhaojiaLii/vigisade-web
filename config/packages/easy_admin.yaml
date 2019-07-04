@@ -103,7 +103,7 @@ easy_admin:
         #Management User
         User:
             class: App\Entity\User
-            controller: App\Controller\UserController
+            controller: App\Controller\Admin\UserController
             password_encoding: { algorithm: 'auto' }
             disabled_actions: ['show']
             form: # 'form' is applied to both 'new' and 'edit' views

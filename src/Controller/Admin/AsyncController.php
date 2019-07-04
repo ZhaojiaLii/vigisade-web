@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Back;
+namespace App\Controller\Admin;
 
 use App\Entity\Area;
 use App\Entity\Entity;
