@@ -16,18 +16,19 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         admin.login:
-            pattern: ^/admin/login
+            pattern: ^/admin
             anonymous: true
+            stateless: true
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
             logout:
                 path: admin.logout
-                target: /admin/login
+#                target: /admin/login
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 604800 # 1 week in seconds
-        login:
+                lifetime: 604800 # 1 week in second
+        api.login:
             pattern: ^/api/login
             stateless: true
             anonymous: true
