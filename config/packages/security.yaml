@@ -18,7 +18,6 @@ security:
         admin.login:
             pattern: ^/admin
             anonymous: true
-            stateless: true
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
@@ -51,6 +50,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin, roles: ROLE_ADMIN }
+#        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
