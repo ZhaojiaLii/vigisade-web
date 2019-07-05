@@ -13,6 +13,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Csv as ReaderCsv;
 use PhpOffice\PhpSpreadsheet\Reader\Ods as ReaderOds;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ImportDataUser
@@ -100,7 +101,7 @@ class ImportDataUser
     /**
      * @Route("/import/googleForms", name="import_googleForms")
      */
-    public function indexGoogleForms()
+    public function indexGoogleForms($output)
     {
         $filename = __DIR__.'/../../import/googleForms_users.xlsx';
 
@@ -108,12 +109,12 @@ class ImportDataUser
             throw new \Exception('File does not exist');
         }
 
-        //flash table users
-        $this->userRepository->RemoveUsers();
-
         $spreadsheet = $this->readFile($filename);
         $data = $this->createDataFromSpreadsheet($spreadsheet);
         $dataUserValues = $data['Feuille 1']['columnValues'];
+
+        $progressBar = new ProgressBar($output, count($dataUserValues));
+        $progressBar->start();
 
         foreach ($dataUserValues as $value){
 
@@ -133,20 +134,20 @@ class ImportDataUser
             $user->setUpdatedAt(new \DateTime());
             $this->manager->persist($user);
             $this->manager->flush();
-            echo $user->getId()."user ".$value[0]." Succes </br>";
 
+            $progressBar->advance();
+
+            echo "  user ID ".$user->getId()." email ".$user->getEmail()." Succes ";
         }
+        $progressBar->finish();
     }
 
     /**
      * @Route("/import/eve", name="import_eve")
      */
-    public function indexEve()
+    public function indexEve($output)
     {
         $filename = __DIR__.'/../../import/eve_users.xlsx';
-
-        //flash table users
-        $this->userRepository->RemoveUsers();
 
         if (!file_exists($filename)) {
             throw new \Exception('File does not exist');
@@ -155,7 +156,10 @@ class ImportDataUser
         $spreadsheet = $this->readFile($filename);
         $data = $this->createDataFromSpreadsheet($spreadsheet);
         $dataUserValues = $data['Feuil2']['columnValues'];
-       
+
+        $progressBar = new ProgressBar($output, count($dataUserValues));
+        $progressBar->start();
+
         foreach ($dataUserValues as $value){
 
             $user = new User();
@@ -175,7 +179,10 @@ class ImportDataUser
             $user->setUpdatedAt(new \DateTime());
             $this->manager->persist($user);
             $this->manager->flush();
-            echo $user->getId()." user ".$value[8]." Succes </br>";
+
+            $progressBar->advance();
+            echo "  user ID ".$user->getId()." email ".$user->getEmail()." Succes ";
         }
+        $progressBar->finish();
     }
 }
