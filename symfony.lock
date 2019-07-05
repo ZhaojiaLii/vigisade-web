@@ -225,6 +225,12 @@
             "config/packages/prod/jms_serializer.yaml"
         ]
     },
+    "markbaker/complex": {
+        "version": "1.4.7"
+    },
+    "markbaker/matrix": {
+        "version": "1.1.4"
+    },
     "monolog/monolog": {
         "version": "1.24.0"
     },
@@ -248,6 +254,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
+    },
+    "phpoffice/phpspreadsheet": {
+        "version": "1.8.1"
     },
     "psr/cache": {
         "version": "1.0.1"

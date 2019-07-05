@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Entity;
+use App\Exception\Http\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -14,8 +16,29 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class EntityRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $em;
+
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Entity::class);
+        $this->em = $em;
     }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function getEntityByName($name)
+    {
+        $entity = $this->em
+            ->getRepository(Entity::class)
+            ->findBy(['name' => $name]);
+
+        if (!$entity) {
+            throw new NotFoundException("This entity not exist ".$name);
+        }
+        return $entity[0];
+    }
+
+    //todo remove all entity
 }

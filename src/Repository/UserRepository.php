@@ -15,8 +15,16 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class UserRepository extends ServiceEntityRepository
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
-    
+
+    /**
+     * UserRepository constructor.
+     * @param RegistryInterface $registry
+     * @param EntityManagerInterface $em
+     */
     public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, User::class);
@@ -96,5 +104,14 @@ class UserRepository extends ServiceEntityRepository
         $result = $query->getSingleResult();
 
         return (int) $result[1];
+    }
+
+    public function RemoveUsers()
+    {
+        $users = $this->em->getRepository(User::class)->findAll();
+        foreach ($users as $user){
+            $this->em->remove($user);
+            $this->em->flush();
+        }
     }
 }
