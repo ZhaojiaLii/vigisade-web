@@ -19,3 +19,7 @@ ajax_request_area:
 ajax_request_entity:
   path: /ajax_request_entity
   controller: App\Controller\Back\AsyncController::getSpecificEntitySelect
+
+ajax_request_direction_survey:
+  path:   admin/ajax_request_direction_survey
+  controller: App\Controller\Admin\AsyncController::getDirectionSurveySelect
