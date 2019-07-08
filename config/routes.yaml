@@ -13,12 +13,12 @@ admin:
   prefix: /admin
 
 ajax_request_area:
-  path: /ajax_request_area
-  controller: App\Controller\Back\AsyncController::getSpecificAreaSelect
+  path: admin/ajax_request_area
+  controller: App\Controller\Admin\AsyncController::getSpecificAreaSelect
 
 ajax_request_entity:
-  path: /ajax_request_entity
-  controller: App\Controller\Back\AsyncController::getSpecificEntitySelect
+  path: admin/ajax_request_entity
+  controller: App\Controller\Admin\AsyncController::getSpecificEntitySelect
 
 ajax_request_direction_survey:
   path:   admin/ajax_request_direction_survey
