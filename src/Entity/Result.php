@@ -97,10 +97,16 @@ class Result
      */
     private $questions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CorrectiveAction", mappedBy="result")
+     */
+    private $correctiveActions;
+
     public function __construct()
     {
         $this->teamMembers = new ArrayCollection();
         $this->questions = new ArrayCollection();
+        $this->correctiveActions = new ArrayCollection();
     }
 
     public function getId()
@@ -296,6 +302,37 @@ class Result
 
             if ($question->getResult() === $this) {
                 $question->setResult(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CorrectiveAction[]
+     */
+    public function getCorrectiveActions(): Collection
+    {
+        return $this->correctiveActions;
+    }
+
+    public function addCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if (!$this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions[] = $correctiveAction;
+            $correctiveAction->setResult($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if ($this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions->removeElement($correctiveAction);
+            // set the owning side to null (unless already changed)
+            if ($correctiveAction->getResult() === $this) {
+                $correctiveAction->setResult(null);
             }
         }
 

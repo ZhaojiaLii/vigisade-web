@@ -90,9 +90,15 @@ class User implements UserInterface
      */
     private $results;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CorrectiveAction", mappedBy="user")
+     */
+    private $correctiveActions;
+
     public function __construct()
     {
         $this->results = new ArrayCollection();
+        $this->correctiveActions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -311,5 +317,41 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|CorrectiveAction[]
+     */
+    public function getCorrectiveActions(): Collection
+    {
+        return $this->correctiveActions;
+    }
+
+    public function addCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if (!$this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions[] = $correctiveAction;
+            $correctiveAction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if ($this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions->removeElement($correctiveAction);
+            // set the owning side to null (unless already changed)
+            if ($correctiveAction->getUser() === $this) {
+                $correctiveAction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->email;
     }
 }
