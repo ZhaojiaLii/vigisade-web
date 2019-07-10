@@ -182,6 +182,7 @@ easy_admin:
         #Management Best practice
         BestPractice:
             class: App\Entity\BestPractice
+            disabled_actions: ['delete']
             label: 'Best Practice'
             list:
                 fields:
