@@ -32,6 +32,11 @@ class SurveyQuestion
     private $questionType;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $questionOrder;
+
+    /**
      * @param $method
      * @param $arguments
      * @return mixed
@@ -83,4 +88,17 @@ class SurveyQuestion
 
         return $this;
     }
+
+    public function getQuestionOrder(): ?int
+    {
+        return $this->questionOrder;
+    }
+
+    public function setQuestionOrder(int $questionOrder): self
+    {
+        $this->questionOrder = $questionOrder;
+
+        return $this;
+    }
+
 }
