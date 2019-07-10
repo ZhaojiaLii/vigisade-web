@@ -189,9 +189,11 @@ easy_admin:
                 fields:
                   - { property: 'id'}
                   - { property: 'type' }
+                  - { property: 'status' }
             form:
                 fields:
                     - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
+                    - { property: 'status', label: 'Actif' }
 
         #Management Dangerous Situation
         TypeDangerousSituation:
