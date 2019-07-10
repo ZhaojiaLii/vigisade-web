@@ -50,6 +50,11 @@ class Survey
     private $categories;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CorrectiveAction", mappedBy="survey")
+     */
+    private $correctiveActions;
+
+    /**
      * @param $method
      * @param $arguments
      * @return mixed
@@ -76,6 +81,7 @@ class Survey
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->correctiveActions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,5 +167,40 @@ class Survey
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|CorrectiveAction[]
+     */
+    public function getCorrectiveActions(): Collection
+    {
+        return $this->correctiveActions;
+    }
+
+    public function addCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if (!$this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions[] = $correctiveAction;
+            $correctiveAction->setSurvey($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if ($this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions->removeElement($correctiveAction);
+            // set the owning side to null (unless already changed)
+            if ($correctiveAction->getSurvey() === $this) {
+                $correctiveAction->setSurvey(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->getId();
     }
 }

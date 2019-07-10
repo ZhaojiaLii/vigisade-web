@@ -19,44 +19,35 @@ class CorrectiveAction
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="actionCorrective")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="correctiveActions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Survey", inversedBy="correctiveActions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $survey;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SurveyCategory", inversedBy="correctiveActions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $category;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SurveyQuestion", inversedBy="correctiveActions")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $question;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $dateControlle;
+    private $image;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
-    private $placeConstruction;
+    private $commentQuestion;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Result", inversedBy="correctiveActions")
      */
-    private $status;
-
+    private $result;
 
     public function __construct()
     {
@@ -66,30 +57,6 @@ class CorrectiveAction
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDateControlle(): ?\DateTimeInterface
-    {
-        return $this->dateControlle;
-    }
-
-    public function setDateControlle(\DateTimeInterface $dateControlle): self
-    {
-        $this->dateControlle = $dateControlle;
-
-        return $this;
-    }
-
-    public function getPlaceConstruction(): ?string
-    {
-        return $this->placeConstruction;
-    }
-
-    public function setPlaceConstruction(string $placeConstruction): self
-    {
-        $this->placeConstruction = $placeConstruction;
-
-        return $this;
     }
 
     public function getStatus(): ?string
@@ -116,30 +83,6 @@ class CorrectiveAction
         return $this;
     }
 
-    public function getSurvey(): ?Survey
-    {
-        return $this->survey;
-    }
-
-    public function setSurvey(?Survey $survey): self
-    {
-        $this->survey = $survey;
-
-        return $this;
-    }
-
-    public function getCategory(): ?SurveyCategory
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?SurveyCategory $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getQuestion(): ?SurveyQuestion
     {
         return $this->question;
@@ -148,6 +91,42 @@ class CorrectiveAction
     public function setQuestion(?SurveyQuestion $question): self
     {
         $this->question = $question;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCommentQuestion(): ?string
+    {
+        return $this->commentQuestion;
+    }
+
+    public function setCommentQuestion(?string $commentQuestion): self
+    {
+        $this->commentQuestion = $commentQuestion;
+
+        return $this;
+    }
+
+    public function getResult(): ?Result
+    {
+        return $this->result;
+    }
+
+    public function setResult(?Result $result): self
+    {
+        $this->result = $result;
 
         return $this;
     }

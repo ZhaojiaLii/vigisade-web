@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\SurveyQuestion;
+use App\Entity\Result;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -13,25 +13,25 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Question[]    findAll()
  * @method Question[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SurveyQuestionRepository extends ServiceEntityRepository
+class ResultRepository extends ServiceEntityRepository
 {
     private $em;
 
     public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
     {
-        parent::__construct($registry, SurveyQuestion::class);
+        parent::__construct($registry, Result::class);
         $this->em = $em;
     }
 
-    public function getSurveyQuestionByID($id)
+    public function getResultByID($id)
     {
-        $surveyQuestion = $this->em
-            ->getRepository(SurveyQuestion::class)
+        $result = $this->em
+            ->getRepository(Result::class)
             ->find($id);
 
-        if (!$surveyQuestion) {
-            throw new NotFoundException("This Question not exist ".$id);
+        if (!$result) {
+            throw new NotFoundException("This Result not exist ".$id);
         }
-        return $surveyQuestion;
+        return $result;
     }
 }
