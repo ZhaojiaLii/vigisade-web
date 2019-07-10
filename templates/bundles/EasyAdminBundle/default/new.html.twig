@@ -68,5 +68,27 @@
             })
 
         });
+        $('#survey_direction').change(function() {
+            var directionSelector = $(this);
+
+            $.ajax({
+                url:'{{ path('ajax_request_direction_survey') }}',
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "id_direction": directionSelector.val()
+                },
+                async: true,
+                success: function (result)
+                {
+                    if (result.message !== null) {
+                        alert(result.message);
+                    }
+                },
+                error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                }
+            })
+        });
     </script>
 {% endblock %}
