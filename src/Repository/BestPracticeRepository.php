@@ -47,9 +47,9 @@ class BestPracticeRepository extends ServiceEntityRepository
         $responseArray = [];
         foreach($typeBestPratique as $tbestpratique){
             $responseArray[] = [
-                "type_best_practice_id" => $tbestpratique->getId(),
-                "type_best_practice_status" => $tbestpratique->getStatus(),
-                "type_best_practice_translation" => $this->getTypeBestPracticeTranslation($tbestpratique->getId()),
+                "typeBestPracticeId" => $tbestpratique->getId(),
+                "typeBestPracticeStatus" => $tbestpratique->getStatus(),
+                "typeBestPracticeTranslation" => $this->getTypeBestPracticeTranslation($tbestpratique->getId()),
             ];
         }
 
@@ -68,10 +68,10 @@ class BestPracticeRepository extends ServiceEntityRepository
         $responseArray = [];
         foreach($typeBestPracticeTranslation as $tbestpracticeTranslation){
             $responseArray[] = [
-                "type_best_practice_translation_id" => $tbestpracticeTranslation->getId(),
-                "type_best_practice_translation_translatable_id" => $tbestpracticeTranslation->getTranslatable()->getId(),
-                "type_best_practice_translation_type" => $tbestpracticeTranslation->getType(),
-                "type_best_practice_translation_locale" => $tbestpracticeTranslation->getLocale(),
+                "typeBestPracticeTranslationId" => $tbestpracticeTranslation->getId(),
+                "typeBestPracticeTranslationTranslatableId" => $tbestpracticeTranslation->getTranslatable()->getId(),
+                "typeBestPracticeTranslationType" => $tbestpracticeTranslation->getType(),
+                "typeBestPracticeTranslationLocale" => $tbestpracticeTranslation->getLocale(),
             ];
         }
 

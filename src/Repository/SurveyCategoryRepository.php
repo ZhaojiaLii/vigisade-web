@@ -52,10 +52,10 @@ class SurveyCategoryRepository extends ServiceEntityRepository
         $responseArray = [];
         foreach($surveyCategories as $surveyCategory){
             $responseArray[] = [
-                "survey_category_id" => $surveyCategory->getId(),
-                "survey_category_Ordonnancement" => $surveyCategory->getCategoryOrder(),
-                "survey_category_title_translation" => $this->surveyCategoryTranslationRepository->getSurveyCategoriesTranslation($surveyCategory->getId()),
-                "survey_question" => $this->surveyQuestionRepository->getSurveyQuestion($surveyCategory->getId()),
+                "surveyCategoryId" => $surveyCategory->getId(),
+                "surveyCategoryOrdonnancement" => $surveyCategory->getCategoryOrder(),
+                "surveyCategoryTitleTranslation" => $this->surveyCategoryTranslationRepository->getSurveyCategoriesTranslation($surveyCategory->getId()),
+                "surveyQuestion" => $this->surveyQuestionRepository->getSurveyQuestion($surveyCategory->getId()),
             ];
         }
         return $responseArray;

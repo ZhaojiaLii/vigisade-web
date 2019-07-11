@@ -14,6 +14,7 @@ use App\Repository\SurveyRepository;
 
 class SurveyController extends ApiController
 {
+    private $em;
     private $bestPracticeRepository;
     private $surveyRepository;
     private $surveyTranslationRepository;
@@ -27,11 +28,13 @@ class SurveyController extends ApiController
      * @param SurveyTranslationRepository $surveyTranslationRepository
      * @param SurveyCategoryRepository $surveyCategoryRepository
      */
-    public function __construct(EntityManagerInterface $em,
-                                BestPracticeRepository $bestPracticeRepository,
-                                SurveyRepository $surveyRepository,
-                                SurveyTranslationRepository $surveyTranslationRepository,
-                                SurveyCategoryRepository $surveyCategoryRepository)
+    public function __construct (
+        EntityManagerInterface $em,
+        BestPracticeRepository $bestPracticeRepository,
+        SurveyRepository $surveyRepository,
+        SurveyTranslationRepository $surveyTranslationRepository,
+        SurveyCategoryRepository $surveyCategoryRepository
+    )
     {
         $this->em = $em;
         $this->bestPracticeRepository = $bestPracticeRepository;
@@ -59,35 +62,15 @@ class SurveyController extends ApiController
             throw new NotFoundException("La direction de l'utilisateur n'est reliée à aucun questionnaire.");
         }
 
-        $responseArray[] = [
-            "survey_id" => $survey->getId(),
-            "survey_direction_id" => $survey->getDirection()->getId(),
-            "survey_team" => $survey->getTeam(),
-            "Type_best_practice" => $this->bestPracticeRepository->getAllTypeBestPractice(),
-            "best_practice_translation" => $this->surveyTranslationRepository->getBestPracticeTranslation($survey->getId()),
-            "survey_categories" => $this->surveyCategoryRepository->getSurveyCategory($survey->getId()),
+        $responseArray = [
+            "surveyId" => $survey->getId(),
+            "surveyDirectionId" => $survey->getDirection()->getId(),
+            "surveyTeam" => $survey->getTeam(),
+            "typeBestPractice" => $this->bestPracticeRepository->getAllTypeBestPractice(),
+            "bestPracticeTranslation" => $this->surveyTranslationRepository->getBestPracticeTranslation($survey->getId()),
+            "surveyCategories" => $this->surveyCategoryRepository->getSurveyCategory($survey->getId()),
         ];
 
-        return $this->createResponse('SURVEY', $responseArray[0]);
-    }
-
-    public function createResult()
-    {
-        return new JsonResponse(null, 204);
-    }
-
-    public function updateResult()
-    {
-        return new JsonResponse(null, 204);
-    }
-
-    public function getResults()
-    {
-        return new JsonResponse('survey results');
-    }
-
-    public function getResult(string $id)
-    {
-        return new JsonResponse(['survey result', $id]);
+        return $this->createResponse('SURVEY', $responseArray);
     }
 }

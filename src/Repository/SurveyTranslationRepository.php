@@ -38,10 +38,10 @@ class SurveyTranslationRepository extends ServiceEntityRepository
         $responseArray = [];
         foreach($surveytranslation as $survey){
             $responseArray[] = [
-                "survey_translation_id" => $survey->getId(),
-                "survey_translation_best_practice_label" => $survey->getbestPracticeLabel(),
-                "survey_translation_best_practice_help" => $survey->getbestPracticeHelp(),
-                "survey_translation_locale" => $survey->getLocale(),
+                "surveyTranslationId" => $survey->getId(),
+                "surveyTranslationBestPracticeLabel" => $survey->getbestPracticeLabel(),
+                "surveyTranslationBestPracticeHelp" => $survey->getbestPracticeHelp(),
+                "surveyTranslationLocale" => $survey->getLocale(),
             ];
         }
 
