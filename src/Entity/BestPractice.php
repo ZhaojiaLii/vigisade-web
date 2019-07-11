@@ -20,6 +20,11 @@ class BestPractice
     protected $id;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
+    /**
      * @param $method
      * @param $arguments
      * @return mixed
@@ -46,5 +51,17 @@ class BestPractice
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }
