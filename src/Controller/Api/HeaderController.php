@@ -19,6 +19,6 @@ class HeaderController extends ApiController
             throw new NotFoundException("Header and News empty.");
         }
 
-        return $this->createResponse('HEADER', $header);
+        return $this->createResponse('HEADER', $header[0]);
     }
 }
