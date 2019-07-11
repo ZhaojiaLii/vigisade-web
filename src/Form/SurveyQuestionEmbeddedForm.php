@@ -21,6 +21,10 @@ class SurveyQuestionEmbeddedForm extends AbstractType
                     'Equipe' => 'Equipe'
                 ]
             ])
+            ->add('questionOrder', null, [
+                'label' => ' ',
+                'help' => 'Select order questions'
+            ])
             ->add('translations', TranslationsType::class);
     }
 

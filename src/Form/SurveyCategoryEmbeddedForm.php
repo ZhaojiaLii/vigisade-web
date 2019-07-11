@@ -15,6 +15,10 @@ class SurveyCategoryEmbeddedForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('categoryOrder', null, [
+                'label' => ' ',
+                'help' => 'Select order rubrique'
+            ])
             ->add('translations', TranslationsType::class)
             ->add('questions', CollectionType::class, [
                 'entry_type' => SurveyQuestionEmbeddedForm::class,

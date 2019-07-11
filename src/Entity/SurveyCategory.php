@@ -46,6 +46,11 @@ class SurveyCategory
     private $correctiveActions;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $categoryOrder;
+
+    /**
      * @param $method
      * @param $arguments
      * @return mixed
@@ -168,6 +173,18 @@ class SurveyCategory
                 $correctiveAction->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategoryOrder(): ?int
+    {
+        return $this->categoryOrder;
+    }
+
+    public function setCategoryOrder(int $categoryOrder): self
+    {
+        $this->categoryOrder = $categoryOrder;
 
         return $this;
     }
