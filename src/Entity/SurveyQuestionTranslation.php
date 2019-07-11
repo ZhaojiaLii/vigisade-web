@@ -7,7 +7,7 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;;
 
 /**
- * @ORM\Entity("")
+ * @ORM\Entity(repositoryClass="App\Repository\SurveyQuestionTranslationRepository")
  */
 class SurveyQuestionTranslation
 {
