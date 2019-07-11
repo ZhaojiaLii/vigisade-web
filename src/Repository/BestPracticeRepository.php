@@ -48,6 +48,7 @@ class BestPracticeRepository extends ServiceEntityRepository
         foreach($typeBestPratique as $tbestpratique){
             $responseArray[] = [
                 "type_best_practice_id" => $tbestpratique->getId(),
+                "type_best_practice_status" => $tbestpratique->getStatus(),
                 "type_best_practice_translation" => $this->getTypeBestPracticeTranslation($tbestpratique->getId()),
             ];
         }
