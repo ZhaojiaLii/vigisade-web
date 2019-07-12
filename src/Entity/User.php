@@ -86,7 +86,7 @@ class User implements UserInterface
 
     /**
      * @var Collection|Result[]
-     * @ORM\OneToMany(targetEntity="App\Entity\Survey", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Result", mappedBy="user")
      */
     private $results;
 
