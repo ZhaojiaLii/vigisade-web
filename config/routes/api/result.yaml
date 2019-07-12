@@ -1,0 +1,19 @@
+api.result.create:
+  path: /create/
+  controller: App\Controller\Api\ResultController::createResult
+  methods: POST
+
+api.result.update:
+  path: /update/
+  controller: App\Controller\Api\ResultController::updateResult
+  methods: POST
+
+api.result.history:
+  path: /history/
+  controller: App\Controller\Api\ResultController::getResults
+  methods: GET
+
+api.result.item:
+  path: /history/{id}/
+  controller: App\Controller\Api\ResultController::getResult
+  methods: GET

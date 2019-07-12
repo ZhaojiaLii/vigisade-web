@@ -21,6 +21,7 @@ class CorrectiveActionController extends ApiController
     private $em;
     private $surveyQuestionRepository;
     private $correctiveActionRepository;
+    private $resultRepository;
 
     /**
      * CorrectiveActionController constructor.
