@@ -3,35 +3,50 @@
 namespace App\Controller\Api;
 
 use App\Controller\ApiController;
+use App\Exception\Http\NotFoundException;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 class UserController extends ApiController
 {
+    /** @var UserRepository */
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+
     /**
      * Gets information about the current user.
+     *
+     * @return \App\Entity\User|\FOS\RestBundle\View\View
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getUser()
     {
-        /*
-         * @todo: get user object
-         *      - $this->getUsername() to get current mail (defined in ApiController)
-         *      - App\Repository\UserRepository
-         */
+        $user = ApiController::getUser();
+        $userArray = [
+            'mail' => $user->getEmail(),
+            'directionId' => $user->getDirection() ? $user->getDirection()->getId() : null,
+            'areaId' => $user->getArea() ? $user->getArea()->getId() : null,
+            'entityId' => $user->getEntity() ? $user->getEntity()->getId() : null,
+            'language' => 'FR',
+            'firstName' => $user->getFirstname(),
+            'lastName' => $user->getLastname(),
+            'photo' => $user->getImage(),
+            'countRemainingActions' => $this->userRepository->getCountRemainingActions($user->getId()),
+            'countCurrentMonthVisits' => $this->userRepository->getCountCurrentMonthVisits($user->getId()),
+            'countLastMonthVisits' => $this->userRepository->getCountLastMonthVisits($user->getId())
+        ];
 
-        return new JsonResponse([
-            'mail' => 'foobar@foo.bar',
-            'direction' => 'foobar',
-            'zone' => 'foobar',
-            'entity' => 'foobar',
-            'language' => 'foobar',
-            'firstName' => 'foobar',
-            'lastName' => 'foobar',
-            'photo' => 'path/foobar.jpg',
-            'countRemainingActions' => 1,
-            'countCurrentMonthVisits' => 1,
-            'countLastMonthVisits' => 1,
-        ]);
+        return $this->createResponse('User', $userArray);
     }
 
     /**
