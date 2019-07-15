@@ -172,9 +172,20 @@ class ResultController extends ApiController
         return $this->createResponse('RESULT', $responseArray);
     }
 
-    public function getResults()
+    public function getResults(Request $request)
     {
-        return new JsonResponse('survey results');
+        $data = json_decode($request->getContent(), true);
+
+        if(empty($data)){
+            throw new NotFoundException("please check the data");
+        }
+
+        $responseArray  = [
+            "userId" => $data['user_id'],
+            "result" => $this->resultRepository->getResultUserByRole($data['user_id'])
+        ];
+
+        return $this->createResponse('RESULT', $responseArray);
     }
 
     public function getResult(string $id)
