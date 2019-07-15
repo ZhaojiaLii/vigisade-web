@@ -198,7 +198,7 @@ easy_admin:
         #Management Dangerous Situation
         TypeDangerousSituation:
             class: App\Entity\TypeDangerousSituation
-            disabled_actions: ['delete']
+            disabled_actions: ['delete', 'search']
             label: 'List of Type Dangerous Situation'
             list:
                 fields:
