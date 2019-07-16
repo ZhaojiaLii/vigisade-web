@@ -44,15 +44,9 @@ class ResultQuestion
      */
     private $photo;
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
     }
 
     public function getResult()

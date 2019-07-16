@@ -6,6 +6,10 @@ api.survey:
   resource: api/survey.yaml
   prefix: /survey
 
+api.result:
+  resource: api/result.yaml
+  prefix: /survey
+
 api.corrective_action:
   resource: api/corrective_action.yaml
   prefix: /corrective-action
