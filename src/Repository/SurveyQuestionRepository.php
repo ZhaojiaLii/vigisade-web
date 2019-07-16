@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\SurveyQuestion;
+use App\Repository\SurveyQuestionTranslationRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -17,10 +18,13 @@ class SurveyQuestionRepository extends ServiceEntityRepository
 {
     private $em;
 
-    public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
+    public function __construct(RegistryInterface $registry,
+                                EntityManagerInterface $em,
+                                SurveyQuestionTranslationRepository $surveyQuestionTranslationRepository)
     {
         parent::__construct($registry, SurveyQuestion::class);
         $this->em = $em;
+        $this->surveyQuestionTranslationRepository = $surveyQuestionTranslationRepository;
     }
 
     public function getSurveyQuestionByID($id)
@@ -33,5 +37,22 @@ class SurveyQuestionRepository extends ServiceEntityRepository
             throw new NotFoundException("This Question not exist ".$id);
         }
         return $surveyQuestion;
+    }
+
+    public function getSurveyQuestion($idSurveyCategory){
+
+        $surveyquestions = $this->em
+            ->getRepository(SurveyQuestion::class)->findBy(['category' => $idSurveyCategory]);
+        $responseArray = [];
+        foreach($surveyquestions as $surveyquestion){
+            $responseArray[] = [
+                "surveyQuestionId" => $surveyquestion->getId(),
+                "surveyQuestionOrdonnancement" => $surveyquestion->getQuestionOrder(),
+                "surveyQuestionType" => $surveyquestion->getQuestionType(),
+                "surveyQuestionCategoryId" => $idSurveyCategory,
+                "surveyQuestionTranslation" => $this->surveyQuestionTranslationRepository->getSurveyQuestionTranslation($surveyquestion->getId()),
+            ];
+        }
+        return $responseArray;
     }
 }
