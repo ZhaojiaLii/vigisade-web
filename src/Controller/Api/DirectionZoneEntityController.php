@@ -62,7 +62,7 @@ class DirectionZoneEntityController extends ApiController
             }
         }
 
-        return $this->createResponse('SURVEY', $directionsList);
+        return $this->createResponse('DIRECTION_ZONE_ENTITY', $directionsList);
 
     }
 }
