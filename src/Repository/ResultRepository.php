@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Result;
+use App\Exception\Http\NotFoundException;
 use App\Repository\ResultQuestionRepository;
 use App\Repository\ResultTeamMemberRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -56,7 +57,7 @@ class ResultRepository extends ServiceEntityRepository
             ->find($id);
 
         if (!$result) {
-            throw new NotFoundException("This Result not exist ".$id);
+            throw new NotFoundException("This Result with id ".$id." not exist ");
         }
         return $result;
     }
@@ -72,7 +73,7 @@ class ResultRepository extends ServiceEntityRepository
             ->find($id);
 
         if (!$result) {
-            throw new NotFoundException("This Result not exist ".$id);
+            throw new NotFoundException("This Result with id ".$id." not exist ");
         }
 
         $responseArray = [
@@ -108,7 +109,7 @@ class ResultRepository extends ServiceEntityRepository
         $results = $this->findBy(['user' => $userId]);
 
         if (!$results) {
-            throw new NotFoundException("This user dont have a results ".$userId);
+            throw new NotFoundException("This user id ".$userId." dont have a results ");
         }
 
         if($roleUser[0] === "ROLE_CONDUCTEUR"){
