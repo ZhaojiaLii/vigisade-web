@@ -32,8 +32,15 @@ class UserController extends ApiController
     public function getUser()
     {
         $user = ApiController::getUser();
+
+        if (!$user) {
+            throw new NotFoundException("No user found");
+        }
+
         $userArray = [
+            'id' => $user->getId(),
             'mail' => $user->getEmail(),
+            'roles' => $user->getRoles(),
             'directionId' => $user->getDirection() ? $user->getDirection()->getId() : null,
             'areaId' => $user->getArea() ? $user->getArea()->getId() : null,
             'entityId' => $user->getEntity() ? $user->getEntity()->getId() : null,
