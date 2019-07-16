@@ -22,3 +22,8 @@ api.settings:
 api.header:
   resource: api/header.yaml
   prefix: /header
+
+api.direction_zone_entity:
+  path: /direction-zone-entity
+  controller: App\Controller\Api\DirectionZoneEntityController::getDirectionZoneEntity
+  methods: GET
