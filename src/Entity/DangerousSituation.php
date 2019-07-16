@@ -47,13 +47,19 @@ class DangerousSituation
      * @ORM\ManyToOne(targetEntity="App\Entity\Area", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $zone;
+    private $area;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Entity", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $entity;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="dangerousSituations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -108,14 +114,14 @@ class DangerousSituation
         return $this;
     }
 
-    public function getZone(): ?Area
+    public function getArea(): ?Area
     {
-        return $this->zone;
+        return $this->area;
     }
 
-    public function setZone(?Area $zone): self
+    public function setArea(?Area $area): self
     {
-        $this->zone = $zone;
+        $this->area = $area;
 
         return $this;
     }
@@ -140,6 +146,18 @@ class DangerousSituation
     public function setTypeDangerousSituation(?TypeDangerousSituation $typeDangerousSituation): self
     {
         $this->typeDangerousSituation = $typeDangerousSituation;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
