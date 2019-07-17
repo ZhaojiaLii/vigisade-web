@@ -95,10 +95,16 @@ class User implements UserInterface
      */
     private $correctiveActions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DangerousSituation", mappedBy="user")
+     */
+    private $dangerousSituations;
+
     public function __construct()
     {
         $this->results = new ArrayCollection();
         $this->correctiveActions = new ArrayCollection();
+        $this->dangerousSituations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -353,5 +359,36 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->email;
+    }
+
+    /**
+     * @return Collection|DangerousSituation[]
+     */
+    public function getDangerousSituations(): Collection
+    {
+        return $this->dangerousSituations;
+    }
+
+    public function addDangerousSituation(DangerousSituation $dangerousSituation): self
+    {
+        if (!$this->dangerousSituations->contains($dangerousSituation)) {
+            $this->dangerousSituations[] = $dangerousSituation;
+            $dangerousSituation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDangerousSituation(DangerousSituation $dangerousSituation): self
+    {
+        if ($this->dangerousSituations->contains($dangerousSituation)) {
+            $this->dangerousSituations->removeElement($dangerousSituation);
+            // set the owning side to null (unless already changed)
+            if ($dangerousSituation->getUser() === $this) {
+                $dangerousSituation->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
