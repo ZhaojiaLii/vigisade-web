@@ -83,6 +83,10 @@ easy_admin:
                     - { property: 'name', label: 'Name' }
                     - { property: 'direction', label: 'Direction' }
                     - { property: 'etat', label: 'Actif' }
+            search:
+                help: null
+                fields: ['id', 'name', 'direction.name', 'etat']
+
         #Management Entity
         Entity:
             class: App\Entity\Entity
@@ -99,6 +103,9 @@ easy_admin:
                     - { property: 'name', label: 'Name' }
                     - { property: 'area', label: 'Area' }
                     - { property: 'etat', label: 'Actif' }
+            search:
+                help: null
+                fields: ['id', 'name', 'area.name']
 
         #Management User
         User:
@@ -141,6 +148,9 @@ easy_admin:
                     - { property: 'area' }
                     - { property: 'entity' }
                     - { property: 'roles'}
+            search:
+                help: null
+                fields: ['email', 'firstname', 'lastname', 'image', 'actif', 'direction.name', 'area.name', 'roles']
 
         #Management Survey
         Survey:
