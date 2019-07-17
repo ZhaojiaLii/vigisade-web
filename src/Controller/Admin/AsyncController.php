@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Area;
+use App\Entity\Direction;
 use App\Entity\Entity;
 use App\Entity\Survey;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,10 +55,30 @@ class AsyncController extends AbstractController
         $idDirection = $request->request->get('id_direction');
         $surveys = $em->getRepository(Survey::class)->findBy(['direction' => $idDirection]);
         if(!$surveys){
-            return new JsonResponse(['message' => '']);
+
+            return new JsonResponse(['message' => 'null']);;
         }
 
         return new JsonResponse(['message' =>
             'this direction is used by Survey : '.$surveys[0]->getTitle().' with ID : '.$surveys[0]->getID()]);
+    }
+
+    /**
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getDirectionUniqueName(EntityManagerInterface $em, Request $request)
+    {
+        $direction = $em->getRepository(Direction::class)->findBy([
+            'name' => $request->request->get('direction_name')
+        ]);
+
+        if($direction){
+
+            return new JsonResponse(['message' => 'This name is used by this direction ID = '.$direction[0]->getId()]);
+        }
+
+        return new JsonResponse(['message' => 'null']);
     }
 }
