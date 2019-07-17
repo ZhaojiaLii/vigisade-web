@@ -29,8 +29,10 @@ class ResultController extends ApiController
     private $areaRepository;
     private $entityRepository;
     private $resultRepository;
-    private $resultQuestionRepository; // update
+    private $resultQuestionRepository;
     private $resultTeamMemberRepository;
+
+    const RESULT = "RESULT";
 
     /**
      * ResultController constructor.
@@ -119,7 +121,7 @@ class ResultController extends ApiController
 
         $responseArray = $this->resultRepository->getResultResponse($result->getId());
 
-        return $this->createResponse('RESULT', $responseArray);
+        return $this->createResponse(SELF::RESULT, $responseArray);
     }
 
     /**
@@ -169,9 +171,13 @@ class ResultController extends ApiController
 
         $responseArray = $this->resultRepository->getResultResponse($result->getId());
 
-        return $this->createResponse('RESULT', $responseArray);
+        return $this->createResponse(SELF::RESULT, $responseArray);
     }
 
+    /**
+     * @param Request $request
+     * @return \FOS\RestBundle\View\View
+     */
     public function getResults(Request $request)
     {
         $data = json_decode($request->getContent(), true);
@@ -185,11 +191,18 @@ class ResultController extends ApiController
             "result" => $this->resultRepository->getResultUserByRole($data['user_id'])
         ];
 
-        return $this->createResponse('RESULT', $responseArray);
+        return $this->createResponse(SELF::RESULT, $responseArray);
     }
 
-    public function getResult(string $id)
+    /**
+     * @param string $id
+     * @param Request $request
+     * @return \FOS\RestBundle\View\View
+     */
+    public function getResult(string $id, Request $request)
     {
-        return new JsonResponse(['survey result', $id]);
+        $result = $this->resultRepository->getResultResponse($id);
+
+        return $this->createResponse(SELF::RESULT, $result);
     }
 }

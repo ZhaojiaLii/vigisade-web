@@ -31,7 +31,7 @@ class ResultTeamMemberRepository extends ServiceEntityRepository
             ->findBy(['result' => $idResult]);
 
         if (!$teamMembers) {
-            throw new NotFoundException("This Result id =.$idResult.' dont have a Team Member ");
+            throw new NotFoundException("This Result with id ".$idResult." dont have a Team Member ");
         }
 
         foreach ($teamMembers as $teamMember) {
