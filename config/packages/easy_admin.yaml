@@ -112,7 +112,7 @@ easy_admin:
             class: App\Entity\User
             controller: App\Controller\Admin\UserController
             password_encoding: { algorithm: 'auto' }
-            disabled_actions: ['show']
+            disabled_actions: ['show', 'delete']
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { type: 'group', columns: 5, label: 'User Details', icon: 'user' }
