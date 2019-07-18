@@ -50,16 +50,16 @@ class DirectionZoneEntityController extends ApiController
 
                         //Entities
                         $entitiesList = [];
+                        $entityData = [];
                         if ($area->getEntities()) {
                             foreach ($area->getEntities() as $entity) {
-                                $entityData = [];
                                 $entityData['id'] = $entity->getId();
                                 $entityData['area_id'] = $entity->getArea()->getId();
                                 $entityData['name'] = $entity->getName();
                                 $entitiesList['entity'][] = $entityData;
                             }
                         }
-                        $areaData['entity'] = $entitiesList;
+                        $areaData = array_merge($areaData, $entitiesList);
                         $areasList[] = $areaData;
                     }
                 }
