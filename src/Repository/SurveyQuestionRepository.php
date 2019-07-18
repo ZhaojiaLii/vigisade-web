@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\SurveyQuestion;
+use App\Exception\Http\NotFoundException;
 use App\Repository\SurveyQuestionTranslationRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\DangerousSituation;
+use App\Exception\Http\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
