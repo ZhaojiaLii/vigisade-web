@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\BestPractice;
 use App\Entity\BestPracticeTranslation;
+use App\Exception\Http\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;

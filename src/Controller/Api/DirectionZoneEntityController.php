@@ -4,25 +4,31 @@ namespace App\Controller\Api;
 
 use App\Controller\ApiController;
 use App\Repository\DirectionRepository;
+use App\Repository\TypeDangerousSituationRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class DirectionZoneEntityController extends ApiController
 {
     private $directionRepository;
+    private $typeDangerousSituationRepository;
 
-    public function __construct(DirectionRepository $directionRepository)
+    public function __construct(
+        DirectionRepository $directionRepository,
+        TypeDangerousSituationRepository $typeDangerousSituationRepository)
     {
         $this->directionRepository = $directionRepository;
+        $this->typeDangerousSituationRepository = $typeDangerousSituationRepository;
     }
 
     /**
-     * Gets Information about Directions, Areas and entities 
+     * Gets Information about Directions, Areas and entities
      * @return \FOS\RestBundle\View\View
      */
-    public function getDirectionZoneEntity() {
+    public function getDirectionZoneEntityTypeDangerousSituation() {
 
-        $directionsList = [];
+        // list Direction / Area / Entities / type Dangerous situations
+        $list = [];
         $directions = $this->directionRepository->findAll();
 
         if ($directions) {
@@ -58,11 +64,14 @@ class DirectionZoneEntityController extends ApiController
                     }
                 }
                 $directionData['area'] = $areasList;
-                $directionsList['direction'][] = $directionData;
+                $list['direction'][] = $directionData;
             }
         }
 
-        return $this->createResponse('DIRECTION_ZONE_ENTITY', $directionsList);
+        //Get type Dangerous situations
+        $list['typeDangerousSituations'][] = $this->typeDangerousSituationRepository->getAllTypeDangerousSituation();
+
+        return $this->createResponse('DIRECTION_ZONE_ENTITY_TYPE_DANGEROUSE_SITUATION', $list);
 
     }
 }
