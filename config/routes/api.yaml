@@ -27,7 +27,7 @@ api.header:
   resource: api/header.yaml
   prefix: /header
 
-api.direction_zone_entity:
-  path: /direction-zone-entity
-  controller: App\Controller\Api\DirectionZoneEntityController::getDirectionZoneEntity
+api.direction_zone_entity_type_dangerous_situation:
+  path: /direction-zone-entity-type-dangerous-situation
+  controller: App\Controller\Api\DirectionZoneEntityController::getDirectionZoneEntityTypeDangerousSituation
   methods: GET
