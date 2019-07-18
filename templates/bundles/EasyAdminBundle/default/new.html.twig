@@ -81,7 +81,29 @@
                 async: true,
                 success: function (result)
                 {
-                    if (result.message !== null) {
+                    if (result.message !== 'null') {
+                        alert(result.message);
+                    }
+                },
+                error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                }
+            })
+        });
+        $('#direction_name').change(function() {
+            var directionSelector = $(this);
+
+            $.ajax({
+                url:'{{ path('ajax_request_direction_unique_name') }}',
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "direction_name": directionSelector.val()
+                },
+                async: true,
+                success: function (result)
+                {
+                    if (result.message !== 'null') {
                         alert(result.message);
                     }
                 },

@@ -55,6 +55,7 @@ easy_admin:
         #Management Direction
         Direction:
             class: App\Entity\Direction
+            controller: App\Controller\Admin\DirectionController
             disabled_actions: ['delete']
             list:
                 title: 'List of directions'
