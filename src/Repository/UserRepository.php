@@ -32,7 +32,7 @@ class UserRepository extends ServiceEntityRepository
     public function getCountLastMonthVisits(int $userId)
     {
         $dateStart = new \DateTime('first day of last month 00:00:00');
-        $dateEnd = new \DateTime('last day of last month 24:00:00');
+        $dateEnd = new \DateTime('last day of last month 23:59:59');
 
         $query = $this->em->createQuery('
             SELECT COUNT(r.user)
@@ -59,7 +59,7 @@ class UserRepository extends ServiceEntityRepository
     public function getCountCurrentMonthVisits(int $userId)
     {
         $dateStart = new \DateTime('first day of this month 00:00:00');
-        $dateEnd = new \DateTime('last day of this month 24:00:00');
+        $dateEnd = new \DateTime('last day of this month 23:59:59');
 
         $query = $this->em->createQuery('
             SELECT COUNT(r.user)
@@ -89,7 +89,7 @@ class UserRepository extends ServiceEntityRepository
             SELECT COUNT(c.user)
             FROM App\Entity\CorrectiveAction c
             WHERE c.user = :user_id
-            AND c.status = \'Validé\'       
+            AND c.status = \'à traiter\'       
             '
         )->setParameter('user_id', $userId);
 
