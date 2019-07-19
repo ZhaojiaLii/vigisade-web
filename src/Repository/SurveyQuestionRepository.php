@@ -40,7 +40,7 @@ class SurveyQuestionRepository extends ServiceEntityRepository
         return $surveyQuestion;
     }
 
-    public function getSurveyQuestion($idSurveyCategory){
+    public function getSurveyQuestion($idSurveyCategory, $userLanguage){
 
         $surveyquestions = $this->em
             ->getRepository(SurveyQuestion::class)->findBy(['category' => $idSurveyCategory]);
@@ -51,7 +51,8 @@ class SurveyQuestionRepository extends ServiceEntityRepository
                 "surveyQuestionOrdonnancement" => $surveyquestion->getQuestionOrder(),
                 "surveyQuestionType" => $surveyquestion->getQuestionType(),
                 "surveyQuestionCategoryId" => $idSurveyCategory,
-                "surveyQuestionTranslation" => $this->surveyQuestionTranslationRepository->getSurveyQuestionTranslation($surveyquestion->getId()),
+                "surveyQuestionTranslation" =>
+                    $this->surveyQuestionTranslationRepository->getSurveyQuestionTranslation($surveyquestion->getId(), $userLanguage),
             ];
         }
         return $responseArray;
