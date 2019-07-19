@@ -9,6 +9,7 @@ use App\Repository\ResultTeamMemberRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @method Result|null find($id, $lockMode = null, $lockVersion = null)
@@ -57,7 +58,7 @@ class ResultRepository extends ServiceEntityRepository
             ->find($id);
 
         if (!$result) {
-            throw new NotFoundException("This Result with id ".$id." not exist ");
+            return "This Result with id ".$id." not exist ";
         }
         return $result;
     }
@@ -72,29 +73,30 @@ class ResultRepository extends ServiceEntityRepository
             ->getRepository(Result::class)
             ->find($id);
 
-        if (!$result) {
-            throw new NotFoundException("This Result with id ".$id." not exist ");
+        if ($result) {
+
+            $responseArray = [
+                "resultId" => $result->getId(),
+                "resultSurveyId" => $result->getSurvey()->getId(),
+                "resultUserId" => $result->getUser()->getId(),
+                "resultDirectionId" => $result->getDirection()->getId(),
+                "resultAreaId" => $result->getArea()->getId(),
+                "resultEntityId" => $result->getEntity()->getId(),
+                "resultDate" => $result->getDate(),
+                "resultPlace" => $result->getPlace(),
+                "resultClient" => $result->getClient(),
+                "resultValidated" => $result->getValidated(),
+                "resultBestPracticeDone" => $result->getBestPracticeDone(),
+                "resultBestPracticeComment" => $result->getBestPracticeComment(),
+                "resultBestPracticePhoto" => $result->getBestPracticePhoto(),
+                "resultTeamMember" => $this->resultTeamMemberRepository->getResultTeamMemberByResult($result->getId()),
+                "resultQuestion" => $this->resultQuestionRepository->getQuestionByResult($result->getId()),
+            ];
+
+            return $responseArray;
         }
 
-        $responseArray = [
-            "resultId" => $result->getId(),
-            "resultSurveyId" => $result->getSurvey()->getId(),
-            "resultUserId" => $result->getUser()->getId(),
-            "resultDirectionId" => $result->getDirection()->getId(),
-            "resultAreaId" => $result->getArea()->getId(),
-            "resultEntityId" => $result->getEntity()->getId(),
-            "resultDate" => $result->getDate(),
-            "resultPlace" => $result->getPlace(),
-            "resultClient" => $result->getClient(),
-            "resultValidated" => $result->getValidated(),
-            "resultBestPracticeDone" => $result->getBestPracticeDone(),
-            "resultBestPracticeComment" => $result->getBestPracticeComment(),
-            "resultBestPracticePhoto" => $result->getBestPracticePhoto(),
-            "resultTeamMember" => $this->resultTeamMemberRepository->getResultTeamMemberByResult($result->getId()),
-            "resultQuestion" => $this->resultQuestionRepository->getQuestionByResult($result->getId()),
-        ];
-
-        return $responseArray;
+        return "This Result with id ".$id." not exist ";
     }
 
     /**
@@ -108,34 +110,33 @@ class ResultRepository extends ServiceEntityRepository
 
         $results = $this->findBy(['user' => $userId]);
 
-        if (!$results) {
-            throw new NotFoundException("This user id ".$userId." dont have a results ");
-        }
+        if ($results) {
 
-        if($roleUser[0] === "ROLE_CONDUCTEUR"){
+            if($roleUser[0] === "ROLE_CONDUCTEUR"){
 
-            foreach ($results as $result){
+                foreach ($results as $result){
 
-                $responseArray [] = [
-                    "resultId" => $result->getId(),
-                    "resultDate" => $result->getDate(),
-                    "resultPlace" => $result->getPlace(),
-                    "resultClient" => $result->getClient(),
-                    "resultUserId" => $result->getClient(),
-                    "resultValidated" => $result->getValidated(),
-                ];
+                    $responseArray [] = [
+                        "resultId" => $result->getId(),
+                        "resultDate" => $result->getDate(),
+                        "resultPlace" => $result->getPlace(),
+                        "resultClient" => $result->getClient(),
+                        "resultUserId" => $result->getClient(),
+                        "resultValidated" => $result->getValidated(),
+                    ];
+                }
+
+            }else if($roleUser[0] === "ROLE_MANAGER"){
+
+                return $this->getResultsByEntity($user->getEntity());
+
+            }else if($roleUser[0] === "ROLE_ADMIN"){
+
+                return $this->getResultsByDirection($user->getDirection());
             }
-
-        }else if($roleUser[0] === "ROLE_MANAGER"){
-
-            $responseArray = $this->getResultsByEntity($user->getEntity());
-
-        }else if($roleUser[0] === "ROLE_ADMIN"){
-
-            $responseArray = $this->getResultsByDirection($user->getDirection());
         }
 
-        return $responseArray;
+        return "This user dont have a results";
     }
 
     /**
@@ -146,23 +147,24 @@ class ResultRepository extends ServiceEntityRepository
     {
         $results = $this->findBy(['direction' => $direction]);
 
-        if (!$results) {
-            throw new NotFoundException("This direction dont have a results ".$direction);
+        if ($results) {
+
+            foreach ($results as $result) {
+                $responseArray [] = [
+                    "resultId" => $result->getId(),
+                    "resultDirection" => $result->getDirection()->getId(),
+                    "resultDate" => $result->getDate(),
+                    "resultPlace" => $result->getPlace(),
+                    "resultClient" => $result->getClient(),
+                    "resultUserId" => $result->getClient(),
+                    "resultValidated" => $result->getValidated(),
+                ];
+            }
+
+            return $responseArray;
         }
 
-        foreach ($results as $result){
-            $responseArray [] = [
-                "resultId" => $result->getId(),
-                "resultDirection" => $result->getDirection()->getId(),
-                "resultDate" => $result->getDate(),
-                "resultPlace" => $result->getPlace(),
-                "resultClient" => $result->getClient(),
-                "resultUserId" => $result->getClient(),
-                "resultValidated" => $result->getValidated(),
-            ];
-        }
-
-        return $responseArray;
+        return "The direction with name `".$direction."` dont have a results";
     }
 
     /**
@@ -173,22 +175,23 @@ class ResultRepository extends ServiceEntityRepository
     {
         $results = $this->findBy(['entity' => $entity]);
 
-        if (!$results) {
-            throw new NotFoundException("This entity dont have a results ".$entity);
+        if ($results) {
+
+            foreach ($results as $result) {
+                $responseArray [] = [
+                    "resultId" => $result->getId(),
+                    "resultEntity" => $result->getEntity()->getId(),
+                    "resultDate" => $result->getDate(),
+                    "resultPlace" => $result->getPlace(),
+                    "resultClient" => $result->getClient(),
+                    "resultUserId" => $result->getClient(),
+                    "resultValidated" => $result->getValidated(),
+                ];
+            }
+
+            return $responseArray;
         }
 
-        foreach ($results as $result){
-            $responseArray [] = [
-                "resultId" => $result->getId(),
-                "resultEntity" => $result->getEntity()->getId(),
-                "resultDate" => $result->getDate(),
-                "resultPlace" => $result->getPlace(),
-                "resultClient" => $result->getClient(),
-                "resultUserId" => $result->getClient(),
-                "resultValidated" => $result->getValidated(),
-            ];
-        }
-
-        return $responseArray;
+        return "This entity with `".$entity."`` dont have a results ";
     }
 }

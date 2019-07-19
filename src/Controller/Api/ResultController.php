@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+
 class ResultController extends ApiController
 {
     private $em;
@@ -182,9 +183,22 @@ class ResultController extends ApiController
     {
         $data = json_decode($request->getContent(), true);
 
-        if(empty($data)){
-            throw new NotFoundException("please check the data");
+        if (empty($data)) {
+            $message = [
+                'code' => '400',
+                'message' => 'The JSON sent contains invalid data.'];
+
+            return new JsonResponse($message, 400);
         }
+
+        if (!array_key_exists('user_id', $data)) {
+            $message = [
+                'code' => '400',
+                'message' => 'The parameter `user_id` should be specified.'];
+
+            return new JsonResponse($message, 400);
+        }
+
 
         $responseArray  = [
             "userId" => $data['user_id'],
