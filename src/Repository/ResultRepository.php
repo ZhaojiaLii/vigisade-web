@@ -121,7 +121,7 @@ class ResultRepository extends ServiceEntityRepository
                         "resultDate" => $result->getDate(),
                         "resultPlace" => $result->getPlace(),
                         "resultClient" => $result->getClient(),
-                        "resultUserId" => $result->getClient(),
+                        "resultUserId" => $result->getUser()->getId(),
                         "resultValidated" => $result->getValidated(),
                     ];
                 }
@@ -156,7 +156,7 @@ class ResultRepository extends ServiceEntityRepository
                     "resultDate" => $result->getDate(),
                     "resultPlace" => $result->getPlace(),
                     "resultClient" => $result->getClient(),
-                    "resultUserId" => $result->getClient(),
+                    "resultUserId" => $result->getUser()->getId(),
                     "resultValidated" => $result->getValidated(),
                 ];
             }
@@ -184,7 +184,7 @@ class ResultRepository extends ServiceEntityRepository
                     "resultDate" => $result->getDate(),
                     "resultPlace" => $result->getPlace(),
                     "resultClient" => $result->getClient(),
-                    "resultUserId" => $result->getClient(),
+                    "resultUserId" => $result->getUser()->getId(),
                     "resultValidated" => $result->getValidated(),
                 ];
             }
