@@ -20,24 +20,24 @@ class TypeDangerousSituationTranslationRepository extends ServiceEntityRepositor
         parent::__construct($registry, TypeDangerousSituationTranslation::class);
     }
 
-    public function getAllTypeDangerousSituationTranslation($id)
+    public function getAllTypeDangerousSituationTranslation($id, $userLanguage)
     {
         $typeDangerousSituationsTranslation = $this->findBy(['translatable' => $id]);
 
-        if (!$typeDangerousSituationsTranslation) {
-            throw new NotFoundException(" Type of Dangerous Situations is empty ");
+        if($typeDangerousSituationsTranslation){
+            foreach ($typeDangerousSituationsTranslation as $typeDangerousSituationTranslation ){
+                if($typeDangerousSituationTranslation->getLocale() === $userLanguage){
+                    $responseArray []  = [
+                        "typeDangerousSituationTranslationId" => $typeDangerousSituationTranslation->getId(),
+                        "typeDangerousSituationTranslationTranslatableId" => $typeDangerousSituationTranslation->getTranslatable()->getId(),
+                        "typeDangerousSituationTranslationType" => $typeDangerousSituationTranslation->getType(),
+                        "typeDangerousSituationTranslationLocale" => $typeDangerousSituationTranslation->getLocale()
+                    ];
+                }
+
+            }
+
+            return $responseArray;
         }
-
-        foreach ($typeDangerousSituationsTranslation as $typeDangerousSituationTranslation ){
-
-            $responseArray []  = [
-                "typeDangerousSituationTranslationId" => $typeDangerousSituationTranslation->getId(),
-                "typeDangerousSituationTranslationTranslatableId" => $typeDangerousSituationTranslation->getTranslatable()->getId(),
-                "typeDangerousSituationTranslationType" => $typeDangerousSituationTranslation->getType(),
-                "typeDangerousSituationTranslationLocale" => $typeDangerousSituationTranslation->getLocale()
-            ];
-        }
-
-        return $responseArray;
     }
 }

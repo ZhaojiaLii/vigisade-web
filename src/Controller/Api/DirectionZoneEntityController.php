@@ -27,6 +27,8 @@ class DirectionZoneEntityController extends ApiController
      */
     public function getDirectionZoneEntityTypeDangerousSituation() {
 
+        $userLanguage = $this->getUser()->getLanguage();
+
         // list Direction / Area / Entities / type Dangerous situations
         $list = [];
         $directions = $this->directionRepository->findAll();
@@ -69,7 +71,7 @@ class DirectionZoneEntityController extends ApiController
         }
 
         //Get type Dangerous situations
-        $list['typeDangerousSituations'][] = $this->typeDangerousSituationRepository->getAllTypeDangerousSituation();
+        $list['typeDangerousSituations'][] = $this->typeDangerousSituationRepository->getAllTypeDangerousSituation($userLanguage);
 
         return $this->createResponse('DIRECTION_ZONE_ENTITY_TYPE_DANGEROUSE_SITUATION', $list);
 

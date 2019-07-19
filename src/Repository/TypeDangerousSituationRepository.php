@@ -25,22 +25,21 @@ class TypeDangerousSituationRepository extends ServiceEntityRepository
         $this->typeDangerousSituationTranslationRepository = $typeDangerousSituationTranslationRepository;
     }
 
-    public function getAllTypeDangerousSituation()
+    public function getAllTypeDangerousSituation($userLanguage)
     {
         $typeDangerousSituations = $this->findAll();
 
-        if (!$typeDangerousSituations) {
-            throw new NotFoundException(" Type of Dangerous Situations is empty ");
+        if($typeDangerousSituations){
+            foreach ($typeDangerousSituations as $typeDangerousSituation ){
+
+                $responseArray []  = [
+                    "typeDangerousSituationsId" => $typeDangerousSituation->getId(),
+                    "typeDangerousSituationTranslation" =>
+                        $this->typeDangerousSituationTranslationRepository->getAllTypeDangerousSituationTranslation($typeDangerousSituation->getId(), $userLanguage)
+                ];
+            }
+
+            return $responseArray;
         }
-
-        foreach ($typeDangerousSituations as $typeDangerousSituation ){
-
-            $responseArray []  = [
-                "typeDangerousSituationsId" => $typeDangerousSituation->getId(),
-                "typeDangerousSituationTranslation" => $this->typeDangerousSituationTranslationRepository->getAllTypeDangerousSituationTranslation($typeDangerousSituation->getId())
-            ];
-        }
-
-        return $responseArray;
     }
 }
