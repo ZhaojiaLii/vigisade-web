@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends BaseFixture
 {
     private $passwordEncoder;
+    private static $language = ["fr", "en", "es"];
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder){
         $this->passwordEncoder = $passwordEncoder;
@@ -22,6 +23,7 @@ class UserFixtures extends BaseFixture
             $user->setFirstName($this->faker->firstName);
             $user->setLastname($this->faker->lastName);
             $user->setRoles(['ROLE_ADMIN']);
+            $user->setLanguage($this->faker->randomElement(self::$language));
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 '12345678'
@@ -35,6 +37,7 @@ class UserFixtures extends BaseFixture
             $user->setFirstName($this->faker->firstName);
             $user->setLastname($this->faker->lastName);
             $user->setRoles(['ROLE_MANAGER']);
+            $user->setLanguage($this->faker->randomElement(self::$language));
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 '12345678'
@@ -48,6 +51,7 @@ class UserFixtures extends BaseFixture
             $user->setFirstName($this->faker->firstName);
             $user->setLastname($this->faker->lastName);
             $user->setRoles(['ROLE_CONDUCTEUR']);
+            $user->setLanguage($this->faker->randomElement(self::$language));
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 '12345678'
