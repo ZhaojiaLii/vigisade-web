@@ -31,8 +31,8 @@ class UserRepository extends ServiceEntityRepository
      */
     public function getCountLastMonthVisits(int $userId)
     {
-        $dateStart = new \DateTime('first day of last month 00:00:00');
-        $dateEnd = new \DateTime('last day of last month 23:59:59');
+        $dateStart = new \DateTime('first day of previous month 00:00:00');
+        $dateEnd = new \DateTime('last day of previous month 23:59:59');
 
         $query = $this->em->createQuery('
             SELECT COUNT(r.user)
