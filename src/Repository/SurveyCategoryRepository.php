@@ -44,7 +44,7 @@ class SurveyCategoryRepository extends ServiceEntityRepository
      * @param $idSurvey
      * @return array
      */
-    public function getSurveyCategory($idSurvey)
+    public function getSurveyCategory($idSurvey, $userLanguage)
     {
         $surveyCategories = $this->em
             ->getRepository(SurveyCategory::class)->findBy(['survey' => $idSurvey]);
@@ -54,8 +54,9 @@ class SurveyCategoryRepository extends ServiceEntityRepository
             $responseArray[] = [
                 "surveyCategoryId" => $surveyCategory->getId(),
                 "surveyCategoryOrdonnancement" => $surveyCategory->getCategoryOrder(),
-                "surveyCategoryTitleTranslation" => $this->surveyCategoryTranslationRepository->getSurveyCategoriesTranslation($surveyCategory->getId()),
-                "surveyQuestion" => $this->surveyQuestionRepository->getSurveyQuestion($surveyCategory->getId()),
+                "surveyCategoryTitleTranslation" =>
+                    $this->surveyCategoryTranslationRepository->getSurveyCategoriesTranslation($surveyCategory->getId(), $userLanguage),
+                "surveyQuestion" => $this->surveyQuestionRepository->getSurveyQuestion($surveyCategory->getId(), $userLanguage),
             ];
         }
         return $responseArray;

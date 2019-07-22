@@ -49,26 +49,39 @@ class SurveyController extends ApiController
     public function getSurvey()
     {
         $direction = $this->getUser()->getDirection();
+        $userLanguage = $this->getUser()->getLanguage();
+
+        if(empty($userLanguage)){ $userLanguage = 'fr'; } // language by default
 
         if (!$direction) {
-            throw new NotFoundException("L'utilisateur n'est pas relié à une direction.");
+            $message = [
+                'code' => '400',
+                'message' => 'The user is not related to any direction'];
+
+            return new JsonResponse($message, 400);
         }
+
 
         $survey = $this->em
             ->getRepository(Survey::class)
             ->findOneBy(['direction' => $direction]);
 
         if (!$survey) {
-            throw new NotFoundException("La direction de l'utilisateur n'est reliée à aucun questionnaire.");
+            $message = [
+                'code' => '400',
+                'message' => 'The direction of this user is not related to any questionnaire'];
+
+            return new JsonResponse($message, 400);
         }
 
         $responseArray = [
             "surveyId" => $survey->getId(),
             "surveyDirectionId" => $survey->getDirection()->getId(),
             "surveyTeam" => $survey->getTeam(),
-            "typeBestPractice" => $this->bestPracticeRepository->getAllTypeBestPractice(),
-            "bestPracticeTranslation" => $this->surveyTranslationRepository->getBestPracticeTranslation($survey->getId()),
-            "surveyCategories" => $this->surveyCategoryRepository->getSurveyCategory($survey->getId()),
+            "typeBestPractice" => $this->bestPracticeRepository->getAllTypeBestPractice($userLanguage),
+            "bestPracticeTranslation" =>
+                $this->surveyTranslationRepository->getBestPracticeTranslation($survey->getId(), $userLanguage),
+            "surveyCategories" => $this->surveyCategoryRepository->getSurveyCategory($survey->getId(), $userLanguage),
         ];
 
         return $this->createResponse('SURVEY', $responseArray);

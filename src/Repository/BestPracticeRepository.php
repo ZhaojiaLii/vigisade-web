@@ -36,7 +36,7 @@ class BestPracticeRepository extends ServiceEntityRepository
     /**
      * @return array
      */
-    public function getAllTypeBestPractice()
+    public function getAllTypeBestPractice($userLanguage)
     {
         $typeBestPratique = $this->em
             ->getRepository(BestPractice::class)->findAll();
@@ -48,10 +48,34 @@ class BestPracticeRepository extends ServiceEntityRepository
         $responseArray = [];
         foreach($typeBestPratique as $tbestpratique){
             $responseArray[] = [
-                "typeBestPracticeTranslationId" => $tbestpratique->getId(),
-                "typeBestPracticeTranslationType" => $tbestpratique->getType(),
-                "typeBestPracticeTranslationLocale" => $tbestpratique->getLocale()
+                "typeBestPracticeId" => $tbestpratique->getId(),
+                "typeBestPracticeStatus" => $tbestpratique->getStatus(),
+                "typeBestPracticeTranslation" => $this->getTypeBestPracticeTranslation($tbestpratique->getId(),$userLanguage ),
             ];
+        }
+
+        return $responseArray;
+    }
+
+    /**
+     * @param $idBestPractice
+     * @return array
+     */
+    public function getTypeBestPracticeTranslation($idBestPractice, $userLanguage){
+
+        $typeBestPracticeTranslation = $this->em
+            ->getRepository(BestPracticeTranslation::class)->findBy(['translatable' => $idBestPractice]);
+
+        $responseArray = [];
+        foreach($typeBestPracticeTranslation as $tbestpracticeTranslation){
+            if($tbestpracticeTranslation->getLocale() === $userLanguage){
+                $responseArray[] = [
+                    "typeBestPracticeTranslationId" => $tbestpracticeTranslation->getId(),
+                    "typeBestPracticeTranslationTranslatableId" => $tbestpracticeTranslation->getTranslatable()->getId(),
+                    "typeBestPracticeTranslationType" => $tbestpracticeTranslation->getType(),
+                    "typeBestPracticeTranslationLocale" => $tbestpracticeTranslation->getLocale(),
+                ];
+            }
         }
 
         return $responseArray;

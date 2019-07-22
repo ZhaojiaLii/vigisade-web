@@ -29,20 +29,22 @@ class SurveyQuestionTranslationRepository extends ServiceEntityRepository
      * @param $idBestPratique
      * @return array
      */
-    public function getSurveyQuestionTranslation($idSurveyQuestion){
+    public function getSurveyQuestionTranslation($idSurveyQuestion, $userLanguage){
 
         $surveyQuestiontranslation = $this->em
             ->getRepository(SurveyQuestionTranslation::class)->findBy(['translatable' => $idSurveyQuestion]);
 
         $responseArray = [];
         foreach($surveyQuestiontranslation as $questiontranslation){
-            $responseArray[] = [
-                "surveyQuestionTranslationId" => $questiontranslation->getId(),
-                "surveyQuestionTranslationTranslatableId" => $questiontranslation->getTranslatable()->getId(),
-                "surveyQuestionTranslationLabel" => $questiontranslation->getLabel(),
-                "surveyQuestionTranslationHelp" => $questiontranslation->getHelp(),
-                "surveyQuestionTranslationLocale" => $questiontranslation->getLocale(),
-            ];
+            if($questiontranslation->getLocale() === $userLanguage) {
+                $responseArray[] = [
+                    "surveyQuestionTranslationId" => $questiontranslation->getId(),
+                    "surveyQuestionTranslationTranslatableId" => $questiontranslation->getTranslatable()->getId(),
+                    "surveyQuestionTranslationLabel" => $questiontranslation->getLabel(),
+                    "surveyQuestionTranslationHelp" => $questiontranslation->getHelp(),
+                    "surveyQuestionTranslationLocale" => $questiontranslation->getLocale(),
+                ];
+            }
         }
         return $responseArray;
     }
