@@ -68,7 +68,9 @@ class UserController extends ApiController
         $user = ApiController::getUser();
 
         if (!$user) {
-            throw new NotFoundException("No user found");
+            $message = ['message' => 'No user found'];
+
+            return new JsonResponse($message, 200);
         }
 
         $userArray = [
@@ -78,7 +80,7 @@ class UserController extends ApiController
             'directionId' => $user->getDirection() ? $user->getDirection()->getId() : null,
             'areaId' => $user->getArea() ? $user->getArea()->getId() : null,
             'entityId' => $user->getEntity() ? $user->getEntity()->getId() : null,
-            'language' => 'FR',
+            'language' => $user->getLanguage(),
             'firstName' => $user->getFirstname(),
             'lastName' => $user->getLastname(),
             'photo' => $user->getImage(),
@@ -101,7 +103,9 @@ class UserController extends ApiController
         $data = json_decode($request->getContent(), true);
 
         if (empty($data)) {
-            throw new NotFoundException("Data empty");
+            $message = ['message' => 'Data empty'];
+
+            return new JsonResponse($message, 200);
         }
 
         $user = ApiController::getUser();
@@ -115,6 +119,7 @@ class UserController extends ApiController
         $user->setDirection($direction);
         $user->setArea($area);
         $user->setEntity($entity);
+        $user->setLanguage(array_key_exists('language', $data) ? $data['language'] : 'fr');
         $user->setImage($data['image']);
 
         $this->em->persist($user);
@@ -138,7 +143,9 @@ class UserController extends ApiController
         $data = json_decode($request->getContent(), true);
 
         if (empty($data)) {
-            throw new NotFoundException("data empty");
+            $message = ['message' => 'Data empty'];
+
+            return new JsonResponse($message, 200);
         }
 
         $user = new User();
@@ -146,6 +153,7 @@ class UserController extends ApiController
         $user->setfirstname($data['firstname']);
         $user->setPassword($data['password']);
         $user->setImage($data['image']);
+        $user->setLanguage(array_key_exists('language', $data) ? $data['language'] : 'fr');
         $user->setActif(true);
         $this->em->persist($user);
         $this->em->flush();
