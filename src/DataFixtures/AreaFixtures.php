@@ -10,7 +10,7 @@ class AreaFixtures extends BaseFixture implements DependentFixtureInterface
 {
     protected function loadData(ObjectManager $manager)
     {
-        $this->createMany(30, 'main_area', function($i) use ($manager) {
+        $this->createMany(3, 'main_area', function($i) use ($manager) {
             $area = new Area();
             $area->setName($this->faker->city);
             $area->setEtat(true);
