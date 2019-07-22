@@ -10,7 +10,7 @@ class DirectionFixtures extends BaseFixture implements DependentFixtureInterface
 {
     protected function loadData(ObjectManager $manager)
     {
-        $this->createMany(30, 'main_direction', function($i) use ($manager) {
+        $this->createMany(3, 'main_direction', function($i) use ($manager) {
             $direction = new Direction();
             $direction->setName($this->faker->country);
             $direction->setEtat(true);
