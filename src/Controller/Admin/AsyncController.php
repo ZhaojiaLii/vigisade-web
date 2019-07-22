@@ -56,7 +56,7 @@ class AsyncController extends AbstractController
         $surveys = $em->getRepository(Survey::class)->findBy(['direction' => $idDirection]);
         if(!$surveys){
 
-            return new JsonResponse(['message' => 'null']);;
+            return new JsonResponse(['message' => 'null']);
         }
 
         return new JsonResponse(['message' =>

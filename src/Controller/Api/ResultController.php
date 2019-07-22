@@ -80,7 +80,52 @@ class ResultController extends ApiController
         $data = json_decode($request->getContent(), true);
 
         if(empty($data)){
-            throw new NotFoundException("please check the data");
+            return ['message' => "The JSON sent contains invalid data. or empty"];
+        }
+
+        // check all parameters of data
+        if(!array_key_exists('resultSurveyId', $data)) {
+            return ['message' => "The parameter `resultSurveyId` should be specified."];
+        }
+
+        if(!array_key_exists('resultUserId', $data)) {
+            return ['message' => "The parameter `resultUserId` should be specified."];
+        }
+
+        if(!array_key_exists('resultDirectionId', $data)) {
+            return ['message' => "The parameter `resultDirectionId` should be specified."];
+        }
+
+        if(!array_key_exists('resultDirectionId', $data)) {
+            return ['message' => "The parameter `resultDirectionId` should be specified."];
+        }
+
+        if(!array_key_exists('resultAreaId', $data)) {
+            return ['message' => "The parameter `resultAreaId` should be specified."];
+        }
+
+        if(!array_key_exists('resultEntityId', $data)) {
+            return ['message' => "The parameter `resultEntityId` should be specified."];
+        }
+
+        if(!array_key_exists('resultClient', $data)) {
+            return ['message' => "The parameter `resultClient` should be specified."];
+        }
+
+        if(!array_key_exists('resultValidated', $data)) {
+            return ['message' => "The parameter `resultValidated` should be specified."];
+        }
+
+        if(!array_key_exists('resultBestPracticeDone', $data)) {
+            return ['message' => "The parameter `resultBestPracticeDone` should be specified."];
+        }
+
+        if(!array_key_exists('resultBestPracticeComment', $data)) {
+            return ['message' => "The parameter `resultBestPracticeComment` should be specified."];
+        }
+
+        if(!array_key_exists('resultBestPracticePhoto', $data)) {
+            return ['message' => "The parameter `resultBestPracticePhoto` should be specified."];
         }
 
         $result = new Result();
@@ -135,7 +180,9 @@ class ResultController extends ApiController
         $data = json_decode($request->getContent(), true);
 
         if(empty($data)){
-            throw new NotFoundException("please check the data");
+            $message = ['message' => "The JSON sent contains invalid data or empty"];
+
+            return new JsonResponse($message, 200);
         }
 
         $result = $this->resultRepository->getResultByID($data['resultId']);
@@ -179,13 +226,13 @@ class ResultController extends ApiController
      * @param Request $request
      * @return \FOS\RestBundle\View\View
      */
-    public function getResults(Request $request)
+    public function getResults()
     {
-        $user_id = $this->getUser()->getId();
+        $userId = $this->getUser()->getId();
 
         $responseArray  = [
-            "userId" => $user_id,
-            "result" => $this->resultRepository->getResultUserByRole($user_id)
+            "userId" => $userId,
+            "result" => $this->resultRepository->getResultUserByRole($userId)
         ];
 
         return $this->createResponse(SELF::RESULT, $responseArray);
@@ -196,7 +243,7 @@ class ResultController extends ApiController
      * @param Request $request
      * @return \FOS\RestBundle\View\View
      */
-    public function getResult(string $id, Request $request)
+    public function getResult(string $id)
     {
         $result = $this->resultRepository->getResultResponse($id);
 

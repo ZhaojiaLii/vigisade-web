@@ -111,7 +111,7 @@ class ResultRepository extends ServiceEntityRepository
         $results = $this->findBy(['user' => $userId]);
 
         if ($results) {
-
+            $responseArray = [];
             if($roleUser[0] === "ROLE_CONDUCTEUR"){
 
                 foreach ($results as $result){
@@ -126,6 +126,8 @@ class ResultRepository extends ServiceEntityRepository
                     ];
                 }
 
+                return $responseArray;
+
             }else if($roleUser[0] === "ROLE_MANAGER"){
 
                 return $this->getResultsByEntity($user->getEntity());
@@ -135,8 +137,6 @@ class ResultRepository extends ServiceEntityRepository
                 return $this->getResultsByDirection($user->getDirection());
             }
         }
-
-        //return ['message' => "This user dont have a results"];
     }
 
     /**
@@ -148,7 +148,7 @@ class ResultRepository extends ServiceEntityRepository
         $results = $this->findBy(['direction' => $direction]);
 
         if ($results) {
-
+            $responseArray = [];
             foreach ($results as $result) {
                 $responseArray [] = [
                     "resultId" => $result->getId(),
@@ -176,7 +176,7 @@ class ResultRepository extends ServiceEntityRepository
         $results = $this->findBy(['entity' => $entity]);
 
         if ($results) {
-
+            $responseArray = [];
             foreach ($results as $result) {
                 $responseArray [] = [
                     "resultId" => $result->getId(),

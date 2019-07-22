@@ -8,6 +8,7 @@ use App\Exception\Http\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @method BestPractice|null find($id, $lockMode = null, $lockVersion = null)
@@ -42,7 +43,9 @@ class BestPracticeRepository extends ServiceEntityRepository
             ->getRepository(BestPractice::class)->findAll();
 
         if (!$typeBestPratique) {
-            throw new NotFoundException("This type Best practice empty in DB");
+            $message = ['message' => "This type Best practice empty in DB"];
+
+            return new JsonResponse($message, 200);
         }
 
         $responseArray = [];

@@ -25,6 +25,7 @@ class TypeDangerousSituationTranslationRepository extends ServiceEntityRepositor
         $typeDangerousSituationsTranslation = $this->findBy(['translatable' => $id]);
 
         if($typeDangerousSituationsTranslation){
+            $responseArray = [];
             foreach ($typeDangerousSituationsTranslation as $typeDangerousSituationTranslation ){
                 if($typeDangerousSituationTranslation->getLocale() === $userLanguage){
                     $responseArray []  = [
@@ -34,7 +35,6 @@ class TypeDangerousSituationTranslationRepository extends ServiceEntityRepositor
                         "typeDangerousSituationTranslationLocale" => $typeDangerousSituationTranslation->getLocale()
                     ];
                 }
-
             }
 
             return $responseArray;

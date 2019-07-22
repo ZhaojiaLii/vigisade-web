@@ -8,6 +8,7 @@ use App\Repository\SurveyQuestionTranslationRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @method Question|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,7 +36,9 @@ class SurveyQuestionRepository extends ServiceEntityRepository
             ->find($id);
 
         if (!$surveyQuestion) {
-            throw new NotFoundException("This Question not exist ".$id);
+            $message = ['message' => "This Question not exist ".$id];
+
+            return new JsonResponse($message, 200);
         }
         return $surveyQuestion;
     }

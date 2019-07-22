@@ -7,6 +7,7 @@ use App\Exception\Http\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @method CorrectiveAction|null find($id, $lockMode = null, $lockVersion = null)
@@ -31,7 +32,9 @@ class CorrectiveActionRepository extends ServiceEntityRepository
             ->find($id);
 
         if (!$correctiveAction) {
-            throw new NotFoundException("This Corrective Action not exist ".$id);
+            $message = ['message' => "This Corrective Action with id ".$id." not exist "];
+
+            return new JsonResponse($message, 200);
         }
         return $correctiveAction;
     }

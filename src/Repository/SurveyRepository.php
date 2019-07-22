@@ -7,6 +7,7 @@ use App\Exception\Http\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SurveyRepository extends ServiceEntityRepository
 {
@@ -36,7 +37,9 @@ class SurveyRepository extends ServiceEntityRepository
             ->getRepository(Survey::class)->findAll();
 
         if (!$surveys) {
-            throw new NotFoundException("This Survey empty in DB");
+            $message = ['message' => "This Survey empty in DB"];
+
+            return new JsonResponse($message, 200);
         }
 
         $responseArray = [];
