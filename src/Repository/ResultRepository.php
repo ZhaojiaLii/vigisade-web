@@ -57,9 +57,9 @@ class ResultRepository extends ServiceEntityRepository
             ->getRepository(Result::class)
             ->find($id);
 
-        if (!$result) {
-            return "This Result with id ".$id." not exist ";
-        }
+        /*if (!$result) {
+            return ['message' => "This Result with id ".$id." not exist "];
+        }*/
         return $result;
     }
 
@@ -96,7 +96,7 @@ class ResultRepository extends ServiceEntityRepository
             return $responseArray;
         }
 
-        return "This Result with id ".$id." not exist ";
+        return ['message' => "This Result with id ".$id." not exist"];
     }
 
     /**
@@ -136,7 +136,7 @@ class ResultRepository extends ServiceEntityRepository
             }
         }
 
-        return "This user dont have a results";
+        //return ['message' => "This user dont have a results"];
     }
 
     /**
@@ -164,7 +164,7 @@ class ResultRepository extends ServiceEntityRepository
             return $responseArray;
         }
 
-        return "The direction with name `".$direction."` dont have a results";
+        //return ['message' => "The direction with name `".$direction."` dont have a results"];
     }
 
     /**
@@ -192,6 +192,6 @@ class ResultRepository extends ServiceEntityRepository
             return $responseArray;
         }
 
-        return "This entity with `".$entity."`` dont have a results ";
+        //return ['message' => "This entity with `".$entity."`` dont have a results "];
     }
 }

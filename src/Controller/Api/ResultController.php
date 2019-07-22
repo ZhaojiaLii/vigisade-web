@@ -181,28 +181,11 @@ class ResultController extends ApiController
      */
     public function getResults(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
-
-        if (empty($data)) {
-            $message = [
-                'code' => '400',
-                'message' => 'The JSON sent contains invalid data.'];
-
-            return new JsonResponse($message, 400);
-        }
-
-        if (!array_key_exists('user_id', $data)) {
-            $message = [
-                'code' => '400',
-                'message' => 'The parameter `user_id` should be specified.'];
-
-            return new JsonResponse($message, 400);
-        }
-
+        $user_id = $this->getUser()->getId();
 
         $responseArray  = [
-            "userId" => $data['user_id'],
-            "result" => $this->resultRepository->getResultUserByRole($data['user_id'])
+            "userId" => $user_id,
+            "result" => $this->resultRepository->getResultUserByRole($user_id)
         ];
 
         return $this->createResponse(SELF::RESULT, $responseArray);
