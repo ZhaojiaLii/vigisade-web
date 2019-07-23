@@ -181,7 +181,6 @@ class EntityFixtures extends BaseFixture implements DependentFixtureInterface
         ];
 
         foreach ($arrayEntites as $arrayEntity){
-
             $area = $manager->getRepository(Area::class)->findBy(['id' => $arrayEntity['area_id']]);
             $entity = new Entity();
             $entity->setName($arrayEntity['name']);
