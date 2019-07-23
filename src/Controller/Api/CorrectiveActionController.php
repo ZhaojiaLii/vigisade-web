@@ -54,7 +54,10 @@ class CorrectiveActionController extends ApiController
             ->findBy(['user' => $this->getUser(), 'status' => 'A traiter']);
 
         if (!$CorrectivesAction) {
-            throw new NotFoundException("This user dont have Corrective Action");
+
+            $message = ['message' => "This user dont have Corrective Action"];
+
+            return new JsonResponse($message, 200);
         }
 
         $responseArray = [];

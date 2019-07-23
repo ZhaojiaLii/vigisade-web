@@ -7,6 +7,7 @@ use App\Exception\Http\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @method DangerousSituation|null find($id, $lockMode = null, $lockVersion = null)
@@ -29,7 +30,10 @@ class DangerousSituationRepository extends ServiceEntityRepository
         $situationDangerous = $this->find($id);
 
         if (!$situationDangerous) {
-            throw new NotFoundException("This Dangerous Situation with id ".$id." not exist ");
+
+            $message = ['message' => "This Dangerous Situation with id ".$id." not exist"];
+
+            return new JsonResponse($message, 200);
         }
 
         $response = [

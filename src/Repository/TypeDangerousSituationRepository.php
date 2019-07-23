@@ -30,6 +30,8 @@ class TypeDangerousSituationRepository extends ServiceEntityRepository
         $typeDangerousSituations = $this->findAll();
 
         if($typeDangerousSituations){
+
+            $responseArray = [];
             foreach ($typeDangerousSituations as $typeDangerousSituation ){
 
                 $responseArray []  = [

@@ -11,12 +11,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HeaderController extends ApiController
 {
+    /**
+     * @param EntityManagerInterface $em
+     * @return \FOS\RestBundle\View\View|JsonResponse
+     */
     public function getHeader(EntityManagerInterface $em)
     {
         $header = $em->getRepository(Header::class)->findAll();
 
         if (!$header) {
-            throw new NotFoundException("Header and News empty.");
+            $message = [
+                'code' => '200',
+                'message' => 'Header and News empty.'];
+
+            return new JsonResponse($message, 200);
         }
 
         return $this->createResponse('HEADER', $header[0]);

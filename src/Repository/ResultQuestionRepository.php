@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\ResultQuestion;
-use App\Exception\Http\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -30,10 +29,7 @@ class ResultQuestionRepository extends ServiceEntityRepository
             ->getRepository(ResultQuestion::class)
             ->findBy(['result' => $idResult]);
 
-        if (!$questions) {
-            throw new NotFoundException("This Result id =.$idResult.' dont have a question ");
-        }
-
+        $responseArray = [];
         foreach ($questions as $question) {
             $responseArray[] = [
                 "resultQuestionId" => $question->getId(),
@@ -47,6 +43,5 @@ class ResultQuestionRepository extends ServiceEntityRepository
         }
 
         return $responseArray;
-
     }
 }
