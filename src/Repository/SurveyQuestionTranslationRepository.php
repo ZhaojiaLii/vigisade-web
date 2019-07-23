@@ -37,7 +37,7 @@ class SurveyQuestionTranslationRepository extends ServiceEntityRepository
         $responseArray = [];
         foreach($surveyQuestiontranslation as $questiontranslation){
             if($questiontranslation->getLocale() === $userLanguage) {
-                $responseArray[] = [
+                $responseArray = [
                     "surveyQuestionTranslationId" => $questiontranslation->getId(),
                     "surveyQuestionTranslationTranslatableId" => $questiontranslation->getTranslatable()->getId(),
                     "surveyQuestionTranslationLabel" => $questiontranslation->getLabel(),

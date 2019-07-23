@@ -72,7 +72,7 @@ class BestPracticeRepository extends ServiceEntityRepository
         $responseArray = [];
         foreach($typeBestPracticeTranslation as $tbestpracticeTranslation){
             if($tbestpracticeTranslation->getLocale() === $userLanguage){
-                $responseArray[] = [
+                $responseArray = [
                     "typeBestPracticeTranslationId" => $tbestpracticeTranslation->getId(),
                     "typeBestPracticeTranslationTranslatableId" => $tbestpracticeTranslation->getTranslatable()->getId(),
                     "typeBestPracticeTranslationType" => $tbestpracticeTranslation->getType(),
