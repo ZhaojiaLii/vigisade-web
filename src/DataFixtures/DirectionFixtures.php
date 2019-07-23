@@ -6,7 +6,7 @@ use App\Entity\Direction;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class DirectionFixtures extends BaseFixture implements DependentFixtureInterface
+class DirectionFixtures extends BaseFixture
 {
     protected function loadData(ObjectManager $manager)
     {
@@ -28,10 +28,5 @@ class DirectionFixtures extends BaseFixture implements DependentFixtureInterface
             $manager->persist($direction);
         }
         $manager->flush();
-    }
-    public function getDependencies() {
-        return [
-            AreaFixtures::class,
-        ];
     }
 }
