@@ -28,7 +28,7 @@ class TypeDangerousSituationTranslationRepository extends ServiceEntityRepositor
             $responseArray = [];
             foreach ($typeDangerousSituationsTranslation as $typeDangerousSituationTranslation ){
                 if($typeDangerousSituationTranslation->getLocale() === $userLanguage){
-                    $responseArray []  = [
+                    $responseArray = [
                         "typeDangerousSituationTranslationId" => $typeDangerousSituationTranslation->getId(),
                         "typeDangerousSituationTranslationTranslatableId" => $typeDangerousSituationTranslation->getTranslatable()->getId(),
                         "typeDangerousSituationTranslationType" => $typeDangerousSituationTranslation->getType(),
