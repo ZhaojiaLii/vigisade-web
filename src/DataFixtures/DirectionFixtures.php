@@ -10,14 +10,23 @@ class DirectionFixtures extends BaseFixture implements DependentFixtureInterface
 {
     protected function loadData(ObjectManager $manager)
     {
-        $this->createMany(3, 'main_direction', function($i) use ($manager) {
-            $direction = new Direction();
-            $direction->setName($this->faker->country);
-            $direction->setEtat(true);
-            $direction->addArea($this->getRandomReference('main_area'));
+        $arrayDirections = [
+            ["name" => "COTTEL Reseaux"],
+            ["name" => "ETE Reseaux"],
+            ["name" => "France"],
+            ["name" => "FILIALES"],
+            ["name" => "SST"],
+            ["name" => "Activite nucleaire"],
+        ];
 
-            return $direction;
-        });
+        foreach ($arrayDirections as $arrayDirection){
+
+            $direction = new Direction();
+            $direction->setName($arrayDirection['name']);
+            $direction->setEtat(true);
+
+            $manager->persist($direction);
+        }
         $manager->flush();
     }
     public function getDependencies() {
