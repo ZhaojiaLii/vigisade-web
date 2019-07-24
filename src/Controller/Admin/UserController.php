@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends EasyAdminController
@@ -29,12 +30,6 @@ class UserController extends EasyAdminController
         parent::persistEntity($entity);
     }
 
-    public function updateEntity($entity)
-    {
-        $this->encodePassword($entity);
-        parent::updateEntity($entity);
-    }
-
     public function encodePassword($user)
     {
         if (!$user instanceof User) {
@@ -42,7 +37,20 @@ class UserController extends EasyAdminController
         }
 
         $user->setPassword(
-            $this->passwordEncoder->encodePassword($user, $user->getPassword())
+            $this->passwordEncoder->encodePassword($user, $user->getPlainPassword())
         );
+    }
+
+    protected function updateUserEntity(User $entity, Form $editForm = null)
+    {
+        if ($editForm) {
+            $postedPassword = $editForm->get('plainPassword')->getData();
+
+            if (!empty($postedPassword)) {
+                $this->encodePassword($entity);
+            }
+        }
+
+        parent::updateEntity($entity);
     }
 }
