@@ -237,7 +237,7 @@ class SurveyFixtures extends Fixture
         $surveyCategory2Question1 = new SurveyQuestion();
         $surveyCategory2Question1->setCategory($surveyCategory2);
         $surveyCategory2Question1->setQuestionOrder(1);
-        $surveyCategory2Question1->setQuestionType('Général');
+        $surveyCategory2Question1->setQuestionType('General');
 
         //$surveyCategory2Question1TranslationFr
         $surveyCategory2Question1TranslationFr = new SurveyQuestionTranslation();
@@ -299,19 +299,19 @@ class SurveyFixtures extends Fixture
 
         //$surveyCategory3TranslationFr
         $surveyCategory3TranslationFr = new SurveyCategoryTranslation();
-        $surveyCategory3TranslationFr->setTitle('Qualite fr');
+        $surveyCategory3TranslationFr->setTitle('Environnement');
         $surveyCategory3TranslationFr->setLocale('fr');
         $surveyCategory3TranslationFr->setTranslatable($surveyCategory3);
 
         //$surveyCategory3TranslationEn
         $surveyCategory3TranslationEn = new SurveyCategoryTranslation();
-        $surveyCategory3TranslationEn->setTitle('Qualite En');
+        $surveyCategory3TranslationEn->setTitle('Environement');
         $surveyCategory3TranslationEn->setLocale('en');
         $surveyCategory3TranslationEn->setTranslatable($surveyCategory3);
 
         //$surveyCategory3TranslationEs
         $surveyCategory3TranslationEs = new SurveyCategoryTranslation();
-        $surveyCategory3TranslationEs->setTitle('Qualite Es');
+        $surveyCategory3TranslationEs->setTitle('Medio ambiente');
         $surveyCategory3TranslationEs->setLocale('es');
         $surveyCategory3TranslationEs->setTranslatable($surveyCategory3);
 
@@ -320,28 +320,109 @@ class SurveyFixtures extends Fixture
         $surveyCategory3Question1 = new SurveyQuestion();
         $surveyCategory3Question1->setCategory($surveyCategory3);
         $surveyCategory3Question1->setQuestionOrder(1);
-        $surveyCategory3Question1->setQuestionType('Equipe');
+        $surveyCategory3Question1->setQuestionType('General');
 
         //$surveyCategory3Question1TranslationFr
         $surveyCategory3Question1TranslationFr = new SurveyQuestionTranslation();
         $surveyCategory3Question1TranslationFr->setTranslatable($surveyCategory3Question1);
         $surveyCategory3Question1TranslationFr->setLocale('fr');
-        $surveyCategory3Question1TranslationFr->setHelp('help category Qualite question 1 FR');
-        $surveyCategory3Question1TranslationFr->setLabel('label category Qualite question 1 FR');
+        $surveyCategory3Question1TranslationFr->setHelp('du chantier, des hommes, des véhicules et engins');
+        $surveyCategory3Question1TranslationFr->setLabel('Propreté');
 
         //$surveyCategory3Question1TranslationEn
         $surveyCategory3Question1TranslationEn = new SurveyQuestionTranslation();
         $surveyCategory3Question1TranslationEn->setTranslatable($surveyCategory3Question1);
         $surveyCategory3Question1TranslationEn->setLocale('en');
-        $surveyCategory3Question1TranslationEn->setHelp('help category Qualite question 1 EN');
-        $surveyCategory3Question1TranslationEn->setLabel('label category Qualite question 1 EN');
+        $surveyCategory3Question1TranslationEn->setHelp('of the site, of the men, vehicles and machines');
+        $surveyCategory3Question1TranslationEn->setLabel('Cleanliness');
 
         //$surveyCategory3Question1TranslationEs
         $surveyCategory3Question1TranslationEs = new SurveyQuestionTranslation();
         $surveyCategory3Question1TranslationEs->setTranslatable($surveyCategory3Question1);
         $surveyCategory3Question1TranslationEs->setLocale('es');
-        $surveyCategory3Question1TranslationEs->setHelp('help category Qualite question 1 ES');
-        $surveyCategory3Question1TranslationEs->setLabel('label category Qualite question 1 ES');
+        $surveyCategory3Question1TranslationEs->setHelp('del lugar, de los hombres, vehículos y máquinas');
+        $surveyCategory3Question1TranslationEs->setLabel('Limpieza');
+
+        //$surveyCategory3Question2
+        $surveyCategory3Question2 = new SurveyQuestion();
+        $surveyCategory3Question2->setCategory($surveyCategory3);
+        $surveyCategory3Question2->setQuestionOrder(2);
+        $surveyCategory3Question2->setQuestionType('General');
+
+        //$surveyCategory3Question2TranslationFr
+        $surveyCategory3Question2TranslationFr = new SurveyQuestionTranslation();
+        $surveyCategory3Question2TranslationFr->setTranslatable($surveyCategory3Question2);
+        $surveyCategory3Question2TranslationFr->setLocale('fr');
+        $surveyCategory3Question2TranslationFr->setHelp('');
+        $surveyCategory3Question2TranslationFr->setLabel('Gestion des déchets, stockage sur rétention, kit antipollution, ...');
+
+        //$surveyCategory3Question2TranslationEn
+        $surveyCategory3Question2TranslationEn = new SurveyQuestionTranslation();
+        $surveyCategory3Question2TranslationEn->setTranslatable($surveyCategory3Question2);
+        $surveyCategory3Question2TranslationEn->setLocale('en');
+        $surveyCategory3Question2TranslationEn->setHelp('');
+        $surveyCategory3Question2TranslationEn->setLabel('Waste management, storage on retention, anti-pollution kit,...');
+
+        //$surveyCategory3Question2TranslationEs
+        $surveyCategory3Question2TranslationEs = new SurveyQuestionTranslation();
+        $surveyCategory3Question2TranslationEs->setTranslatable($surveyCategory3Question2);
+        $surveyCategory3Question2TranslationEs->setLocale('es');
+        $surveyCategory3Question2TranslationEs->setHelp('');
+        $surveyCategory3Question2TranslationEs->setLabel('Gestión de residuos, almacenamiento en retención, kit anticontaminación,....');
+
+        //$surveyCategory3Question3
+        $surveyCategory3Question3 = new SurveyQuestion();
+        $surveyCategory3Question3->setCategory($surveyCategory3);
+        $surveyCategory3Question3->setQuestionOrder(3);
+        $surveyCategory3Question3->setQuestionType('General');
+
+        //$surveyCategory3Question3TranslationFr
+        $surveyCategory3Question3TranslationFr = new SurveyQuestionTranslation();
+        $surveyCategory3Question3TranslationFr->setTranslatable($surveyCategory3Question3);
+        $surveyCategory3Question3TranslationFr->setLocale('fr');
+        $surveyCategory3Question3TranslationFr->setHelp('Nuisances sonores, poussières, odeurs, boues, ...');
+        $surveyCategory3Question3TranslationFr->setLabel('Gênes riverains');
+
+        //$surveyCategory3Question3TranslationEn
+        $surveyCategory3Question3TranslationEn = new SurveyQuestionTranslation();
+        $surveyCategory3Question3TranslationEn->setTranslatable($surveyCategory3Question3);
+        $surveyCategory3Question3TranslationEn->setLocale('en');
+        $surveyCategory3Question3TranslationEn->setHelp('Noise, dust, odours, sludge,...');
+        $surveyCategory3Question3TranslationEn->setLabel('Riparian Genoa');
+
+        //$surveyCategory3Question3TranslationEs
+        $surveyCategory3Question3TranslationEs = new SurveyQuestionTranslation();
+        $surveyCategory3Question3TranslationEs->setTranslatable($surveyCategory3Question3);
+        $surveyCategory3Question3TranslationEs->setLocale('es');
+        $surveyCategory3Question3TranslationEs->setHelp('Ruido, polvo, olores, lodos,....');
+        $surveyCategory3Question3TranslationEs->setLabel('Génova ribereña');
+
+        //$surveyCategory3Question4
+        $surveyCategory3Question4 = new SurveyQuestion();
+        $surveyCategory3Question4->setCategory($surveyCategory3);
+        $surveyCategory3Question4->setQuestionOrder(4);
+        $surveyCategory3Question4->setQuestionType('General');
+
+        //$surveyCategory3Question4TranslationFr
+        $surveyCategory3Question4TranslationFr = new SurveyQuestionTranslation();
+        $surveyCategory3Question4TranslationFr->setTranslatable($surveyCategory3Question4);
+        $surveyCategory3Question4TranslationFr->setLocale('fr');
+        $surveyCategory3Question4TranslationFr->setHelp('Ex : Déversement accidentel de produits dangereux, rupture de flexible hydraulique,...');
+        $surveyCategory3Question4TranslationFr->setLabel('Situation d urgence identifiée');
+
+        //$surveyCategory3Question4TranslationEn
+        $surveyCategory3Question4TranslationEn = new SurveyQuestionTranslation();
+        $surveyCategory3Question4TranslationEn->setTranslatable($surveyCategory3Question4);
+        $surveyCategory3Question4TranslationEn->setLocale('en');
+        $surveyCategory3Question4TranslationEn->setHelp('Ex: Accidental spillage of dangerous products, hydraulic hose rupture,....');
+        $surveyCategory3Question4TranslationEn->setLabel('Identified emergency situation');
+
+        //$surveyCategory3Question4TranslationEs
+        $surveyCategory3Question4TranslationEs = new SurveyQuestionTranslation();
+        $surveyCategory3Question4TranslationEs->setTranslatable($surveyCategory3Question4);
+        $surveyCategory3Question4TranslationEs->setLocale('es');
+        $surveyCategory3Question4TranslationEs->setHelp('Ej: Derrame accidental de productos peligrosos, rotura de mangueras hidráulicas,.....');
+        $surveyCategory3Question4TranslationEs->setLabel('Situación de emergencia identificada');
 
         /***/
 
@@ -393,8 +474,18 @@ class SurveyFixtures extends Fixture
         $this->em->persist($surveyCategory3Question1TranslationFr);
         $this->em->persist($surveyCategory3Question1TranslationEn);
         $this->em->persist($surveyCategory3Question1TranslationEs);
+        $this->em->persist($surveyCategory3Question2TranslationFr);
+        $this->em->persist($surveyCategory3Question2TranslationEn);
+        $this->em->persist($surveyCategory3Question2TranslationEs);
+        $this->em->persist($surveyCategory3Question3TranslationFr);
+        $this->em->persist($surveyCategory3Question3TranslationEn);
+        $this->em->persist($surveyCategory3Question3TranslationEs);
+        $this->em->persist($surveyCategory3Question4TranslationFr);
+        $this->em->persist($surveyCategory3Question4TranslationEn);
+        $this->em->persist($surveyCategory3Question4TranslationEs);
 
         //$surveyQuestionRubrique1
+        $this->em->persist($surveyQuestion4);
         $this->em->persist($surveyQuestion3);
         $this->em->persist($surveyQuestion2);
         $this->em->persist($surveyQuestion1);
@@ -405,7 +496,11 @@ class SurveyFixtures extends Fixture
 
         //$surveyQuestionRubrique3
         $this->em->persist($surveyCategory3Question1);
+        $this->em->persist($surveyCategory3Question2);
+        $this->em->persist($surveyCategory3Question3);
+        $this->em->persist($surveyCategory3Question4);
 
+        $this->em->persist($surveyCategory3);
         $this->em->persist($surveyCategory2);
         $this->em->persist($surveyCategory1);
 
