@@ -6,7 +6,6 @@ use App\Controller\ApiController;
 use App\Entity\Result;
 use App\Entity\ResultQuestion;
 use App\Entity\ResultTeamMember;
-use App\Exception\Http\NotFoundException;
 use App\Repository\AreaRepository;
 use App\Repository\DirectionRepository;
 use App\Repository\EntityRepository;
@@ -19,7 +18,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 
 class ResultController extends ApiController
 {
@@ -128,42 +126,48 @@ class ResultController extends ApiController
             return ['message' => "The parameter `resultBestPracticePhoto` should be specified."];
         }
 
-        $result = new Result();
-        $result->setDate(new \DateTime());
-        $result->setPlace($data['resultPlace']);
-        $result->setClient($data['resultClient']);
-        $result->setValidated($data['resultValidated']);
-        $result->setBestPracticeDone($data['resultBestPracticeDone']);
-        $result->setBestPracticeComment($data['resultBestPracticeComment']);
-        $result->setBestPracticePhoto($data['resultBestPracticePhoto']);
-        $result->setSurvey($this->surveyRepository->find($data['resultSurveyId']));
-        $result->setUser($this->userRepository->find($data['resultUserId']));
-        $result->setDirection($this->directionRepository->find($data['resultDirectionId']));
-        $result->setArea($this->areaRepository->find($data['resultAreaId']));
-        $result->setEntity($this->entityRepository->find($data['resultEntityId']));
 
-        foreach ( $data['resultQuestion'] as $resultQuestionValue ){
+            $result = new Result();
+            $result->setDate(new \DateTime());
+            $result->setPlace($data['resultPlace']);
+            $result->setClient($data['resultClient']);
+            $result->setValidated($data['resultValidated']);
+            $result->setBestPracticeDone($data['resultBestPracticeDone']);
+            $result->setBestPracticeComment($data['resultBestPracticeComment']);
+            $result->setBestPracticePhoto($data['resultBestPracticePhoto']);
+            $result->setSurvey($this->surveyRepository->find($data['resultSurveyId']));
+            $result->setUser($this->userRepository->find($data['resultUserId']));
+            $result->setDirection($this->directionRepository->find($data['resultDirectionId']));
+            $result->setArea($this->areaRepository->find($data['resultAreaId']));
+            $result->setEntity($this->entityRepository->find($data['resultEntityId']));
 
-            $resultQuestion = new ResultQuestion();
-            $resultQuestion->setComment($resultQuestionValue['resultQuestionResultComment']);
-            $resultQuestion->setNotation($resultQuestionValue['resultQuestionResultNotation']);
-            $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
+            foreach ( $data['resultQuestion'] as $resultQuestionValue ){
 
-            $result->addQuestion($resultQuestion);
-        }
+                $resultQuestion = new ResultQuestion();
+                $resultQuestion->setComment($resultQuestionValue['resultQuestionResultComment']);
+                $resultQuestion->setNotation($resultQuestionValue['resultQuestionResultNotation']);
+                $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
 
-        foreach ( $data['resultTeamMember'] as $resultTeamMemberValue ){
+                $result->addQuestion($resultQuestion);
+            }
 
-            $resultTeamMember= new ResultTeamMember();
-            $resultTeamMember->setFirstName($resultTeamMemberValue['resultTeamMemberFirstName']);
-            $resultTeamMember->setLastName($resultTeamMemberValue['resultTeamMemberLastName']);
-            $resultTeamMember->setRole($resultTeamMemberValue['resultTeamMemberRole']);
+            foreach ( $data['resultTeamMember'] as $resultTeamMemberValue ){
 
-            $result->addTeamMember($resultTeamMember);
-        }
+                $resultTeamMember= new ResultTeamMember();
+                $resultTeamMember->setFirstName($resultTeamMemberValue['resultTeamMemberFirstName']);
+                $resultTeamMember->setLastName($resultTeamMemberValue['resultTeamMemberLastName']);
+                $resultTeamMember->setRole($resultTeamMemberValue['resultTeamMemberRole']);
 
-        $this->em->persist($result);
-        $this->em->flush();
+                $result->addTeamMember($resultTeamMember);
+            }
+
+            $this->em->persist($result);
+            $this->em->flush();
+
+            if(!$this->em->contains($result)){
+
+                return new JsonResponse(["message" => "NOT SAVED"], 400);
+            }
 
         $responseArray = $this->resultRepository->getResultResponse($result->getId());
 
@@ -182,7 +186,7 @@ class ResultController extends ApiController
         if(empty($data)){
             $message = ['message' => "The JSON sent contains invalid data or empty"];
 
-            return new JsonResponse($message, 200);
+            return new JsonResponse($message, 400);
         }
 
         $result = $this->resultRepository->getResultByID($data['resultId']);
@@ -216,6 +220,11 @@ class ResultController extends ApiController
 
         $this->em->persist($result);
         $this->em->flush();
+
+        if(!$this->em->contains($result)){
+
+            return new JsonResponse(["message" => "NOT UPDATED"], 400);
+        }
 
         $responseArray = $this->resultRepository->getResultResponse($result->getId());
 

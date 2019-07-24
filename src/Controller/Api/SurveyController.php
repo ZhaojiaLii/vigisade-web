@@ -58,7 +58,7 @@ class SurveyController extends ApiController
                 'code' => '400',
                 'message' => 'The user is not related to any direction'];
 
-            return new JsonResponse($message, 200);
+            return new JsonResponse($message, 400);
         }
 
 
@@ -71,7 +71,7 @@ class SurveyController extends ApiController
                 'code' => '400',
                 'message' => 'The direction of this user is not related to any questionnaire'];
 
-            return new JsonResponse($message, 200);
+            return new JsonResponse($message, 400);
         }
 
         $responseArray = [

@@ -103,9 +103,9 @@ class UserController extends ApiController
         $data = json_decode($request->getContent(), true);
 
         if (empty($data)) {
-            $message = ['message' => 'Data empty'];
+            $message = ['message' => 'The JSON sent contains invalid data or empty'];
 
-            return new JsonResponse($message, 200);
+            return new JsonResponse($message, 400);
         }
 
         $user = ApiController::getUser();
@@ -143,9 +143,9 @@ class UserController extends ApiController
         $data = json_decode($request->getContent(), true);
 
         if (empty($data)) {
-            $message = ['message' => 'Data empty'];
+            $message = ['message' => 'The JSON sent contains invalid data or empty'];
 
-            return new JsonResponse($message, 200);
+            return new JsonResponse($message, 400);
         }
 
         $user = new User();
