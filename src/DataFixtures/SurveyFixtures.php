@@ -33,7 +33,7 @@ class SurveyFixtures extends Fixture
     {
         //$direction
         $direction = new Direction();
-        $direction->setName('direction 1');
+        $direction->setName('France');
         $direction->setEtat(1);
 
         //$survey
@@ -46,26 +46,26 @@ class SurveyFixtures extends Fixture
         //$surveyTranslationFr
         $surveyTranslationFr = new SurveyTranslation();
         $surveyTranslationFr->setTranslatable($survey);
-        $surveyTranslationFr->setBestPracticeHelp('Best Practice help FR');
-        $surveyTranslationFr->setBestPracticeLabel('Best Practice Label FR');
+        $surveyTranslationFr->setBestPracticeHelp('Avez-vous identifié  une pratique remarquable au cours de cette visite ?');
+        $surveyTranslationFr->setBestPracticeLabel('Un ensemble de comportements qui font consensus et qui sont considérés comme indispensables par la plupart des professionnels du domaine');
         $surveyTranslationFr->setLocale('fr');
-        $surveyTranslationFr->setTitle('titre survey FR');
+        $surveyTranslationFr->setTitle('VIGISADE FR');
 
         //$surveyTranslationEn
         $surveyTranslationEn = new SurveyTranslation();
         $surveyTranslationEn->setTranslatable($survey);
-        $surveyTranslationEn->setBestPracticeHelp('Best Practice help EN');
-        $surveyTranslationEn->setBestPracticeLabel('Best Practice Label EN');
+        $surveyTranslationEn->setBestPracticeHelp('Did you identify a remarkable practice during this visit?');
+        $surveyTranslationEn->setBestPracticeLabel('A set of behaviours that are widely accepted and considered essential by most professionals in the field');
         $surveyTranslationEn->setLocale('en');
-        $surveyTranslationEn->setTitle('titre survey EN');
+        $surveyTranslationEn->setTitle('VIGISADE EN');
 
         //$surveyTranslationEs
         $surveyTranslationEs = new SurveyTranslation();
         $surveyTranslationEs->setTranslatable($survey);
-        $surveyTranslationEs->setBestPracticeHelp('Best Practice help ES');
-        $surveyTranslationEs->setBestPracticeLabel('Best Practice Label ES');
+        $surveyTranslationEs->setBestPracticeHelp('¿Identificó una práctica notable durante esta visita?');
+        $surveyTranslationEs->setBestPracticeLabel('Un conjunto de comportamientos que son ampliamente aceptados y considerados esenciales por la mayoría de los profesionales del sector');
         $surveyTranslationEs->setLocale('es');
-        $surveyTranslationEs->setTitle('titre survey ES');
+        $surveyTranslationEs->setTitle('VIGISADE ES');
 
         /*
          * Category 1 Visite
