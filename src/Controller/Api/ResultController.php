@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\ApiController;
+use App\Entity\CorrectiveAction;
 use App\Entity\Result;
 use App\Entity\ResultQuestion;
 use App\Entity\ResultTeamMember;
@@ -13,6 +14,7 @@ use App\Repository\ResultQuestionRepository;
 use App\Repository\ResultRepository;
 use App\Repository\ResultTeamMemberRepository;
 use App\Repository\SurveyRepository;
+use App\Repository\SurveyQuestionRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,6 +32,7 @@ class ResultController extends ApiController
     private $resultRepository;
     private $resultQuestionRepository;
     private $resultTeamMemberRepository;
+    private $surveyQuestionRepository;
 
     const RESULT = "RESULT";
 
@@ -44,6 +47,7 @@ class ResultController extends ApiController
      * @param ResultRepository $resultRepository
      * @param ResultQuestionRepository $resultQuestionRepository
      * @param ResultTeamMemberRepository $resultTeamMemberRepository
+     * @param SurveyQuestionRepository $surveyQuestionRepository
      */
     public function __construct (
         EntityManagerInterface $em,
@@ -54,7 +58,8 @@ class ResultController extends ApiController
         EntityRepository $entityRepository,
         ResultRepository $resultRepository,
         ResultQuestionRepository $resultQuestionRepository,
-        ResultTeamMemberRepository $resultTeamMemberRepository
+        ResultTeamMemberRepository $resultTeamMemberRepository,
+        SurveyQuestionRepository $surveyQuestionRepository
     )
     {
         $this->em = $em;
@@ -66,6 +71,7 @@ class ResultController extends ApiController
         $this->resultRepository = $resultRepository;
         $this->resultQuestionRepository = $resultQuestionRepository;
         $this->resultTeamMemberRepository = $resultTeamMemberRepository;
+        $this->SurveyQuestionRepository = $surveyQuestionRepository;
     }
 
     /**
@@ -126,48 +132,70 @@ class ResultController extends ApiController
             return ['message' => "The parameter `resultBestPracticePhoto` should be specified."];
         }
 
+        // save Result
+        $result = new Result();
+        $result->setDate(new \DateTime());
+        $result->setPlace($data['resultPlace']);
+        $result->setClient($data['resultClient']);
+        $result->setValidated($data['resultValidated']);
+        $result->setBestPracticeDone($data['resultBestPracticeDone']);
+        $result->setBestPracticeComment($data['resultBestPracticeComment']);
+        $result->setBestPracticePhoto($data['resultBestPracticePhoto']);
+        $result->setSurvey($this->surveyRepository->find($data['resultSurveyId']));
+        $result->setUser($this->userRepository->find($data['resultUserId']));
+        $result->setDirection($this->directionRepository->find($data['resultDirectionId']));
+        $result->setArea($this->areaRepository->find($data['resultAreaId']));
+        $result->setEntity($this->entityRepository->find($data['resultEntityId']));
 
-            $result = new Result();
-            $result->setDate(new \DateTime());
-            $result->setPlace($data['resultPlace']);
-            $result->setClient($data['resultClient']);
-            $result->setValidated($data['resultValidated']);
-            $result->setBestPracticeDone($data['resultBestPracticeDone']);
-            $result->setBestPracticeComment($data['resultBestPracticeComment']);
-            $result->setBestPracticePhoto($data['resultBestPracticePhoto']);
-            $result->setSurvey($this->surveyRepository->find($data['resultSurveyId']));
-            $result->setUser($this->userRepository->find($data['resultUserId']));
-            $result->setDirection($this->directionRepository->find($data['resultDirectionId']));
-            $result->setArea($this->areaRepository->find($data['resultAreaId']));
-            $result->setEntity($this->entityRepository->find($data['resultEntityId']));
+        foreach ( $data['resultQuestion'] as $resultQuestionValue ){
 
-            foreach ( $data['resultQuestion'] as $resultQuestionValue ){
+            $resultQuestion = new ResultQuestion();
+            $resultQuestion->setComment($resultQuestionValue['resultQuestionResultComment']);
+            $resultQuestion->setNotation($resultQuestionValue['resultQuestionResultNotation']);
+            $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
+            $resultQuestion->setQuestion($this->SurveyQuestionRepository->find($resultQuestionValue['resultQuestionResultQuestionId']));
+            $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
 
-                $resultQuestion = new ResultQuestion();
-                $resultQuestion->setComment($resultQuestionValue['resultQuestionResultComment']);
-                $resultQuestion->setNotation($resultQuestionValue['resultQuestionResultNotation']);
-                $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
+            $result->addQuestion($resultQuestion);
+        }
 
-                $result->addQuestion($resultQuestion);
+        foreach ( $data['resultTeamMember'] as $resultTeamMemberValue ){
+
+            $resultTeamMember= new ResultTeamMember();
+            $resultTeamMember->setFirstName($resultTeamMemberValue['resultTeamMemberFirstName']);
+            $resultTeamMember->setLastName($resultTeamMemberValue['resultTeamMemberLastName']);
+            $resultTeamMember->setRole($resultTeamMemberValue['resultTeamMemberRole']);
+
+            $result->addTeamMember($resultTeamMember);
+        }
+
+        $this->em->persist($result);
+        $this->em->flush();
+
+        // if notation = 4 we create corrective action
+        $resultQuestions = $this->em
+            ->getRepository(ResultQuestion::class)
+            ->findBy(['result' => $result->getId()]);
+
+        foreach ($resultQuestions as $resultQuestion){
+
+            if($resultQuestion->getNotation() === 4){
+                $correctiveAction = new CorrectiveAction();
+                $correctiveAction->setUser($this->getUser());
+                $correctiveAction->setStatus('A traiter');
+                $correctiveAction->setQuestion($this->SurveyQuestionRepository->find($resultQuestion->getQuestion()->getId()));
+                $correctiveAction->setResult($this->resultRepository->find($resultQuestion->getResult()->getId()));
+
+                $this->em->persist($correctiveAction);
+
             }
-
-            foreach ( $data['resultTeamMember'] as $resultTeamMemberValue ){
-
-                $resultTeamMember= new ResultTeamMember();
-                $resultTeamMember->setFirstName($resultTeamMemberValue['resultTeamMemberFirstName']);
-                $resultTeamMember->setLastName($resultTeamMemberValue['resultTeamMemberLastName']);
-                $resultTeamMember->setRole($resultTeamMemberValue['resultTeamMemberRole']);
-
-                $result->addTeamMember($resultTeamMember);
-            }
-
-            $this->em->persist($result);
             $this->em->flush();
+        }
 
-            if(!$this->em->contains($result)){
+        if(!$this->em->contains($result)){
 
-                return new JsonResponse(["message" => "NOT SAVED"], 400);
-            }
+            return new JsonResponse(["message" => "NOT SAVED"], 400);
+        }
 
         $responseArray = $this->resultRepository->getResultResponse($result->getId());
 
