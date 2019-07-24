@@ -40,8 +40,8 @@ class SurveyFixtures extends Fixture
         $survey = new Survey();
         $survey->setDirection($direction);
         $survey->setUpdatedAt(new \DateTime());
-        $survey->setTeam(1);
-        $survey->setCountTeam(5);
+        $survey->setTeam(2);
+        $survey->setCountTeam(1);
 
         //$surveyTranslationFr
         $surveyTranslationFr = new SurveyTranslation();
@@ -175,7 +175,7 @@ class SurveyFixtures extends Fixture
         $surveyQuestion3TranslationEs->setLocale('es');
         $surveyQuestion3TranslationEs->setHelp('');
         $surveyQuestion3TranslationEs->setLabel('Materialización de la huella de las redes concesionarias');
-        
+    
         //$surveyQuestion4
         $surveyQuestion4 = new SurveyQuestion();
         $surveyQuestion4->setCategory($surveyCategory1);
@@ -201,7 +201,8 @@ class SurveyFixtures extends Fixture
         $surveyQuestion4TranslationEs->setTranslatable($surveyQuestion4);
         $surveyQuestion4TranslationEs->setLocale('es');
         $surveyQuestion4TranslationEs->setHelp('');
-        $surveyQuestion4TranslationEs->setLabel('Situación peligrosa identificada');
+        $surveyQuestion4TranslationEs->setLabel('Situación peligrosa identificada'); 
+        
 
         /*
          * Category 2 Security
@@ -365,6 +366,10 @@ class SurveyFixtures extends Fixture
 
         $this->em->persist($surveyQuestion3TranslationFr);
         $this->em->persist($surveyQuestion3TranslationEn);
+        $this->em->persist($surveyQuestion3TranslationEs);
+        
+        $this->em->persist($surveyQuestion4TranslationFr);
+        $this->em->persist($surveyQuestion4TranslationEn);
         $this->em->persist($surveyQuestion3TranslationEs);
 
         //$surveyRubrique2QuestionTranslation
