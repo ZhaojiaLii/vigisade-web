@@ -31,7 +31,7 @@ class UserFixtures extends BaseFixture
             $user->setActif($this->faker->boolean);
             return $user;
         });
-        $this->createMany(10, 'main_users_manager', function($i) use ($manager) {
+        $this->createMany(3, 'main_users_manager', function($i) use ($manager) {
             $user = new User();
             $user->setEmail(sprintf('manager_%d@gmail.com', $i));
             $user->setFirstName($this->faker->firstName);
@@ -45,7 +45,7 @@ class UserFixtures extends BaseFixture
             $user->setActif($this->faker->boolean);
             return $user;
         });
-        $this->createMany(10, 'admin_users_conducteur', function($i) {
+        $this->createMany(3, 'admin_users_conducteur', function($i) {
             $user = new User();
             $user->setEmail(sprintf('conducteur_%d@gmail.com', $i));
             $user->setFirstName($this->faker->firstName);
