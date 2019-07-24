@@ -53,4 +53,31 @@ class UserController extends EasyAdminController
 
         parent::updateEntity($entity);
     }
+
+    public function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    {
+        $response =  parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+
+        if ($sortField) {
+            if ($sortField == 'entity') {
+                $response->leftJoin('entity.entity', 'e');
+                $response->orderBy('e.name', $sortDirection ?: 'DESC');
+            }
+        }
+
+        return $response;
+    }
+
+    public function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = null, $sortDirection = null, $dqlFilter = null)
+    {
+        $response =  parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
+
+        if ($searchQuery) {
+            $response->leftJoin('entity.entity', 'e');
+            $response->orWhere('e.name LIKE :search');
+            $response->setParameter('search', $searchQuery);
+        }
+
+        return $response;
+    }
 }
