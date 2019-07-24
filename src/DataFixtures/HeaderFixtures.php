@@ -12,8 +12,8 @@ class HeaderFixtures extends Fixture
     {
         $header = new Header();
         $header->setImage('');
-        $header->setLogoText('Ceci est un texte Header.');
-        $header->setNews('On sait depuis longtemps que travailler avec du texte lisible e..');
+        $header->setLogoText('Header - Page Accueil');
+        $header->setNews('Dans le cadre de la gestion dynamique des réseaux d’assainissement de sa région, le SIVOM Région Mulhouse a confié à la SADE la mise en place d’ouvrages de régulation. Les travaux comprendront : cuvelage étanche, blindage, dévoiement gravitaire de réseaux, construction et pose à la grue d’ouvrages de régulation (GECITEC, filiale SADE) et de réseaux secs de liaison, travaux d’électromécanique (CIEMA, filiale SADE).');
         $header->setUpdatedAt(new \DateTime());
 
         $manager->persist($header);
