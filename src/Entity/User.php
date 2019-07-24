@@ -107,6 +107,14 @@ class User implements UserInterface
      */
     private $language;
 
+    /**
+     * Plain password. Used for model validation. Must not be persisted.
+     *
+     * @var string
+     * @Assert\Length(min=8,max=4096)
+     */
+    private $plainPassword;
+
     public function __construct()
     {
         $this->results = new ArrayCollection();
@@ -174,6 +182,22 @@ class User implements UserInterface
     public function getSalt()
     {
         // not needed for apps that do not check user passwords
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
     }
 
     /**

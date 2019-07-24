@@ -114,11 +114,35 @@ easy_admin:
             controller: App\Controller\Admin\UserController
             password_encoding: { algorithm: 'auto' }
             disabled_actions: ['show', 'delete']
-            form: # 'form' is applied to both 'new' and 'edit' views
+            edit: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { type: 'group', columns: 5, label: 'User Details', icon: 'user' }
                     - { property: 'email', type: 'email' }
-                    - { property: 'password', type: 'password', help: 'Passwords must have at least 8 characters'}
+                    - { property: 'plainPassword', label: 'Password', type: 'password', help: 'Passwords must have at least 8 characters'}
+                    - { property: 'firstname' }
+                    - { property: 'lastname' }
+                    - { property: 'imageFile', type: 'vich_image', css_class: '' }
+                    - { type: 'group', columns: 7, label: 'Direction - Area - Entity', icon: 'network-wired' }
+                    - { property: 'direction' }
+                    - { property: 'area' }
+                    - { property: 'entity' }
+                    - { type: 'section', label: 'Role & status', icon: 'minus-square',
+                        help: 'Role is preferred'}
+                    - { property: 'roles', type: 'choice', type_options: {
+                        multiple: true,
+                        expanded: false,
+                        mapped: true,
+                        choices: {
+                            'ROLE_CONDUCTEUR': 'ROLE_CONDUCTEUR',
+                            'ROLE_MANAGER': 'ROLE_MANAGER',
+                            'ROLE_ADMIN': 'ROLE_ADMIN'
+                        }}}
+                    - { property: 'actif'}
+            new: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { type: 'group', columns: 5, label: 'User Details', icon: 'user' }
+                    - { property: 'email', type: 'email' }
+                    - { property: 'plainPassword', label: 'Password', type: 'password', help: 'Passwords must have at least 8 characters', type_options: { required: true}}
                     - { property: 'firstname' }
                     - { property: 'lastname' }
                     - { property: 'imageFile', type: 'vich_image', css_class: '' }
