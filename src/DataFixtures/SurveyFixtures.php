@@ -40,7 +40,7 @@ class SurveyFixtures extends Fixture
         $survey = new Survey();
         $survey->setDirection($direction);
         $survey->setUpdatedAt(new \DateTime());
-        $survey->setTeam(2);
+        $survey->setTeam(0);
         $survey->setCountTeam(1);
 
         //$surveyTranslationFr
@@ -186,21 +186,21 @@ class SurveyFixtures extends Fixture
         $surveyQuestion4TranslationFr = new SurveyQuestionTranslation();
         $surveyQuestion4TranslationFr->setTranslatable($surveyQuestion4);
         $surveyQuestion4TranslationFr->setLocale('fr');
-        $surveyQuestion4TranslationFr->setHelp('');
+        $surveyQuestion4TranslationFr->setHelp('Ex : Tranchée non blindée, absence de garde-corps, crochet de levage défectueux, ......');
         $surveyQuestion4TranslationFr->setLabel('Situation dangereuse identifiée');
 
         //$surveyQuestion4TranslationEn
         $surveyQuestion4TranslationEn = new SurveyQuestionTranslation();
         $surveyQuestion4TranslationEn->setTranslatable($surveyQuestion4);
         $surveyQuestion4TranslationEn->setLocale('en');
-        $surveyQuestion4TranslationEn->setHelp('');
+        $surveyQuestion4TranslationEn->setHelp('Ex: Unshielded trench, absence of guardrails, defective lifting hook,...');
         $surveyQuestion4TranslationEn->setLabel('Hazardous situation identified');
 
         //$surveyQuestion4TranslationEs
         $surveyQuestion4TranslationEs = new SurveyQuestionTranslation();
         $surveyQuestion4TranslationEs->setTranslatable($surveyQuestion4);
         $surveyQuestion4TranslationEs->setLocale('es');
-        $surveyQuestion4TranslationEs->setHelp('');
+        $surveyQuestion4TranslationEs->setHelp('Ej: Zanja sin blindaje, ausencia de barandillas, gancho de elevación defectuoso,...');
         $surveyQuestion4TranslationEs->setLabel('Situación peligrosa identificada'); 
         
 
@@ -216,19 +216,19 @@ class SurveyFixtures extends Fixture
 
         //$surveyCategory2TranslationFr
         $surveyCategory2TranslationFr = new SurveyCategoryTranslation();
-        $surveyCategory2TranslationFr->setTitle('Securite fr');
+        $surveyCategory2TranslationFr->setTitle('Qualité');
         $surveyCategory2TranslationFr->setLocale('fr');
         $surveyCategory2TranslationFr->setTranslatable($surveyCategory2);
 
         //$surveyCategory2TranslationEn
         $surveyCategory2TranslationEn = new SurveyCategoryTranslation();
-        $surveyCategory2TranslationEn->setTitle('Security En');
+        $surveyCategory2TranslationEn->setTitle('Quality');
         $surveyCategory2TranslationEn->setLocale('en');
         $surveyCategory2TranslationEn->setTranslatable($surveyCategory2);
 
         //$surveyCategory2TranslationEs
         $surveyCategory2TranslationEs = new SurveyCategoryTranslation();
-        $surveyCategory2TranslationEs->setTitle('seguridad Es');
+        $surveyCategory2TranslationEs->setTitle('Cualidad');
         $surveyCategory2TranslationEs->setLocale('es');
         $surveyCategory2TranslationEs->setTranslatable($surveyCategory2);
 
@@ -237,28 +237,28 @@ class SurveyFixtures extends Fixture
         $surveyCategory2Question1 = new SurveyQuestion();
         $surveyCategory2Question1->setCategory($surveyCategory2);
         $surveyCategory2Question1->setQuestionOrder(1);
-        $surveyCategory2Question1->setQuestionType('Equipe');
+        $surveyCategory2Question1->setQuestionType('Général');
 
         //$surveyCategory2Question1TranslationFr
         $surveyCategory2Question1TranslationFr = new SurveyQuestionTranslation();
         $surveyCategory2Question1TranslationFr->setTranslatable($surveyCategory2Question1);
         $surveyCategory2Question1TranslationFr->setLocale('fr');
-        $surveyCategory2Question1TranslationFr->setHelp('help category Securite question 1 FR');
-        $surveyCategory2Question1TranslationFr->setLabel('label category Securite question 1 FR');
+        $surveyCategory2Question1TranslationFr->setHelp('FIC, DICT, analyse de risques (PPSPS, PP, PPE), plan d exécution, arrêté de voirie, affichages réglementaires, modes opératoires, .....');
+        $surveyCategory2Question1TranslationFr->setLabel('Documents');
 
         //$surveyCategory2Question1TranslationEn
         $surveyCategory2Question1TranslationEn = new SurveyQuestionTranslation();
         $surveyCategory2Question1TranslationEn->setTranslatable($surveyCategory2Question1);
         $surveyCategory2Question1TranslationEn->setLocale('en');
-        $surveyCategory2Question1TranslationEn->setHelp('help category Security question 1 EN');
-        $surveyCategory2Question1TranslationEn->setLabel('label category Security question 1 EN');
+        $surveyCategory2Question1TranslationEn->setHelp('FIC, DICT, risk analysis (PPSPS, PP, PPE), execution plan, road order, regulatory displays, operating procedures, etc.');
+        $surveyCategory2Question1TranslationEn->setLabel('Documents');
 
         //$surveyCategory2Question1TranslationEs
         $surveyCategory2Question1TranslationEs = new SurveyQuestionTranslation();
         $surveyCategory2Question1TranslationEs->setTranslatable($surveyCategory2Question1);
         $surveyCategory2Question1TranslationEs->setLocale('es');
-        $surveyCategory2Question1TranslationEs->setHelp('help category seguridad question 1 ES');
-        $surveyCategory2Question1TranslationEs->setLabel('label category seguridad question 1 ES');
+        $surveyCategory2Question1TranslationEs->setHelp('FIC, DICT, análisis de riesgos (PPSPSPS, PP, PPE), plan de ejecución, orden de marcha, visualizaciones reglamentarias, procedimientos operativos, etc.');
+        $surveyCategory2Question1TranslationEs->setLabel('Documentos');
 
         //$surveyCategory2Question2
         $surveyCategory2Question2 = new SurveyQuestion();
@@ -270,22 +270,22 @@ class SurveyFixtures extends Fixture
         $surveyCategory2Question2TranslationFr = new SurveyQuestionTranslation();
         $surveyCategory2Question2TranslationFr->setTranslatable($surveyCategory2Question2);
         $surveyCategory2Question2TranslationFr->setLocale('fr');
-        $surveyCategory2Question2TranslationFr->setHelp('help category Securite question 2 FR');
-        $surveyCategory2Question2TranslationFr->setLabel('label category Securite question 2 FR');
+        $surveyCategory2Question2TranslationFr->setHelp('Rapport de chantier, registres, fiches de contrôle, fiche communication...');
+        $surveyCategory2Question2TranslationFr->setLabel('Traçabilité du chantier');
 
         //$surveyCategory2Question2TranslationEn
         $surveyCategory2Question2TranslationEn = new SurveyQuestionTranslation();
         $surveyCategory2Question2TranslationEn->setTranslatable($surveyCategory2Question2);
         $surveyCategory2Question2TranslationEn->setLocale('en');
-        $surveyCategory2Question2TranslationEn->setHelp('help category Security question 2 EN');
-        $surveyCategory2Question2TranslationEn->setLabel('label category Security question 2 EN');
+        $surveyCategory2Question2TranslationEn->setHelp('Site report, registers, control sheets, communication sheet...');
+        $surveyCategory2Question2TranslationEn->setLabel('Traceability of the site');
 
         //$surveyCategory2Question2TranslationEs
         $surveyCategory2Question2TranslationEs = new SurveyQuestionTranslation();
         $surveyCategory2Question2TranslationEs->setTranslatable($surveyCategory2Question2);
         $surveyCategory2Question2TranslationEs->setLocale('es');
-        $surveyCategory2Question2TranslationEs->setHelp('help category seguridad question 2 ES');
-        $surveyCategory2Question2TranslationEs->setLabel('label category seguridad question 2 ES');
+        $surveyCategory2Question2TranslationEs->setHelp('Informe de sitio, registros, hojas de control, hoja de comunicación...');
+        $surveyCategory2Question2TranslationEs->setLabel('Trazabilidad del sitio');
 
         /*
          * Category 3 Qualite
