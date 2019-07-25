@@ -34,7 +34,7 @@ class ResultQuestionRepository extends ServiceEntityRepository
             $responseArray[] = [
                 "resultQuestionId" => $question->getId(),
                 "resultQuestionResultId" => $question->getResult()->getId(),
-                "resultQuestionResultQuestionId" => $question->getQuestion(), //null
+                "resultQuestionResultQuestionId" => $question->getQuestion()->getId(),
                 "resultQuestionTeamMemberId" => "##### Member ID######",
                 "resultQuestionResultNotation" => $question->getNotation(),
                 "resultQuestionResultComment" => $question->getComment(),

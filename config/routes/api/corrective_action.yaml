@@ -3,12 +3,7 @@ api.corrective_action.get:
   controller: App\Controller\Api\CorrectiveActionController::getCorrectiveActions
   methods: GET
 
-api.corrective_action.create:
-  path: /create/
-  controller: App\Controller\Api\CorrectiveActionController::createResult
-  methods: POST
-
 api.corrective_action.update:
   path: /update/
-  controller: App\Controller\Api\CorrectiveActionController::updateResult
+  controller: App\Controller\Api\CorrectiveActionController::updateCorrectiveAction
   methods: POST

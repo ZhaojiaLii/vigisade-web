@@ -82,38 +82,11 @@ class CorrectiveActionController extends ApiController
      * @param Request $request
      * @return JsonResponse
      */
-    public function createResult(Request $request)
-    {
-        $data = json_decode($request->getContent(), true);
-
-        $correctiveAction = new CorrectiveAction();
-        $correctiveAction->setUser($this->getUser());
-        $correctiveAction->setStatus($data['status']);
-        $correctiveAction->setQuestion($this->surveyQuestionRepository->getSurveyQuestionByID($data['question_id']));
-        $correctiveAction->setResult($this->resultRepository->getResultByID($data['result_id']));
-        $correctiveAction->setImage($data['image']);
-        $correctiveAction->setCommentQuestion($data['comment_question']);
-
-        $this->em->persist($correctiveAction);
-        $this->em->flush();
-
-        $message = ['message' => 'the corrective action with ID `'.$correctiveAction->getId().'` has been saved .'];
-        return new JsonResponse($message, Response::HTTP_CREATED);
-    }
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function updateResult(Request $request)
+    public function updateCorrectiveAction(Request $request)
     {
         $data = json_decode($request->getContent(), true);
 
         $correctiveAction = $this->correctiveActionRepository->getCorrectiveActionByID($data['id']);
-        $correctiveAction->setUser($this->getUser());
-        $correctiveAction->setStatus($data['status']);
-        $correctiveAction->setQuestion($this->surveyQuestionRepository->getSurveyQuestionByID($data['question_id']));
-        $correctiveAction->setResult($this->resultRepository->getResultByID($data['result_id']));
         $correctiveAction->setImage($data['image']);
         $correctiveAction->setCommentQuestion($data['comment_question']);
 
