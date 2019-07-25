@@ -7,18 +7,20 @@ easy_admin:
         brand_color: '#388ed1'
         #Menu du BO
         menu:
-            - label: 'Management'
-            - { entity: 'Header', label: 'Header and News', icon: 'newspaper' }
-            - { entity: 'Survey', label: 'Survey', icon: 'poll-h' }
-            - label: 'Direction - Area - Entity'
+            - label: 'GÉNÉRAL'
+            - { entity: 'Header', label: 'Gérer les actualités', icon: 'newspaper' }
+            - { entity: 'Survey', label: 'Gérer les questionnaires', icon: 'poll-h' }
+            - label: 'Gérer les directions, les zones et les entités'
               icon: 'network-wired'
               children:
                   - { label: 'Direction', icon: 'network-wired', entity: 'Direction' }
-                  - { label: 'Area', icon: 'project-diagram', entity: 'Area' }
-                  - { label: 'Entity', icon: 'neuter', entity: 'Entity' }
-            - { entity: 'TypeDangerousSituation', label: 'Types of dangerous situations', icon: 'exclamation-circle' }
-            - { entity: 'BestPractice', label: 'Types of Best practice', icon: 'award'}
-            - { entity: 'User', label: 'Users', icon: 'users'}
+                  - { label: 'Zone', icon: 'project-diagram', entity: 'Area' }
+                  - { label: 'Entité', icon: 'neuter', entity: 'Entity' }
+            - { entity: 'User', label: 'Gérer les utilisateurs', icon: 'users'}
+            - label: 'PARAMÈTRES'
+            - { entity: 'TypeDangerousSituation', label: 'Gérer les types de situations dangereuses', icon: 'exclamation-circle' }
+            - { entity: 'BestPractice', label: 'Gérer les types de bonnes pratiques', icon: 'award'}
+
 
     #Action configuration
     list:
