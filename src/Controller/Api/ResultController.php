@@ -84,7 +84,7 @@ class ResultController extends ApiController
         $data = json_decode($request->getContent(), true);
 
         if(empty($data)){
-            return ['message' => "The JSON sent contains invalid data. or empty"];
+            return ['message' => "The JSON sent contains invalid data or empty"];
         }
 
         // check all parameters of data
@@ -147,18 +147,7 @@ class ResultController extends ApiController
         $result->setArea($this->areaRepository->find($data['resultAreaId']));
         $result->setEntity($this->entityRepository->find($data['resultEntityId']));
 
-        foreach ( $data['resultQuestion'] as $resultQuestionValue ){
-
-            $resultQuestion = new ResultQuestion();
-            $resultQuestion->setComment($resultQuestionValue['resultQuestionResultComment']);
-            $resultQuestion->setNotation($resultQuestionValue['resultQuestionResultNotation']);
-            $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
-            $resultQuestion->setQuestion($this->SurveyQuestionRepository->find($resultQuestionValue['resultQuestionResultQuestionId']));
-            $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
-
-            $result->addQuestion($resultQuestion);
-        }
-
+        $memberTeamMapping = []; // we stock id front in array
         foreach ( $data['resultTeamMember'] as $resultTeamMemberValue ){
 
             $resultTeamMember= new ResultTeamMember();
@@ -166,11 +155,36 @@ class ResultController extends ApiController
             $resultTeamMember->setLastName($resultTeamMemberValue['resultTeamMemberLastName']);
             $resultTeamMember->setRole($resultTeamMemberValue['resultTeamMemberRole']);
 
-            $result->addTeamMember($resultTeamMember);
+            $this->em->persist($resultTeamMember);
+            $this->em->flush();
+
+            // we affect the id_Doctrine to array with index id front exemple $memberTeamMapping['idFront'] = idDoctrine
+            $memberTeamMapping[$resultTeamMemberValue['resultTeamMemberId']] = $resultTeamMember->getId();
         }
 
+        foreach ( $data['resultQuestion'] as $resultQuestionValue ){
+
+            if(!empty($memberTeamMapping[$resultQuestionValue['teamMemberId']] )){
+
+                $resultQuestion = new ResultQuestion();
+                $resultQuestion->setComment($resultQuestionValue['resultQuestionResultComment']);
+                $resultQuestion->setNotation($resultQuestionValue['resultQuestionResultNotation']);
+                $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
+                $resultQuestion->setQuestion($this->SurveyQuestionRepository->find($resultQuestionValue['resultQuestionResultQuestionId']));
+                $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
+                $resultQuestion->setTeamMembers($this->resultTeamMemberRepository->find($memberTeamMapping[$resultQuestionValue['teamMemberId']]));
+
+                $result->addQuestion($resultQuestion);
+            }
+        }
         $this->em->persist($result);
         $this->em->flush();
+
+        // setResutl to member
+        foreach ( $memberTeamMapping as $memberTeam) {
+            $member = $this->resultTeamMemberRepository->find($memberTeam);
+            $member->setResult($this->resultRepository->find($resultQuestion->getResult()->getId()));
+        }
 
         // if notation = 4 we create corrective action
         $resultQuestions = $this->em
