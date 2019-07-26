@@ -43,7 +43,7 @@ class DangerousSituationRepository extends ServiceEntityRepository
                 "dangerousSituationDirectionId" => $situationDangerous->getDirection()->getId(),
                 "dangerousSituationAreaId" => $situationDangerous->getArea()->getId(),
                 "dangerousSituationEntityId" => $situationDangerous->getEntity()->getId(),
-                "dangerousSituationDate" => $situationDangerous->getDate(),
+                "dangerousSituationDate" => date_format($situationDangerous->getDate(), 'Y-m-d'),
                 "dangerousSituationComment" => $situationDangerous->getComment(),
                 "dangerousSituationPhoto" => $situationDangerous->getPhoto(),
             ];
