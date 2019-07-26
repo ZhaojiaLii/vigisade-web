@@ -44,6 +44,11 @@ class ResultQuestion
      */
     private $photo;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ResultTeamMember", inversedBy="resultQuestions")
+     */
+    private $teamMembers;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,4 +108,17 @@ class ResultQuestion
         $this->photo = $photo;
         return $this;
     }
+
+    public function getTeamMembers(): ?ResultTeamMember
+    {
+        return $this->teamMembers;
+    }
+
+    public function setTeamMembers(?ResultTeamMember $teamMembers): self
+    {
+        $this->teamMembers = $teamMembers;
+
+        return $this;
+    }
+
 }

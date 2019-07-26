@@ -35,7 +35,7 @@ class ResultQuestionRepository extends ServiceEntityRepository
                 "resultQuestionId" => $question->getId(),
                 "resultQuestionResultId" => $question->getResult()->getId(),
                 "resultQuestionResultQuestionId" => $question->getQuestion()->getId(),
-                "resultQuestionTeamMemberId" => "##### Member ID######",
+                "resultQuestionTeamMemberId" => $question->getTeamMembers()->getId(),
                 "resultQuestionResultNotation" => $question->getNotation(),
                 "resultQuestionResultComment" => $question->getComment(),
                 "resultQuestionResultPhoto" => $question->getPhoto(),

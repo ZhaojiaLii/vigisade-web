@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 
 /**
  * @ORM\Entity()
@@ -16,12 +19,6 @@ class ResultTeamMember
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Result", inversedBy="teamMembers")
-     * @ORM\JoinColumn()
-     */
-    private $result;
 
     /**
      * @ORM\Column(type="text")
@@ -38,6 +35,24 @@ class ResultTeamMember
      */
     private $role;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ResultQuestion", mappedBy="teamMembers")
+     */
+    private $resultQuestions;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Result", inversedBy="teamMembers")
+     */
+    private $result;
+
+    /**
+     * ResultTeamMember constructor.
+     */
+    public function __construct()
+    {
+        $this->resultQuestions = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -46,17 +61,6 @@ class ResultTeamMember
     public function setId($id)
     {
         $this->id = $id;
-        return $this;
-    }
-
-    public function getResult()
-    {
-        return $this->result;
-    }
-
-    public function setResult($result)
-    {
-        $this->result = $result;
         return $this;
     }
 
@@ -92,4 +96,48 @@ class ResultTeamMember
         $this->role = $role;
         return $this;
     }
+
+    /**
+     * @return Collection|ResultQuestion[]
+     */
+    public function getResultQuestions(): Collection
+    {
+        return $this->resultQuestions;
+    }
+
+    public function addResultQuestion(ResultQuestion $resultQuestion): self
+    {
+        if (!$this->resultQuestions->contains($resultQuestion)) {
+            $this->resultQuestions[] = $resultQuestion;
+            $resultQuestion->setTeamMembers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResultQuestion(ResultQuestion $resultQuestion): self
+    {
+        if ($this->resultQuestions->contains($resultQuestion)) {
+            $this->resultQuestions->removeElement($resultQuestion);
+            // set the owning side to null (unless already changed)
+            if ($resultQuestion->getTeamMembers() === $this) {
+                $resultQuestion->setTeamMembers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getResult(): ?Result
+    {
+        return $this->result;
+    }
+
+    public function setResult(?Result $result): self
+    {
+        $this->result = $result;
+
+        return $this;
+    }
+
 }
