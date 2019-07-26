@@ -118,6 +118,9 @@ class ResultRepository extends ServiceEntityRepository
 
                     $responseArray [] = [
                         "resultId" => $result->getId(),
+                        "resultDirection" => $result->getDirection()->getId(),
+                        "resultArea" => $result->getArea()->getId(),
+                        "resultEntity" => $result->getEntity()->getId(),
                         "resultDate" => $result->getDate(),
                         "resultPlace" => $result->getPlace(),
                         "resultClient" => $result->getClient(),
@@ -153,6 +156,8 @@ class ResultRepository extends ServiceEntityRepository
                 $responseArray [] = [
                     "resultId" => $result->getId(),
                     "resultDirection" => $result->getDirection()->getId(),
+                    "resultArea" => $result->getArea()->getId(),
+                    "resultEntity" => $result->getEntity()->getId(),
                     "resultDate" => $result->getDate(),
                     "resultPlace" => $result->getPlace(),
                     "resultClient" => $result->getClient(),
@@ -180,6 +185,8 @@ class ResultRepository extends ServiceEntityRepository
             foreach ($results as $result) {
                 $responseArray [] = [
                     "resultId" => $result->getId(),
+                    "resultDirection" => $result->getDirection()->getId(),
+                    "resultArea" => $result->getArea()->getId(),
                     "resultEntity" => $result->getEntity()->getId(),
                     "resultDate" => $result->getDate(),
                     "resultPlace" => $result->getPlace(),
