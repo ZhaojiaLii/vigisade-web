@@ -151,6 +151,7 @@ class UserController extends ApiController
         $user = new User();
         $user->setEmail($data['email']);
         $user->setfirstname($data['firstname']);
+        $user->setLastname($data['lastname']);
         $user->setPassword($data['password']);
         $user->setImage($data['image']);
         $user->setLanguage(array_key_exists('language', $data) ? $data['language'] : 'fr');
