@@ -159,6 +159,11 @@ class UserController extends ApiController
         $this->em->persist($user);
         $this->em->flush();
 
-        return new JsonResponse(null, 200);
+        if(!$this->em->contains($user)){
+
+            return new JsonResponse(["message" => "NOT CREATED"], 400);
+        }
+
+        return new JsonResponse([ 'id' => $user->getId()], 201);
     }
 }
