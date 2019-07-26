@@ -82,7 +82,7 @@ class ResultRepository extends ServiceEntityRepository
                 "resultDirectionId" => $result->getDirection()->getId(),
                 "resultAreaId" => $result->getArea()->getId(),
                 "resultEntityId" => $result->getEntity()->getId(),
-                "resultDate" => $result->getDate(),
+                "resultDate" => date_format($result->getDate() , 'Y-m-d'),
                 "resultPlace" => $result->getPlace(),
                 "resultClient" => $result->getClient(),
                 "resultValidated" => $result->getValidated(),

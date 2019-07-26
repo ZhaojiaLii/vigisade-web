@@ -134,7 +134,7 @@ class ResultController extends ApiController
 
         // save Result
         $result = new Result();
-        $result->setDate(new \DateTime());
+        $result->setDate(new \DateTime($data['resultDate']));
         $result->setPlace($data['resultPlace']);
         $result->setClient($data['resultClient']);
         $result->setValidated($data['resultValidated']);
@@ -219,7 +219,7 @@ class ResultController extends ApiController
 
         $result = $this->resultRepository->getResultByID($data['resultId']);
 
-        $result->setDate(new \DateTime());
+        $result->setDate(new \DateTime($data['resultDate']));
         $result->setPlace($data['resultPlace']);
         $result->setClient($data['resultClient']);
         $result->setValidated($data['resultValidated']);
