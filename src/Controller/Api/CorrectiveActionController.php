@@ -89,6 +89,7 @@ class CorrectiveActionController extends ApiController
         $correctiveAction = $this->correctiveActionRepository->getCorrectiveActionByID($data['id']);
         $correctiveAction->setImage($data['image']);
         $correctiveAction->setCommentQuestion($data['comment_question']);
+        $correctiveAction->setStatus($data['status']);
 
         $this->em->persist($correctiveAction);
         $this->em->flush();
