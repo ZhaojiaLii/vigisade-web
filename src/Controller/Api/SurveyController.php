@@ -4,7 +4,6 @@ namespace App\Controller\Api;
 
 use App\Controller\ApiController;
 use App\Entity\Survey;
-use App\Exception\Http\NotFoundException;
 use App\Repository\SurveyCategoryRepository;
 use App\Repository\SurveyTranslationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -76,8 +75,10 @@ class SurveyController extends ApiController
 
         $responseArray = [
             "surveyId" => $survey->getId(),
-            "surveyDirectionId" => $survey->getDirection()->getId(),
-            "surveyTeam" => $survey->getTeam(),
+            "surveyDirectionId" => $survey->getDirection() ? $survey->getDirection()->getId() : null,
+            "surveyAreaId" => $this->getUser()->getArea()? $this->getUser()->getArea()->getId() : null,
+            "surveyEntityId" => $this->getUser()->getEntity() ? $this->getUser()->getEntity()->getId() : null,
+            "surveyTeam" => $survey->getTeam() ? $survey->getTeam() : null,
             "typeBestPractice" => $this->bestPracticeRepository->getAllTypeBestPractice($userLanguage),
             "bestPracticeTranslation" =>
                 $this->surveyTranslationRepository->getBestPracticeTranslation($survey->getId(), $userLanguage),
