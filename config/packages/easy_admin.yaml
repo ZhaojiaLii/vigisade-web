@@ -25,8 +25,8 @@ easy_admin:
     #Action configuration
     list:
         actions:
-            - { name: 'search', icon: 'search', label: 'Search' }
-            - { name: 'new', icon: 'plus-circle', label: 'New' }
+            - { name: 'search', icon: 'search', label: 'Recherche' }
+            - { name: 'new', icon: 'plus-circle', label: 'Nouveau' }
             - { name: 'edit', icon: 'edit', label: '' }
             - { name: 'delete', icon: 'trash', label: '' }
             - { name: 'show', icon: 'eye', label: '' }
@@ -36,23 +36,16 @@ easy_admin:
         #Management Header & News
         Header:
             class: App\Entity\Header
-            disabled_actions: ['new', 'search', 'delete']
+            disabled_actions: ['new', 'search', 'delete', 'show']
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { property: 'logoText', label: 'Text' }
-                    - { property: 'news', type: 'fos_ckeditor' }
-                    - { property: 'logoImage', label: 'Logo', type: 'vich_image', type_options: { allow_delete: false} }
+                    - { property: 'logoText', label: 'Titre' }
+                    - { property: 'news', type: 'fos_ckeditor', label: 'Actualités' }
             list:
                 title: 'List of header'
                 fields:
-                    - { property: 'logoText', label: 'Text' }
-                    - { property: 'news'}
-                    - { property: 'image', type: 'image', base_path: '%app.path.header_images%' }
-            show:
-                fields:
-                    - { property: 'logoText', label: 'Text' }
-                    - { property: 'news'}
-                    - { property: 'image', type: 'image', base_path: '%app.path.header_images%' }
+                    - { property: 'logoText', label: 'Titre' }
+                    - { property: 'news', label: 'Actualités' }
 
         #Management Direction
         Direction:
@@ -60,14 +53,14 @@ easy_admin:
             controller: App\Controller\Admin\DirectionController
             disabled_actions: ['delete']
             list:
-                title: 'List of directions'
+                title: 'Drections'
                 fields:
                     - { property: 'id', label: 'ID' }
-                    - { property: 'name', label: 'Name' }
-                    - { property: 'etat', label: 'Etat' }
+                    - { property: 'name', label: 'Dirdction' }
+                    - { property: 'etat', label: 'Statut' }
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { property: 'name', label: 'Name' }
+                    - { property: 'name', label: 'Nom' }
                     - { property: 'etat', label: 'Actif' }
 
         #Management Area
@@ -75,15 +68,15 @@ easy_admin:
             class: App\Entity\Area
             disabled_actions: ['delete']
             list:
-                title: 'List of areas'
+                title: 'Zones'
                 fields:
                     - { property: 'id', label: 'ID' }
-                    - { property: 'name', label: 'Name' }
+                    - { property: 'name', label: 'Entité' }
                     - { property: 'direction', label: 'Direction' }
-                    - { property: 'etat', label: 'Etat' }
+                    - { property: 'etat', label: 'Statut' }
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { property: 'name', label: 'Name' }
+                    - { property: 'name', label: 'Nom Zone' }
                     - { property: 'direction', label: 'Direction' }
                     - { property: 'etat', label: 'Actif' }
             search:
@@ -95,16 +88,16 @@ easy_admin:
             class: App\Entity\Entity
             disabled_actions: ['delete']
             list:
-                title: 'List of entities'
+                title: 'Entités'
                 fields:
                     - { property: 'id', label: 'ID' }
-                    - { property: 'name', label: 'Name' }
-                    - { property: 'area', label: 'Area' }
+                    - { property: 'name', label: 'Entité' }
+                    - { property: 'area', label: 'Zone' }
                     - { property: 'etat', label: 'Etat' }
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { property: 'name', label: 'Name' }
-                    - { property: 'area', label: 'Area' }
+                    - { property: 'name', label: 'Nom Entité' }
+                    - { property: 'area', label: 'Zone' }
                     - { property: 'etat', label: 'Actif' }
             search:
                 help: null
@@ -114,23 +107,24 @@ easy_admin:
         User:
             class: App\Entity\User
             controller: App\Controller\Admin\UserController
+            label: 'Utilisateurs'
             password_encoding: { algorithm: 'auto' }
             disabled_actions: ['show', 'delete']
             edit: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { type: 'group', columns: 5, label: 'User Details', icon: 'user' }
+                    - { type: 'group', columns: 5, label: 'Informations utilisateur', icon: 'user' }
                     - { property: 'email', type: 'email' }
-                    - { property: 'plainPassword', label: 'Password', type: 'password', help: 'Passwords must have at least 8 characters'}
-                    - { property: 'firstname' }
-                    - { property: 'lastname' }
+                    - { property: 'plainPassword', label: 'Mot de passe', type: 'password', help: 'Le mot de passe doit contenir au moins 8 caractères'}
+                    - { property: 'firstname', label: 'Prénom' }
+                    - { property: 'lastname', label: 'Nom' }
                     - { property: 'imageFile', type: 'vich_image', css_class: '' }
-                    - { type: 'group', columns: 7, label: 'Direction - Area - Entity', icon: 'network-wired' }
-                    - { property: 'direction' }
-                    - { property: 'area' }
-                    - { property: 'entity' }
-                    - { type: 'section', label: 'Role & status', icon: 'minus-square',
-                        help: 'Role is preferred'}
-                    - { property: 'roles', type: 'choice', type_options: {
+                    - { type: 'group', columns: 7, label: 'Direction - Zone - Entité', icon: 'network-wired' }
+                    - { property: 'direction', label: 'Direction' }
+                    - { property: 'area', label: 'Zone' }
+                    - { property: 'entity', label: 'Entité' }
+                    - { type: 'section', label: 'Rôles et Statut', icon: 'minus-square',
+                        help: 'Sélectionnez au moins un rôle'}
+                    - { property: 'roles', label: 'Rôles', type: 'choice', type_options: {
                         multiple: true,
                         expanded: false,
                         mapped: true,
@@ -139,22 +133,22 @@ easy_admin:
                             'ROLE_MANAGER': 'ROLE_MANAGER',
                             'ROLE_ADMIN': 'ROLE_ADMIN'
                         }}}
-                    - { property: 'actif'}
+                    - { property: 'actif', label: 'Actif'}
             new: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { type: 'group', columns: 5, label: 'User Details', icon: 'user' }
+                    - { type: 'group', columns: 5, label: 'Informations utilisateur', icon: 'user' }
                     - { property: 'email', type: 'email' }
-                    - { property: 'plainPassword', label: 'Password', type: 'password', help: 'Passwords must have at least 8 characters', type_options: { required: true}}
-                    - { property: 'firstname' }
-                    - { property: 'lastname' }
+                    - { property: 'plainPassword', label: 'Mot de passe', type: 'password', help: 'Le mot de passe doit contenir au moins 8 caractères', type_options: { required: true}}
+                    - { property: 'firstname', label: 'Prénom' }
+                    - { property: 'lastname', label: 'Nom' }
                     - { property: 'imageFile', type: 'vich_image', css_class: '' }
-                    - { type: 'group', columns: 7, label: 'Direction - Area - Entity', icon: 'network-wired' }
-                    - { property: 'direction' }
-                    - { property: 'area' }
-                    - { property: 'entity' }
-                    - { type: 'section', label: 'Role & status', icon: 'minus-square',
-                        help: 'Role is preferred'}
-                    - { property: 'roles', type: 'choice', type_options: {
+                    - { type: 'group', columns: 7, label: 'Direction - Zone - Entité', icon: 'network-wired' }
+                    - { property: 'direction', label: 'Direction' }
+                    - { property: 'area', label: 'Zone' }
+                    - { property: 'entity', label: 'Entité' }
+                    - { type: 'section', label: 'Rôles et Statut', icon: 'minus-square',
+                        help: 'Sélectionnez au moins un rôle'}
+                    - { property: 'roles', label: 'Rôles', type: 'choice', type_options: {
                         multiple: true,
                         expanded: false,
                         mapped: true,
@@ -163,37 +157,38 @@ easy_admin:
                             'ROLE_MANAGER': 'ROLE_MANAGER',
                             'ROLE_ADMIN': 'ROLE_ADMIN'
                         }}}
-                    - { property: 'actif'}
+                    - { property: 'actif', label: 'Actif'}
             list:
                 fields:
-                    - { property: 'email' }
-                    - { property: 'firstname' }
-                    - { property: 'lastname' }
-                    - { property: 'image', type: 'image', base_path: '%app.path.user_images%' }
-                    - { property: 'actif' }
-                    - { property: 'direction' }
-                    - { property: 'area' }
-                    - { property: 'entity' }
-                    - { property: 'roles'}
+                    - { property: 'email', label: 'Email' }
+                    - { property: 'firstname', label: 'Prénom' }
+                    - { property: 'lastname', label: 'Nom' }
+                    - { property: 'actif', label: 'Statut' }
+                    - { property: 'direction', label: 'Direction' }
+                    - { property: 'area', label: 'Zone' }
+                    - { property: 'entity', label: 'Entité' }
+                    - { property: 'roles', label: 'Rôles'}
             search:
                 help: null
-                fields: ['email', 'firstname', 'lastname', 'image', 'actif', 'direction.name', 'area.name', 'roles']
+                fields: ['email', 'firstname', 'lastname', 'actif', 'direction.name', 'area.name', 'entity.name', 'roles']
 
         #Management Survey
         Survey:
             class: App\Entity\Survey
+            label: 'Formulaire de visite'
+            disabled_actions: ['delete', 'show']
             controller: App\Controller\Admin\SurveyController
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
-                    - { property: 'team', type: 'choice', type_options: {
+                    - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
+                    - { property: 'team', label: 'Equipe Contrôlé', type: 'choice', type_options: {
                         multiple: false,
                         expanded: false,
                         mapped: true,
                         choices: {
+                            'Aucun': 'Aucun',
                             'Equipe': 'Equipe',
-                            'Responsable': 'Responsable',
-                            'Aucun': 'Aucun'
+                            'Responsable': 'Responsable'
                         }}}
                     - { property: 'direction' }
                     - property: 'categories'
@@ -207,42 +202,36 @@ easy_admin:
             list:
                 fields:
                     - { property: 'id' }
-                    - { property: 'title' }
-                    - { property: 'direction' }
-                    - { property: 'team' }
-                    - { property: 'categories' }
-            show:
-                fields:
-                    - { property: 'title' }
-                    - { property: 'direction' }
-                    - { property: 'categories' }
+                    - { property: 'title', label: 'Titre du Formulaire' }
+                    - { property: 'direction', label: 'Direction(s)' }
+                    - { property: 'categories', label: 'Nombre de rubriques' }
 
         #Management Best practice
         BestPractice:
             class: App\Entity\BestPractice
-            disabled_actions: ['delete', 'search']
-            label: 'Best Practice'
+            disabled_actions: ['delete', 'search','show']
+            label: 'Types de bonnes pratiques'
             list:
                 fields:
                   - { property: 'id'}
-                  - { property: 'type' }
-                  - { property: 'status' }
+                  - { property: 'type', label: 'Type' }
+                  - { property: 'status', label: 'Statut' }
             form:
                 fields:
-                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
+                    - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
                     - { property: 'status', label: 'Actif' }
 
         #Management Dangerous Situation
         TypeDangerousSituation:
             class: App\Entity\TypeDangerousSituation
-            disabled_actions: ['delete', 'search']
-            label: 'List of Type Dangerous Situation'
+            disabled_actions: ['delete', 'search','show']
+            label: 'Types de siuations dangereuses'
             list:
                 fields:
                     - { property: 'id'}
-                    - { property: 'type' }
-                    - { property: 'status' }
+                    - { property: 'type', label: 'Type' }
+                    - { property: 'status', label: 'Statut' }
             form:
                 fields:
-                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
-                    - { property: 'status' }
+                    - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
+                    - { property: 'status', label: 'Actif' }
