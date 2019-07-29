@@ -118,13 +118,13 @@ class ResultRepository extends ServiceEntityRepository
 
                     $responseArray [] = [
                         "resultId" => $result->getId(),
-                        "resultDirection" => $result->getDirection()->getId(),
-                        "resultArea" => $result->getArea()->getId(),
-                        "resultEntity" => $result->getEntity()->getId(),
+                        "resultDirection" => $result->getDirection() ? $result->getDirection()->getId() : null,
+                        "resultArea" => $result->getArea() ? $result->getArea()->getId() : null,
+                        "resultEntity" => $result->getEntity() ?  $result->getEntity()->getId() : null,
                         "resultDate" => date_format($result->getDate() , 'Y-m-d'),
                         "resultPlace" => $result->getPlace(),
                         "resultClient" => $result->getClient(),
-                        "resultUserId" => $result->getUser()->getId(),
+                        "resultUserId" => $result->getUser() ? $result->getUser()->getId() : null,
                         "resultValidated" => $result->getValidated(),
                     ];
                 }
@@ -155,21 +155,19 @@ class ResultRepository extends ServiceEntityRepository
             foreach ($results as $result) {
                 $responseArray [] = [
                     "resultId" => $result->getId(),
-                    "resultDirection" => $result->getDirection()->getId(),
-                    "resultArea" => $result->getArea()->getId(),
-                    "resultEntity" => $result->getEntity()->getId(),
+                    "resultDirection" => $result->getDirection() ? $result->getDirection()->getId() : null,
+                    "resultArea" => $result->getArea() ? $result->getArea()->getId() : null,
+                        "resultEntity" => $result->getEntity() ? $result->getEntity()->getId() : null,
                     "resultDate" => date_format($result->getDate() , 'Y-m-d'),
                     "resultPlace" => $result->getPlace(),
                     "resultClient" => $result->getClient(),
-                    "resultUserId" => $result->getUser()->getId(),
+                    "resultUserId" => $result->getUser() ? $result->getUser()->getId() : null,
                     "resultValidated" => $result->getValidated(),
                 ];
             }
 
             return $responseArray;
         }
-
-        //return ['message' => "The direction with name `".$direction."` dont have a results"];
     }
 
     /**
@@ -180,18 +178,18 @@ class ResultRepository extends ServiceEntityRepository
     {
         $results = $this->findBy(['entity' => $entity]);
 
-        if ($results) {
+        if($results){
             $responseArray = [];
             foreach ($results as $result) {
                 $responseArray [] = [
                     "resultId" => $result->getId(),
-                    "resultDirection" => $result->getDirection()->getId(),
-                    "resultArea" => $result->getArea()->getId(),
-                    "resultEntity" => $result->getEntity()->getId(),
+                    "resultDirection" => $result->getDirection() ? $result->getDirection()->getId() : null,
+                    "resultArea" => $result->getArea() ? $result->getArea()->getId() : null,
+                    "resultEntity" => $result->getEntity() ? $result->getEntity()->getId() : null,
                     "resultDate" => date_format($result->getDate() , 'Y-m-d'),
                     "resultPlace" => $result->getPlace(),
                     "resultClient" => $result->getClient(),
-                    "resultUserId" => $result->getUser()->getId(),
+                    "resultUserId" => $result->getUser() ? $result->getUser()->getId() : null,
                     "resultValidated" => $result->getValidated(),
                 ];
             }
@@ -199,6 +197,5 @@ class ResultRepository extends ServiceEntityRepository
             return $responseArray;
         }
 
-        //return ['message' => "This entity with `".$entity."`` dont have a results "];
     }
 }
