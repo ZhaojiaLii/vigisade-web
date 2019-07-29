@@ -42,12 +42,6 @@ class BestPracticeRepository extends ServiceEntityRepository
         $typeBestPratique = $this->em
             ->getRepository(BestPractice::class)->findAll();
 
-        if (!$typeBestPratique) {
-            $message = ['message' => "This type Best practice empty in DB"];
-
-            return new JsonResponse($message, 200);
-        }
-
         $responseArray = [];
         foreach($typeBestPratique as $tbestpratique){
             $responseArray[] = [
