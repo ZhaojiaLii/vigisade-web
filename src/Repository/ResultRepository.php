@@ -77,11 +77,11 @@ class ResultRepository extends ServiceEntityRepository
 
             $responseArray = [
                 "resultId" => $result->getId(),
-                "resultSurveyId" => $result->getSurvey()->getId(),
-                "resultUserId" => $result->getUser()->getId(),
-                "resultDirectionId" => $result->getDirection()->getId(),
-                "resultAreaId" => $result->getArea()->getId(),
-                "resultEntityId" => $result->getEntity()->getId(),
+                "resultSurveyId" => $result->getSurvey() ? $result->getSurvey()->getId() : null ,
+                "resultUserId" => $result->getUser() ? $result->getUser()->getId() : null,
+                "resultDirectionId" => $result->getDirection() ? $result->getDirection()->getId() : null,
+                "resultAreaId" => $result->getArea() ? $result->getArea()->getId() : null ,
+                "resultEntityId" => $result->getEntity() ? $result->getEntity()->getId() : null,
                 "resultDate" => date_format($result->getDate() , 'Y-m-d'),
                 "resultPlace" => $result->getPlace(),
                 "resultClient" => $result->getClient(),
@@ -125,6 +125,8 @@ class ResultRepository extends ServiceEntityRepository
                         "resultPlace" => $result->getPlace(),
                         "resultClient" => $result->getClient(),
                         "resultUserId" => $result->getUser() ? $result->getUser()->getId() : null,
+                        "resultUserfirstName" => $result->getUser() ? $result->getUser()->getFirstname() : null,
+                        "resultUserlastName" => $result->getUser() ? $result->getUser()->getLastname() : null,
                         "resultValidated" => $result->getValidated(),
                     ];
                 }
@@ -162,6 +164,8 @@ class ResultRepository extends ServiceEntityRepository
                     "resultPlace" => $result->getPlace(),
                     "resultClient" => $result->getClient(),
                     "resultUserId" => $result->getUser() ? $result->getUser()->getId() : null,
+                    "resultUserfirstName" => $result->getUser() ? $result->getUser()->getFirstname() : null,
+                    "resultUserlastName" => $result->getUser() ? $result->getUser()->getLastname() : null,
                     "resultValidated" => $result->getValidated(),
                 ];
             }
@@ -190,6 +194,8 @@ class ResultRepository extends ServiceEntityRepository
                     "resultPlace" => $result->getPlace(),
                     "resultClient" => $result->getClient(),
                     "resultUserId" => $result->getUser() ? $result->getUser()->getId() : null,
+                    "resultUserfirstName" => $result->getUser() ? $result->getUser()->getFirstname() : null,
+                    "resultUserlastName" => $result->getUser() ? $result->getUser()->getLastname() : null,
                     "resultValidated" => $result->getValidated(),
                 ];
             }

@@ -33,9 +33,9 @@ class ResultQuestionRepository extends ServiceEntityRepository
         foreach ($questions as $question) {
             $responseArray[] = [
                 "resultQuestionId" => $question->getId(),
-                "resultQuestionResultId" => $question->getResult()->getId(),
-                "resultQuestionResultQuestionId" => $question->getQuestion()->getId(),
-                "resultQuestionTeamMemberId" => $question->getTeamMembers()->getId(),
+                "resultQuestionResultId" => $question->getResult() ? $question->getResult()->getId() : null,
+                "resultQuestionResultQuestionId" => $question->getQuestion() ? $question->getQuestion()->getId() : null,
+                "resultQuestionTeamMemberId" => $question->getTeamMembers() ? $question->getTeamMembers()->getId() : null,
                 "resultQuestionResultNotation" => $question->getNotation(),
                 "resultQuestionResultComment" => $question->getComment(),
                 "resultQuestionResultPhoto" => $question->getPhoto(),

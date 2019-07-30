@@ -191,6 +191,27 @@ class ResultController extends ApiController
 
                 $resultQuestion->setTeamMembers($this->resultTeamMemberRepository->find($memberTeamMapping[$resultQuestionValue['teamMemberId']]));
                 $result->addQuestion($resultQuestion);
+            } else {
+                $resultQuestion = new ResultQuestion();
+                $resultQuestion->setComment($resultQuestionValue['resultQuestionResultComment']);
+                $resultQuestion->setNotation($resultQuestionValue['resultQuestionResultNotation']);
+                $resultQuestion->setQuestion($this->SurveyQuestionRepository->find($resultQuestionValue['resultQuestionResultQuestionId']));
+
+                // get picture with format Base64
+                $imageBase64 = $resultQuestionValue['resultQuestionResultPhoto'];
+
+                //get the path to store image result from service.yaml
+                $path = $this->getParameter('app.path.result_images');
+
+                //this service return the name of picture if uploaded true and return false if picture not uploaded
+                $imageBase64 = $this->uploadImageBase64->UploadImage($imageBase64, __DIR__.'/../../../'.$path);
+
+                if($imageBase64){
+                    $resultQuestion->setPhoto($imageBase64);
+                }
+
+                $resultQuestion->setTeamMembers(null);
+                $result->addQuestion($resultQuestion);
             }
         }
         $this->em->persist($result);
