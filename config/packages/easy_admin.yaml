@@ -170,7 +170,7 @@ easy_admin:
                     - { property: 'roles', label: 'Rôles'}
             search:
                 help: null
-                fields: ['email', 'firstname', 'lastname', 'actif', 'direction.name', 'area.name', 'entity.name', 'roles']
+                fields: ['email', 'firstname', 'lastname', 'actif', 'direction.name', 'area.name', 'roles']
 
         #Management Survey
         Survey:
