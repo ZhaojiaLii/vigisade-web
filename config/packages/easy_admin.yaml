@@ -56,11 +56,11 @@ easy_admin:
                 title: 'Drections'
                 fields:
                     - { property: 'id', label: 'ID' }
-                    - { property: 'name', label: 'Dirdction' }
+                    - { property: 'name', label: 'Direction' }
                     - { property: 'etat', label: 'Statut' }
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { property: 'name', label: 'Nom' }
+                    - { property: 'name', label: 'Nom Direction' }
                     - { property: 'etat', label: 'Actif' }
 
         #Management Area
@@ -71,7 +71,7 @@ easy_admin:
                 title: 'Zones'
                 fields:
                     - { property: 'id', label: 'ID' }
-                    - { property: 'name', label: 'Entité' }
+                    - { property: 'name', label: 'Zone' }
                     - { property: 'direction', label: 'Direction' }
                     - { property: 'etat', label: 'Statut' }
             form: # 'form' is applied to both 'new' and 'edit' views
