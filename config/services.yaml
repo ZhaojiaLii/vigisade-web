@@ -9,6 +9,8 @@ parameters:
     app.path.header_images: /admin/uploads/images/headers
     # path to store images of users
     app.path.user_images: /admin/uploads/images/users
+    # path to store image of result
+    app.path.result_images: public/pwa/uploads/images/result/
 services:
     # default configuration for services in *this* file
     _defaults:
