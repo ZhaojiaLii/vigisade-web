@@ -33,7 +33,7 @@ class SurveyFixtures extends Fixture
     {
         //$direction
         $direction = new Direction();
-        $direction->setName('France');
+        $direction->setName('Test');
         $direction->setEtat(1);
 
         //$survey
@@ -46,8 +46,8 @@ class SurveyFixtures extends Fixture
         //$surveyTranslationFr
         $surveyTranslationFr = new SurveyTranslation();
         $surveyTranslationFr->setTranslatable($survey);
-        $surveyTranslationFr->setBestPracticeHelp('Avez-vous identifié  une pratique remarquable au cours de cette visite ?');
-        $surveyTranslationFr->setBestPracticeLabel('Un ensemble de comportements qui font consensus et qui sont considérés comme indispensables par la plupart des professionnels du domaine');
+        $surveyTranslationFr->setBestPracticeHelp('Un ensemble de comportements qui font consensus et qui sont considérés comme indispensables par la plupart des professionnels du domaine');
+        $surveyTranslationFr->setBestPracticeLabel('Avez-vous identifié  une pratique remarquable au cours de cette visite ?');
         $surveyTranslationFr->setLocale('fr');
         $surveyTranslationFr->setTitle('VIGISADE FR');
 
