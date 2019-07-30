@@ -8,7 +8,6 @@ class UploadImageBase64
         if(preg_match("#^data:image\/(?<extension>(?:png|gif|jpg|jpeg));base64,(?<image>.+)$#", $picture, $matchings)){
             $extension = $matchings['extension'];
             $imageData = base64_decode($matchings['image']);
-            //$data = base64_decode($picture);
             $basename=uniqid();
             $file = $dir . $basename .'.'.$extension;
 
