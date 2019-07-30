@@ -7,6 +7,7 @@ use App\Entity\CorrectiveAction;
 use App\Entity\Result;
 use App\Entity\ResultQuestion;
 use App\Entity\ResultTeamMember;
+use App\Service\UploadImageBase64;
 use App\Repository\AreaRepository;
 use App\Repository\DirectionRepository;
 use App\Repository\EntityRepository;
@@ -33,6 +34,7 @@ class ResultController extends ApiController
     private $resultQuestionRepository;
     private $resultTeamMemberRepository;
     private $surveyQuestionRepository;
+    private $uploadImageBase64;
 
     const RESULT = "RESULT";
 
@@ -48,6 +50,7 @@ class ResultController extends ApiController
      * @param ResultQuestionRepository $resultQuestionRepository
      * @param ResultTeamMemberRepository $resultTeamMemberRepository
      * @param SurveyQuestionRepository $surveyQuestionRepository
+     * @param UploadImageBase64 $uploadImageBase64
      */
     public function __construct (
         EntityManagerInterface $em,
@@ -59,7 +62,8 @@ class ResultController extends ApiController
         ResultRepository $resultRepository,
         ResultQuestionRepository $resultQuestionRepository,
         ResultTeamMemberRepository $resultTeamMemberRepository,
-        SurveyQuestionRepository $surveyQuestionRepository
+        SurveyQuestionRepository $surveyQuestionRepository,
+        UploadImageBase64 $uploadImageBase64
     )
     {
         $this->em = $em;
@@ -72,6 +76,7 @@ class ResultController extends ApiController
         $this->resultQuestionRepository = $resultQuestionRepository;
         $this->resultTeamMemberRepository = $resultTeamMemberRepository;
         $this->SurveyQuestionRepository = $surveyQuestionRepository;
+        $this->uploadImageBase64 = $uploadImageBase64;
     }
 
     /**
@@ -169,11 +174,22 @@ class ResultController extends ApiController
                 $resultQuestion = new ResultQuestion();
                 $resultQuestion->setComment($resultQuestionValue['resultQuestionResultComment']);
                 $resultQuestion->setNotation($resultQuestionValue['resultQuestionResultNotation']);
-                $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
                 $resultQuestion->setQuestion($this->SurveyQuestionRepository->find($resultQuestionValue['resultQuestionResultQuestionId']));
-                $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
-                $resultQuestion->setTeamMembers($this->resultTeamMemberRepository->find($memberTeamMapping[$resultQuestionValue['teamMemberId']]));
 
+                // get picture with format Base64
+                $imageBase64 = $resultQuestionValue['resultQuestionResultPhoto'];
+
+                //get the path to store image result from service.yaml
+                $path = $this->getParameter('app.path.result_images');
+
+                //this service return the name of picture if uploaded true and return false if picture not uploaded
+                $imageBase64 = $this->uploadImageBase64->UploadImage($imageBase64, __DIR__.'/../../../'.$path);
+
+                if($imageBase64){
+                    $resultQuestion->setPhoto($imageBase64);
+                }
+
+                $resultQuestion->setTeamMembers($this->resultTeamMemberRepository->find($memberTeamMapping[$resultQuestionValue['teamMemberId']]));
                 $result->addQuestion($resultQuestion);
             }
         }
