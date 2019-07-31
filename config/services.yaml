@@ -13,6 +13,8 @@ parameters:
     app.path.result_images: public/pwa/uploads/images/result/
     # path to store image of action corrective
     app.path.action_corrective_images: public/pwa/uploads/images/action_corrective/
+    # path to store image of dangerous situation
+    app.path.action_dangerous_situation_images: public/pwa/uploads/images/dangerous_situation/
 services:
     # default configuration for services in *this* file
     _defaults:
