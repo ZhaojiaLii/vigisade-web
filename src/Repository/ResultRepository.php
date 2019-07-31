@@ -86,6 +86,7 @@ class ResultRepository extends ServiceEntityRepository
                 "resultPlace" => $result->getPlace(),
                 "resultClient" => $result->getClient(),
                 "resultValidated" => $result->getValidated(),
+                "resultBestPracticeTypeId" => $result->getBestPracticeType() ? $result->getBestPracticeType()->getId() : null,
                 "resultBestPracticeDone" => $result->getBestPracticeDone(),
                 "resultBestPracticeComment" => $result->getBestPracticeComment(),
                 "resultBestPracticePhoto" => $result->getBestPracticePhoto(),
