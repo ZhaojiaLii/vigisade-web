@@ -108,7 +108,14 @@ class ResultRepository extends ServiceEntityRepository
         $user = $this->userRepository->find($userId);
         $roleUser = $user->getRoles();
 
-        $results = $this->findBy(['user' => $userId]);
+        $results =  $this->createQueryBuilder('r')
+            ->leftJoin('r.user', 'u')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->orderBy('r.date', 'DESC')
+            ->orderBy('r.validated', 'ASC')
+            ->getQuery()
+            ->getResult();
 
         if ($results) {
             $responseArray = [];
@@ -150,7 +157,14 @@ class ResultRepository extends ServiceEntityRepository
      */
     public function getResultsByDirection($direction)
     {
-        $results = $this->findBy(['direction' => $direction]);
+        $results =  $this->createQueryBuilder('r')
+            ->leftJoin('r.direction', 'd')
+            ->andWhere('d.id = :direction')
+            ->setParameter('direction', $direction)
+            ->orderBy('r.date', 'DESC')
+            ->orderBy('r.validated', 'ASC')
+            ->getQuery()
+            ->getResult();
 
         if ($results) {
             $responseArray = [];
@@ -182,6 +196,15 @@ class ResultRepository extends ServiceEntityRepository
     {
         $results = $this->findBy(['entity' => $entity]);
 
+        $results =  $this->createQueryBuilder('r')
+            ->leftJoin('r.entity', 'e')
+            ->andWhere('e.id = :entity')
+            ->setParameter('entity', $entity)
+            ->orderBy('r.date', 'DESC')
+            ->orderBy('r.validated', 'ASC')
+            ->getQuery()
+            ->getResult();
+
         if($results){
             $responseArray = [];
             foreach ($results as $result) {
@@ -202,6 +225,5 @@ class ResultRepository extends ServiceEntityRepository
 
             return $responseArray;
         }
-
     }
 }
