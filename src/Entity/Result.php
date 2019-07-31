@@ -102,6 +102,11 @@ class Result
      */
     private $correctiveActions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BestPractice", inversedBy="results")
+     */
+    private $bestPracticeType;
+
     public function __construct()
     {
         $this->teamMembers = new ArrayCollection();
@@ -335,6 +340,18 @@ class Result
                 $correctiveAction->setResult(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBestPracticeType(): ?BestPractice
+    {
+        return $this->bestPracticeType;
+    }
+
+    public function setBestPracticeType(?BestPractice $bestPracticeType): self
+    {
+        $this->bestPracticeType = $bestPracticeType;
 
         return $this;
     }
