@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190726151941 extends AbstractMigration
+final class Version20190731100704 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -26,7 +26,7 @@ final class Version20190726151941 extends AbstractMigration
         $this->addSql('CREATE TABLE corrective_action (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, question_id INT DEFAULT NULL, result_id INT DEFAULT NULL, status VARCHAR(255) NOT NULL, image VARCHAR(255) DEFAULT NULL, comment_question LONGTEXT DEFAULT NULL, INDEX IDX_ECD872CEA76ED395 (user_id), INDEX IDX_ECD872CE1E27F6BF (question_id), INDEX IDX_ECD872CE7A7B643 (result_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE area (id INT AUTO_INCREMENT NOT NULL, direction_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, etat TINYINT(1) NOT NULL, INDEX IDX_D7943D68AF73D997 (direction_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE survey_category_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_3750C35D2C2AC5D3 (translatable_id), UNIQUE INDEX survey_category_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE result (id INT AUTO_INCREMENT NOT NULL, survey_id INT DEFAULT NULL, user_id INT DEFAULT NULL, direction_id INT DEFAULT NULL, area_id INT DEFAULT NULL, entity_id INT DEFAULT NULL, date DATETIME NOT NULL, place LONGTEXT NOT NULL, client LONGTEXT NOT NULL, validated TINYINT(1) NOT NULL, best_practice_done TINYINT(1) NOT NULL, best_practice_comment LONGTEXT NOT NULL, best_practice_photo LONGTEXT NOT NULL, INDEX IDX_136AC113B3FE509D (survey_id), INDEX IDX_136AC113A76ED395 (user_id), INDEX IDX_136AC113AF73D997 (direction_id), INDEX IDX_136AC113BD0F409C (area_id), INDEX IDX_136AC11381257D5D (entity_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE result (id INT AUTO_INCREMENT NOT NULL, survey_id INT DEFAULT NULL, user_id INT DEFAULT NULL, direction_id INT DEFAULT NULL, area_id INT DEFAULT NULL, entity_id INT DEFAULT NULL, best_practice_type_id INT DEFAULT NULL, date DATETIME NOT NULL, place LONGTEXT NOT NULL, client LONGTEXT NOT NULL, validated TINYINT(1) NOT NULL, best_practice_done TINYINT(1) NOT NULL, best_practice_comment LONGTEXT NOT NULL, best_practice_photo LONGTEXT NOT NULL, INDEX IDX_136AC113B3FE509D (survey_id), INDEX IDX_136AC113A76ED395 (user_id), INDEX IDX_136AC113AF73D997 (direction_id), INDEX IDX_136AC113BD0F409C (area_id), INDEX IDX_136AC11381257D5D (entity_id), INDEX IDX_136AC113702AFC92 (best_practice_type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE survey_question (id INT AUTO_INCREMENT NOT NULL, category_id INT NOT NULL, question_type VARCHAR(255) NOT NULL, question_order INT NOT NULL, INDEX IDX_EA000F6912469DE2 (category_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE survey_category (id INT AUTO_INCREMENT NOT NULL, survey_id INT NOT NULL, updated_at DATETIME DEFAULT NULL, category_order INT NOT NULL, INDEX IDX_5ABB5FE6B3FE509D (survey_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE result_question (id INT AUTO_INCREMENT NOT NULL, result_id INT DEFAULT NULL, question_id INT DEFAULT NULL, team_members_id INT DEFAULT NULL, notation INT NOT NULL, comment LONGTEXT NOT NULL, photo LONGTEXT DEFAULT NULL, INDEX IDX_11F256AD7A7B643 (result_id), INDEX IDX_11F256AD1E27F6BF (question_id), INDEX IDX_11F256AD83D88728 (team_members_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
@@ -52,6 +52,7 @@ final class Version20190726151941 extends AbstractMigration
         $this->addSql('ALTER TABLE result ADD CONSTRAINT FK_136AC113AF73D997 FOREIGN KEY (direction_id) REFERENCES direction (id)');
         $this->addSql('ALTER TABLE result ADD CONSTRAINT FK_136AC113BD0F409C FOREIGN KEY (area_id) REFERENCES area (id)');
         $this->addSql('ALTER TABLE result ADD CONSTRAINT FK_136AC11381257D5D FOREIGN KEY (entity_id) REFERENCES entity (id)');
+        $this->addSql('ALTER TABLE result ADD CONSTRAINT FK_136AC113702AFC92 FOREIGN KEY (best_practice_type_id) REFERENCES best_practice (id)');
         $this->addSql('ALTER TABLE survey_question ADD CONSTRAINT FK_EA000F6912469DE2 FOREIGN KEY (category_id) REFERENCES survey_category (id)');
         $this->addSql('ALTER TABLE survey_category ADD CONSTRAINT FK_5ABB5FE6B3FE509D FOREIGN KEY (survey_id) REFERENCES survey (id)');
         $this->addSql('ALTER TABLE result_question ADD CONSTRAINT FK_11F256AD7A7B643 FOREIGN KEY (result_id) REFERENCES result (id)');
@@ -105,6 +106,7 @@ final class Version20190726151941 extends AbstractMigration
         $this->addSql('ALTER TABLE corrective_action DROP FOREIGN KEY FK_ECD872CEA76ED395');
         $this->addSql('ALTER TABLE result DROP FOREIGN KEY FK_136AC113A76ED395');
         $this->addSql('ALTER TABLE dangerous_situation DROP FOREIGN KEY FK_6C25E836A76ED395');
+        $this->addSql('ALTER TABLE result DROP FOREIGN KEY FK_136AC113702AFC92');
         $this->addSql('ALTER TABLE best_practice_translation DROP FOREIGN KEY FK_D088C1782C2AC5D3');
         $this->addSql('ALTER TABLE result DROP FOREIGN KEY FK_136AC113B3FE509D');
         $this->addSql('ALTER TABLE survey_category DROP FOREIGN KEY FK_5ABB5FE6B3FE509D');
