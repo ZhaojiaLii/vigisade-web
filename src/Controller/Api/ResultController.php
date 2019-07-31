@@ -7,6 +7,7 @@ use App\Entity\CorrectiveAction;
 use App\Entity\Result;
 use App\Entity\ResultQuestion;
 use App\Entity\ResultTeamMember;
+use App\Repository\BestPracticeRepository;
 use App\Service\UploadImageBase64;
 use App\Repository\AreaRepository;
 use App\Repository\DirectionRepository;
@@ -35,6 +36,7 @@ class ResultController extends ApiController
     private $resultTeamMemberRepository;
     private $surveyQuestionRepository;
     private $uploadImageBase64;
+    private $bestPracticeRepository;
 
     const RESULT = "RESULT";
 
@@ -51,6 +53,7 @@ class ResultController extends ApiController
      * @param ResultTeamMemberRepository $resultTeamMemberRepository
      * @param SurveyQuestionRepository $surveyQuestionRepository
      * @param UploadImageBase64 $uploadImageBase64
+     * @param BestPracticeRepository $bestPracticeRepository
      */
     public function __construct (
         EntityManagerInterface $em,
@@ -63,7 +66,8 @@ class ResultController extends ApiController
         ResultQuestionRepository $resultQuestionRepository,
         ResultTeamMemberRepository $resultTeamMemberRepository,
         SurveyQuestionRepository $surveyQuestionRepository,
-        UploadImageBase64 $uploadImageBase64
+        UploadImageBase64 $uploadImageBase64,
+        BestPracticeRepository $bestPracticeRepository
     )
     {
         $this->em = $em;
@@ -77,6 +81,7 @@ class ResultController extends ApiController
         $this->resultTeamMemberRepository = $resultTeamMemberRepository;
         $this->SurveyQuestionRepository = $surveyQuestionRepository;
         $this->uploadImageBase64 = $uploadImageBase64;
+        $this->bestPracticeRepository = $bestPracticeRepository;
     }
 
     /**
@@ -143,6 +148,7 @@ class ResultController extends ApiController
         $result->setPlace($data['resultPlace']);
         $result->setClient($data['resultClient']);
         $result->setValidated($data['resultValidated']);
+        $result->setBestPracticeType($this->bestPracticeRepository->find($data['resultBestPracticeTypeId']));
         $result->setBestPracticeDone($data['resultBestPracticeDone']);
         $result->setBestPracticeComment($data['resultBestPracticeComment']);
         $result->setBestPracticePhoto($data['resultBestPracticePhoto']);
