@@ -4,10 +4,10 @@ namespace App\Controller\Api;
 
 use App\Controller\ApiController;
 use App\Entity\CorrectiveAction;
-use App\Exception\Http\NotFoundException;
 use App\Repository\CorrectiveActionRepository;
 use App\Repository\ResultRepository;
 use App\Repository\SurveyQuestionRepository;
+use App\Service\UploadImageBase64;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +22,7 @@ class CorrectiveActionController extends ApiController
     private $surveyQuestionRepository;
     private $correctiveActionRepository;
     private $resultRepository;
+    private $uploadImageBase64;
 
     /**
      * CorrectiveActionController constructor.
@@ -30,18 +31,21 @@ class CorrectiveActionController extends ApiController
      * @param SurveyQuestionRepository $surveyQuestionRepository
      * @param ResultRepository $resultRepository
      * @param CorrectiveActionRepository $correctiveActionRepository
+     * @param UploadImageBase64 $uploadImageBase64
      */
     public function __construct(SerializerInterface $serializer,
                                 EntityManagerInterface $em,
                                 SurveyQuestionRepository $surveyQuestionRepository,
                                 ResultRepository $resultRepository,
-                                CorrectiveActionRepository $correctiveActionRepository)
+                                CorrectiveActionRepository $correctiveActionRepository,
+                                UploadImageBase64 $uploadImageBase64)
     {
         $this->serializer = $serializer;
         $this->em = $em;
         $this->surveyQuestionRepository = $surveyQuestionRepository;
         $this->resultRepository = $resultRepository;
         $this->correctiveActionRepository = $correctiveActionRepository;
+        $this->uploadImageBase64 = $uploadImageBase64;
     }
 
     /**
@@ -49,11 +53,11 @@ class CorrectiveActionController extends ApiController
      */
     public function getCorrectiveActions()
     {
-        $CorrectivesAction = $this->em
+        $correctivesAction = $this->em
             ->getRepository(CorrectiveAction::class)
             ->findBy(['user' => $this->getUser(), 'status' => 'A traiter']);
 
-        if (!$CorrectivesAction) {
+        if (!$correctivesAction) {
 
             $message = ['message' => "This user dont have Corrective Action"];
 
@@ -61,17 +65,17 @@ class CorrectiveActionController extends ApiController
         }
 
         $responseArray = [];
-        foreach($CorrectivesAction as $CorrectiveAction){
+        foreach($correctivesAction as $correctiveAction){
             $responseArray[] = [
-                "id" => $CorrectiveAction->getId(),
-                "survey_id" => $CorrectiveAction->getQuestion()->getCategory()->getSurvey()->getID(),
-                "user_id" => $this->getUser()->getId(),
-                "category_id" => $CorrectiveAction->getQuestion()->getCategory()->getID(),
-                "question_id" => $CorrectiveAction->getQuestion()->getID(),
-                "result_id" => $CorrectiveAction->getResult()->getID(),
-                "status" => $CorrectiveAction->getStatus(),
-                "image" => $CorrectiveAction->getImage(),
-                "comment_question"=> $CorrectiveAction->getCommentQuestion(),
+                "id" => $correctiveAction->getId() ,
+                "survey_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getCategory()->getSurvey()->getID() : null,
+                "user_id" => $this->getUser() ? $this->getUser()->getId() : null,
+                "category_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getCategory()->getID() : null,
+                "question_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getID() : null,
+                "result_id" => $correctiveAction->getResult() ? $correctiveAction->getResult()->getID() : null,
+                "status" => $correctiveAction->getStatus(),
+                "image" => $correctiveAction->getImage(),
+                "comment_question"=> $correctiveAction->getCommentQuestion(),
             ];
         }
 
@@ -86,15 +90,41 @@ class CorrectiveActionController extends ApiController
     {
         $data = json_decode($request->getContent(), true);
 
+        if(empty($data)){
+            return ['message' => "The JSON sent contains invalid data or empty"];
+        }
+
         $correctiveAction = $this->correctiveActionRepository->getCorrectiveActionByID($data['id']);
-        $correctiveAction->setImage($data['image']);
         $correctiveAction->setCommentQuestion($data['comment_question']);
         $correctiveAction->setStatus($data['status']);
+
+        // get picture with format Base64
+        $imageBase64 = $data['image'];
+
+        //get the path to store image result from service.yaml
+        $path = $this->getParameter('app.path.action_corrective_images');
+
+        //this service return the name of picture if uploaded true and return false if picture not uploaded
+        $imageBase64 = $this->uploadImageBase64->UploadImage($imageBase64, __DIR__.'/../../../'.$path);
+
+        if($imageBase64){
+            $correctiveAction->setImage($imageBase64);
+        }
 
         $this->em->persist($correctiveAction);
         $this->em->flush();
 
-        $message = ['message' => 'the corrective action with ID `'.$correctiveAction->getId().'` has been updated .'];
-        return new JsonResponse($message, Response::HTTP_CREATED);
+        $responseArray = [
+            "id" => $correctiveAction->getId()  ,
+            "survey_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getCategory()->getSurvey()->getID() : null,
+            "user_id" => $this->getUser() ? $this->getUser()->getId() : null,
+            "category_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getCategory()->getID() : null,
+            "question_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getID() : null,
+            "result_id" => $correctiveAction->getResult() ? $correctiveAction->getResult()->getID() : null,
+            "status" => $correctiveAction->getStatus(),
+            "image" => $correctiveAction->getImage(),
+            "comment_question"=> $correctiveAction->getCommentQuestion(),
+        ];
+        return new JsonResponse($responseArray, Response::HTTP_CREATED);
     }
 }

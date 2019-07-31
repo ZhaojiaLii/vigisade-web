@@ -11,6 +11,8 @@ parameters:
     app.path.user_images: /admin/uploads/images/users
     # path to store image of result
     app.path.result_images: public/pwa/uploads/images/result/
+    # path to store image of action corrective
+    app.path.action_corrective_images: public/pwa/uploads/images/action_corrective/
 services:
     # default configuration for services in *this* file
     _defaults:
