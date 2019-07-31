@@ -42,7 +42,7 @@ easy_admin:
                     - { property: 'logoText', label: 'Titre' }
                     - { property: 'news', type: 'fos_ckeditor', label: 'Actualités' }
             list:
-                title: 'List of header'
+                title: 'Actualités'
                 fields:
                     - { property: 'logoText', label: 'Titre' }
                     - { property: 'news', label: 'Actualités' }
@@ -53,7 +53,7 @@ easy_admin:
             controller: App\Controller\Admin\DirectionController
             disabled_actions: ['delete']
             list:
-                title: 'Drections'
+                title: 'Directions'
                 fields:
                     - { property: 'id', label: 'ID' }
                     - { property: 'name', label: 'Direction' }
@@ -205,6 +205,9 @@ easy_admin:
                     - { property: 'title', label: 'Titre du Formulaire' }
                     - { property: 'direction', label: 'Direction(s)' }
                     - { property: 'categories', label: 'Nombre de rubriques' }
+            search:
+                help: null
+                fields: ['direction.name']
 
         #Management Best practice
         BestPractice:
