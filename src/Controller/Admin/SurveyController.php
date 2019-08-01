@@ -35,7 +35,7 @@ class SurveyController extends EasyAdminController
             parent::persistEntity($entity);
             return;
         }
-        $this->addFlash('danger',  'Survey not saved, the direction is used by Survey : '.$surveys[0]->getTitle().' with ID : '.$surveys[0]->getID());
+        $this->addFlash('danger',  'Formulaire non sauvergardé, la direction est utilisée par le formulaire : '.$surveys[0]->getTitle().' qui possède ID : '.$surveys[0]->getID());
     }
 
     /**

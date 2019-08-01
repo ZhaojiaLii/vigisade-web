@@ -37,7 +37,7 @@ class AreaController extends EasyAdminController
             return;
         }
 
-        $this->addFlash('danger',  'Area not saved, the name is used by this Area : '.$area[0]->getName().' with ID : '.$area[0]->getID());
+        $this->addFlash('danger',  'Zone non sauvegardée, le nom est utilisé par : '.$area[0]->getName().' qui possède ID : '.$area[0]->getID());
     }
 
     /**

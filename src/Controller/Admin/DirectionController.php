@@ -37,7 +37,7 @@ class DirectionController extends EasyAdminController
             return;
         }
 
-        $this->addFlash('danger',  'Direction not saved, the name is used by this Direction : '.$direction[0]->getName().' with ID : '.$direction[0]->getID());
+        $this->addFlash('danger',  'Direction non sauvegardée, le nom est utilisé par : '.$direction[0]->getName().' qui possède ID : '.$direction[0]->getID());
     }
 
     /**

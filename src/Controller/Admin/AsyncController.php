@@ -60,7 +60,7 @@ class AsyncController extends AbstractController
         }
 
         return new JsonResponse(['message' =>
-            'this direction is used by Survey : '.$surveys[0]->getTitle().' with ID : '.$surveys[0]->getID()]);
+            'Cette direction est utilisé par le formulaire : '.$surveys[0]->getTitle().' qui possède ID : '.$surveys[0]->getID()]);
     }
 
     /**
@@ -76,7 +76,7 @@ class AsyncController extends AbstractController
 
         if($direction){
 
-            return new JsonResponse(['message' => 'This name is used by this direction ID = '.$direction[0]->getId()]);
+            return new JsonResponse(['message' => 'Ce nom est déjà utilisé par Direction qui possède ID = '.$direction[0]->getId()]);
         }
 
         return new JsonResponse(['message' => 'null']);
@@ -90,7 +90,7 @@ class AsyncController extends AbstractController
 
         if($area){
 
-            return new JsonResponse(['message' => 'This name is used by this area ID = '.$area[0]->getId()]);
+            return new JsonResponse(['message' => 'Ce nom est déjà utilisé par Zone qui possède ID = '.$area[0]->getId()]);
         }
 
         return new JsonResponse(['message' => 'null']);
@@ -104,7 +104,7 @@ class AsyncController extends AbstractController
 
         if($entity){
 
-            return new JsonResponse(['message' => 'This name is used by this entity ID = '.$entity[0]->getId()]);
+            return new JsonResponse(['message' => 'Ce nom est déjà utilisé par Entité qui possède ID = '.$entity[0]->getId()]);
         }
 
         return new JsonResponse(['message' => 'null']);

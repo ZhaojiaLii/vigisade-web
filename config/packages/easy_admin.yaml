@@ -105,7 +105,7 @@ easy_admin:
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { property: 'name', label: 'Nom Entité' }
-                    - { property: 'area', label: 'Zonnnnne'}
+                    - { property: 'area', label: 'Zone'}
                     - { property: 'etat', label: 'Actif' }
             search:
                 help: null
