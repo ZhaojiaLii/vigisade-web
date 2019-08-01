@@ -24,7 +24,6 @@
                         <td><input name="category[{{ category.id }}][ordering]" class="order" value="{{ category.order }}" readonly/></td>
                         <td>
                             <a class="btn btn-primary" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'edit', id: category.id, surveyId: surveyId}) }}">Editer</a>
-                            <a class="btn btn-danger" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'deleteCategory', id: category.id, surveyId: surveyId}) }}">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}
