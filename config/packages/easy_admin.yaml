@@ -172,12 +172,38 @@ easy_admin:
                 help: null
                 fields: ['email', 'firstname', 'lastname', 'actif', 'direction.name', 'area.name', 'roles']
 
-        #Management Survey
+        #Management SurveyQuestion
+        SurveyQuestion:
+            class: App\Entity\SurveyQuestion
+            label: 'Formulaire de question'
+            controller: App\Controller\Admin\SurveyQuestionController
+            disabled_actions: ['show', 'list', 'delete']
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                    - { property: 'questionType', type: choice, type_options: {choices: {'Equipe':'Equipe', 'General':'General'}} }
+                    - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
+
+        #Management SurveyCategory
+        SurveyCategory:
+            class: App\Entity\SurveyCategory
+            label: 'Formulaire de rubrique'
+            disabled_actions: ['show', 'list', 'delete']
+            controller: App\Controller\Admin\SurveyCategoryController
+            templates:
+              edit: 'admin/surveyCategory/edit.html.twig'
+            form: # 'form' is applied to both 'new' and 'edit' views
+                fields:
+                - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
+            list:
+                fields:
+                - { property: 'id' }
         Survey:
             class: App\Entity\Survey
             label: 'Formulaire de visite'
             disabled_actions: ['delete', 'show']
             controller: App\Controller\Admin\SurveyController
+            templates:
+                edit: 'admin/survey/edit.html.twig'
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
@@ -191,14 +217,6 @@ easy_admin:
                             'Responsable': 'Responsable'
                         }}}
                     - { property: 'direction' }
-                    - property: 'categories'
-                      label: 'Rubrique'
-                      type: 'collection'
-                      type_options:
-                          entry_type: App\Form\SurveyCategoryEmbeddedForm
-                          allow_delete: true
-                          allow_add: true
-                          by_reference: false
             list:
                 fields:
                     - { property: 'id' }

@@ -1,0 +1,51 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% block main %}
+    {% block entity_form %}
+        {{ form_start(form) }}
+        {{ form_row(form.translations) }}
+
+        {% if questions is not empty %}
+            <p>Questions</p>
+            <table id="list_categories" class="table datagrid">
+                <thead>
+                <tr id="titres">
+                    <th>Titre</th>
+                    <th>Ordre</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for key, question in questions %}
+                    <tr>
+                        <td>{{ question.title }}</td>
+                        <td><input name="question[{{ question.id }}][ordering]" class="order" value="{{ question.order }}" readonly/></td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ path('easyadmin', {entity: 'SurveyQuestion', action: 'edit', id: question.id, surveyCategoryId: surveyCategoryId, surveyId: surveyId}) }}">Editer</a>
+                        <td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <a class="btn btn-primary" href="{{ path('easyadmin', {entity: 'SurveyQuestion', action: 'new', surveyCategoryId: surveyCategoryId, surveyId: surveyId}) }}">Ajouter une question</a>
+        {{ form_end(form) }}
+    {% endblock entity_form %}
+{% endblock %}
+
+{% block body_javascript %}
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous"></script>>
+    <script>
+        $(function() {
+            $("#list_categories tbody").sortable({
+                update: function update(event, ui) {
+                    $("#list_categories tbody tr").each(function (index) {
+                        $(this).find('.order').val(index + 1);
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock body_javascript %}
