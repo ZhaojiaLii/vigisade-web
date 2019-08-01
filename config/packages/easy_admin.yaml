@@ -66,6 +66,7 @@ easy_admin:
         #Management Area
         Area:
             class: App\Entity\Area
+            controller: App\Controller\Admin\AreaController
             label : 'Zone'
             disabled_actions: ['delete', 'show']
             list:
@@ -91,6 +92,7 @@ easy_admin:
         #Management Entity
         Entity:
             class: App\Entity\Entity
+            controller: App\Controller\Admin\EntityController
             label: 'Entité'
             disabled_actions: ['delete', 'show']
             list:
@@ -103,15 +105,23 @@ easy_admin:
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { property: 'name', label: 'Nom Entité' }
-                    - { property: 'area', label: 'Zone' }
+                    - { property: 'area', label: 'Zonnnnne'}
                     - { property: 'etat', label: 'Actif' }
             search:
                 help: null
                 fields: ['id', 'name', 'area.name']
             edit:
                 title: 'Modifier %%entity_label%%'
+                fields:
+                    - { property: 'name', label: 'Nom Entité' }
+                    - { property: 'area', label: 'Zonnnnne', type_options: { required: true}}
+                    - { property: 'etat', label: 'Actif' }
             new:
                 title: 'Créer %%entity_label%%'
+                fields:
+                    - { property: 'name', label: 'Nom Entité' }
+                    - { property: 'area', label: 'Zonnnnne'}
+                    - { property: 'etat', label: 'Actif' }
 
         #Management User
         User:

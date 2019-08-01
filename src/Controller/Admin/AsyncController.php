@@ -81,4 +81,32 @@ class AsyncController extends AbstractController
 
         return new JsonResponse(['message' => 'null']);
     }
+
+    public function getAreaUniqueName(EntityManagerInterface $em, Request $request)
+    {
+        $area = $em->getRepository(Area::class)->findBy([
+            'name' => $request->request->get('area_name')
+        ]);
+
+        if($area){
+
+            return new JsonResponse(['message' => 'This name is used by this area ID = '.$area[0]->getId()]);
+        }
+
+        return new JsonResponse(['message' => 'null']);
+    }
+
+    public function getEntityUniqueName(EntityManagerInterface $em, Request $request)
+    {
+        $entity = $em->getRepository(Entity::class)->findBy([
+            'name' => $request->request->get('entity_name')
+        ]);
+
+        if($entity){
+
+            return new JsonResponse(['message' => 'This name is used by this entity ID = '.$entity[0]->getId()]);
+        }
+
+        return new JsonResponse(['message' => 'null']);
+    }
 }
