@@ -1,0 +1,57 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% block main %}
+    {% block entity_form %}
+        {{ form_start(form) }}
+        {{ form_row(form.translations) }}
+        {{ form_row(form.team) }}
+        {{ form_row(form.direction) }}
+
+        {% if categories is not empty %}
+            <p>Rubriques</p>
+            <table id="list_categories" class="table datagrid">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Ordre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for key, category in categories %}
+                    <tr>
+                        <td class="test">{{ category.title }}</td>
+                        <td><input name="category[{{ category.id }}][ordering]" class="order" value="{{ category.order }}" readonly/></td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'edit', id: category.id, surveyId: surveyId}) }}">Editer</a>
+                            <a class="btn btn-danger" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'deleteCategory', id: category.id, surveyId: surveyId}) }}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <a class="btn btn-primary" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'new', surveyId: surveyId}) }}">Ajouter une rubrique</a>
+
+        {{ form_end(form) }}
+    {% endblock entity_form %}
+{% endblock %}
+
+{% block body_javascript %}
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous"></script>>
+
+    <script>
+        $(function() {
+            $("#list_categories tbody").sortable({
+                cursor: 'move',
+                update: function update(event, ui) {
+                    $("#list_categories tbody tr").each(function (index) {
+                        $(this).find('.order').val(index + 1);
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock body_javascript %}
