@@ -102,6 +102,10 @@ easy_admin:
             search:
                 help: null
                 fields: ['id', 'name', 'area.name']
+            edit:
+                title: 'Modifier Entité'
+            new:
+                title: 'Créer Entité'
 
         #Management User
         User:
