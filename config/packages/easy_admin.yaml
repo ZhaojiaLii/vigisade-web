@@ -112,16 +112,9 @@ easy_admin:
                 fields: ['id', 'name', 'area.name']
             edit:
                 title: 'Modifier %%entity_label%%'
-                fields:
-                    - { property: 'name', label: 'Nom Entité' }
-                    - { property: 'area', label: 'Zonnnnne', type_options: { required: true}}
-                    - { property: 'etat', label: 'Actif' }
             new:
                 title: 'Créer %%entity_label%%'
-                fields:
-                    - { property: 'name', label: 'Nom Entité' }
-                    - { property: 'area', label: 'Zonnnnne'}
-                    - { property: 'etat', label: 'Actif' }
+
 
         #Management User
         User:
