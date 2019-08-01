@@ -90,6 +90,7 @@
                 }
             })
         });
+
         $('#direction_name').change(function() {
             var directionSelector = $(this);
 
@@ -99,6 +100,52 @@
                 dataType: "JSON",
                 data: {
                     "direction_name": directionSelector.val()
+                },
+                async: true,
+                success: function (result)
+                {
+                    if (result.message !== 'null') {
+                        alert(result.message);
+                    }
+                },
+                error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                }
+            })
+        });
+
+        $('#area_name').change(function() {
+            var directionSelector = $(this);
+
+            $.ajax({
+                url:'{{ path('ajax_request_area_unique_name') }}',
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "area_name": directionSelector.val()
+                },
+                async: true,
+                success: function (result)
+                {
+                    if (result.message !== 'null') {
+                        alert(result.message);
+                    }
+                },
+                error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                }
+            })
+        });
+
+        $('#entity_name').change(function() {
+            var directionSelector = $(this);
+
+            $.ajax({
+                url:'{{ path('ajax_request_entity_unique_name') }}',
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "entity_name": directionSelector.val()
                 },
                 async: true,
                 success: function (result)
