@@ -51,7 +51,7 @@ easy_admin:
         Direction:
             class: App\Entity\Direction
             controller: App\Controller\Admin\DirectionController
-            disabled_actions: ['delete']
+            disabled_actions: ['delete', 'show']
             list:
                 title: 'Directions'
                 fields:
@@ -66,7 +66,7 @@ easy_admin:
         #Management Area
         Area:
             class: App\Entity\Area
-            disabled_actions: ['delete']
+            disabled_actions: ['delete', 'show']
             list:
                 title: 'Zones'
                 fields:
@@ -86,7 +86,7 @@ easy_admin:
         #Management Entity
         Entity:
             class: App\Entity\Entity
-            disabled_actions: ['delete']
+            disabled_actions: ['delete', 'show']
             list:
                 title: 'Entités'
                 fields:
