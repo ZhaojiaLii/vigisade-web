@@ -1,0 +1,16 @@
+{% extends '@EasyAdmin/default/new.html.twig' %}
+{% block head_stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        .content-footer{
+            float: right;
+        }
+    </style>
+
+{% endblock head_stylesheets %}
+{% block content_footer_wrapper %}
+        <section class="content-footer" style="width: 80%; margin-top:2px;">
+            <a class="btn btn-primary"  href="{{ path('easyadmin', {entity: 'Survey', action: 'edit', id: surveyId}) }}">Retour</a></p>
+        </section>
+
+{% endblock content_footer_wrapper %}

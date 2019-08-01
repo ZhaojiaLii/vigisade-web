@@ -1,5 +1,15 @@
 {% extends '@EasyAdmin/default/edit.html.twig' %}
 
+{% block head_stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        td:hover{
+            cursor:move;
+        }
+    </style>
+
+{% endblock head_stylesheets %}
+
 {% block main %}
     {% block entity_form %}
         {{ form_start(form) }}
@@ -20,8 +30,8 @@
                 <tbody>
                 {% for key, category in categories %}
                     <tr>
-                        <td class="test">{{ category.title }}</td>
-                        <td><input name="category[{{ category.id }}][ordering]" class="order" value="{{ category.order }}" readonly/></td>
+                        <td>{{ category.title }}</td>
+                        <td><input type="text" readonly name="category[{{ category.id }}][ordering]" class="order form-control-plaintext" value="{{ category.order }}"/></td>
                         <td>
                             <a class="btn btn-primary" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'edit', id: category.id, surveyId: surveyId}) }}">Editer</a>
                             <a class="btn btn-danger" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'deleteCategory', id: category.id, surveyId: surveyId}) }}">Delete</a>

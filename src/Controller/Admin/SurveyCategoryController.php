@@ -166,10 +166,11 @@ class SurveyCategoryController extends EasyAdminController
 
             $parameters['questions'] = $questions;
             $parameters['surveyCategoryId'] = $id;
-            $parameters['surveyId'] = $surveyId;
+
         }
 
-
+        $parameters['surveyId'] = $surveyId;
+        
         return $this->render($templatePath, $parameters);
     }
 }
