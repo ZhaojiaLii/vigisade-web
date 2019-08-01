@@ -66,12 +66,13 @@ easy_admin:
         #Management Area
         Area:
             class: App\Entity\Area
+            label : 'Zone'
             disabled_actions: ['delete', 'show']
             list:
-                title: 'Zones'
+                title: '%%entity_label%%s'
                 fields:
                     - { property: 'id', label: 'ID' }
-                    - { property: 'name', label: 'Zone' }
+                    - { property: 'name', label: '%%entity_label%%' }
                     - { property: 'direction', label: 'Direction' }
                     - { property: 'etat', label: 'Statut' }
             form: # 'form' is applied to both 'new' and 'edit' views
@@ -82,16 +83,21 @@ easy_admin:
             search:
                 help: null
                 fields: ['id', 'name', 'direction.name', 'etat']
+            edit:
+                title: 'Modifier %%entity_label%%'
+            new:
+                title: 'Créer %%entity_label%%'
 
         #Management Entity
         Entity:
             class: App\Entity\Entity
+            label: 'Entité'
             disabled_actions: ['delete', 'show']
             list:
-                title: 'Entités'
+                title: '%%entity_label%%s'
                 fields:
                     - { property: 'id', label: 'ID' }
-                    - { property: 'name', label: 'Entité' }
+                    - { property: 'name', label: '%%entity_label%%' }
                     - { property: 'area', label: 'Zone' }
                     - { property: 'etat', label: 'Etat' }
             form: # 'form' is applied to both 'new' and 'edit' views
@@ -103,9 +109,9 @@ easy_admin:
                 help: null
                 fields: ['id', 'name', 'area.name']
             edit:
-                title: 'Modifier Entité'
+                title: 'Modifier %%entity_label%%'
             new:
-                title: 'Créer Entité'
+                title: 'Créer %%entity_label%%'
 
         #Management User
         User:
