@@ -27,17 +27,17 @@ class EntityController extends EasyAdminController
      */
     public function persistEntity($entity)
     {
-        $entity = $this->em->getRepository(Entity::class)->findBy([
+        $oEntity = $this->em->getRepository(Entity::class)->findBy([
             'name' => $entity->getName()
         ]);
 
-        if(!$entity){
+        if(!$oEntity){
             parent::persistEntity($entity);
 
             return;
         }
 
-        $this->addFlash('danger',  'Entité non sauvegardée, le nom est utilisé par : '.$entity[0]->getName().' qui possède ID : '.$entity[0]->getID());
+        $this->addFlash('danger',  'Entity not saved, the name is used by this Entity : '.$oEntity[0]->getName().' with ID : '.$oEntity[0]->getID());
     }
 
     /**
