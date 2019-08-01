@@ -8,12 +8,12 @@
         {{ form_row(form.direction) }}
 
         {% if categories is not empty %}
-            <p>Rubriques</p>
+            <br/><br/>
             <table id="list_categories" class="table datagrid">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Ordre</th>
+                        <th>RUBRIQUE</th>
+                        <th>ORDRE</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -30,6 +30,7 @@
                 </tbody>
             </table>
         {% endif %}
+        <br/><br/>
         <a class="btn btn-primary" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'new', surveyId: surveyId}) }}">Ajouter une rubrique</a>
 
         {{ form_end(form) }}

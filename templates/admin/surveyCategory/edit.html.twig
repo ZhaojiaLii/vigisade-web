@@ -6,12 +6,12 @@
         {{ form_row(form.translations) }}
 
         {% if questions is not empty %}
-            <p>Questions</p>
+            <br/><br/>
             <table id="list_categories" class="table datagrid">
                 <thead>
                 <tr id="titres">
-                    <th>Titre</th>
-                    <th>Ordre</th>
+                    <th>QUESTION</th>
+                    <th>ORDRE</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -28,6 +28,7 @@
                 </tbody>
             </table>
         {% endif %}
+        <br/><br/>
         <a class="btn btn-primary" href="{{ path('easyadmin', {entity: 'SurveyQuestion', action: 'new', surveyCategoryId: surveyCategoryId, surveyId: surveyId}) }}">Ajouter une question</a>
         {{ form_end(form) }}
     {% endblock entity_form %}
