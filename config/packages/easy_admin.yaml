@@ -117,7 +117,7 @@ easy_admin:
                     - { property: 'plainPassword', label: 'Mot de passe', type: 'password', help: 'Le mot de passe doit contenir au moins 8 caractères'}
                     - { property: 'firstname', label: 'Prénom' }
                     - { property: 'lastname', label: 'Nom' }
-                    - { property: 'imageFile', type: 'vich_image', css_class: '' }
+                    - { property: 'imageFile', label: 'Image Utilisateur', type: 'vich_image', css_class: '' }
                     - { type: 'group', columns: 7, label: 'Direction - Zone - Entité', icon: 'network-wired' }
                     - { property: 'direction', label: 'Direction' }
                     - { property: 'area', label: 'Zone' }
