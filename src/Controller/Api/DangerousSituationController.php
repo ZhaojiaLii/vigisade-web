@@ -66,7 +66,7 @@ class DangerousSituationController extends ApiController
         $imageBase64 = $data['dangerousSituationPhoto'];
 
         //get the path to store image result from service.yaml
-        $path = $this->getParameter('app.path.action_dangerous_situation_images');
+        $path = $this->getParameter('app.path.dangerous_situation_images');
 
         //this service return the name of picture if uploaded true and return false if picture not uploaded
         $imageBase64 = $this->uploadImageBase64->UploadImage($imageBase64, __DIR__.'/../../../'.$path);
