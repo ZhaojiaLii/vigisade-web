@@ -1,0 +1,10 @@
+{% set arrayRoles = ['ROLE_CONDUCTEUR', 'ROLE_MANAGER', 'ROLE_ADMIN'] %}
+{% for role in  item.roles %}
+    {% if role == 'ROLE_CONDUCTEUR' %}
+        CONDUCTEUR
+    {% elseif role == 'ROLE_MANAGER' %}
+        MANAGER
+    {% elseif role == 'ROLE_ADMIN' %}
+        ADMIN
+    {% endif %}
+{% endfor %}

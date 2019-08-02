@@ -180,7 +180,7 @@ easy_admin:
                     - { property: 'direction', label: 'Direction' }
                     - { property: 'area', label: 'Zone' }
                     - { property: 'entity', label: 'Entité' }
-                    - { property: 'roles', label: 'Rôles'}
+                    - { property: 'roles', label: 'Rôles', template: bundles/EasyAdminBundle/_list_field_user_role.html.twig}
             search:
                 help: null
                 fields: ['email', 'firstname', 'lastname', 'actif', 'direction.name', 'area.name', 'roles']
