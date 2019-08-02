@@ -177,6 +177,9 @@ easy_admin:
             class: App\Entity\SurveyQuestion
             label: 'Formulaire de question'
             controller: App\Controller\Admin\SurveyQuestionController
+            templates:
+                edit: 'admin/surveyQuestion/edit.html.twig'
+                new: 'admin/surveyQuestion/new.html.twig'
             disabled_actions: ['show', 'list', 'delete']
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
@@ -186,7 +189,7 @@ easy_admin:
                             required: true,
                             default_locale: 'fr',
                             fields: {
-                                label: {label: 'Nom de la question'},
+                                label: {label: 'Nom de la question', attr: {class : 'test'}},
                                 help: {label: 'Aide pour la question'}
                             }
                         }}
@@ -229,7 +232,7 @@ easy_admin:
                             fields: {
                                 title: {label: 'Nom du formulaire'},
                                 bestPracticeLabel: {label: 'Bonne Pratique - Question'},
-                                bestPracticeHelp: {label: 'Bonne Pratique - Help'}
+                                bestPracticeHelp: {label: 'Bonne Pratique - Aide'}
                             }
                         }}
                     - { property: 'team', label: 'Equipe Contrôlé', type: 'choice', type_options: {

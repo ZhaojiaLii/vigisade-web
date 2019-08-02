@@ -111,4 +111,20 @@ class SurveyQuestionController extends EasyAdminController
             $this->em->flush();
         }
     }
+
+    /**
+     * @param string $actionName
+     * @param string $templatePath
+     * @param array $parameters
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function renderTemplate($actionName, $templatePath, array $parameters = [])
+    {
+        $surveyCategoryId = $this->request->get('surveyCategoryId');
+        $surveyId = $this->request->get('surveyId');
+        $parameters['surveyCategoryId'] = $surveyCategoryId;
+        $parameters['surveyId'] = $surveyId;
+
+        return $this->render($templatePath, $parameters);
+    }
 }

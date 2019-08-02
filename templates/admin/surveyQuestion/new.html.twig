@@ -7,7 +7,7 @@
     </script>
     <script>
         $(function() {
-            $('.form-actions').append("<a class=\"btn btn-primary retour\"  href=\"{{ path('easyadmin', {entity: 'Survey', action: 'edit', id: surveyId}) }}\">Retour</a>")
+            $('.form-actions').append("<a class=\"btn btn-primary retour\"  href=\"{{ path('easyadmin', {entity: 'SurveyCategory', action: 'edit', id: surveyCategoryId, surveyId: surveyId}) }}\">Retour</a>")
         });
     </script>
 {% endblock body_javascript %}
