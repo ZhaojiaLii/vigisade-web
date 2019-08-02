@@ -238,7 +238,7 @@ easy_admin:
                     - { property: 'categories', label: 'Nombre de rubriques' }
             search:
                 help: null
-                fields: ['direction.name']
+                fields: ['translations.title', 'direction.name']
 
         #Management Best practice
         BestPractice:
