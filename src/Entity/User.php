@@ -111,7 +111,11 @@ class User implements UserInterface
      * Plain password. Used for model validation. Must not be persisted.
      *
      * @var string
-     * @Assert\Length(min=8,max=4096)
+     * @Assert\Length(
+     *     min=8,
+     *     max=4096,
+     *     minMessage="Cette valeur est trop courte. Elle doit avoir au minimum {{ limit }} caractères.",
+     *     maxMessage = "Cette valeur ne peut pas contenir plus {{ limit }} caractères."  )
      */
     private $plainPassword;
 
