@@ -79,7 +79,7 @@ easy_admin:
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { property: 'name', label: 'Nom Zone' }
-                    - { property: 'direction', label: 'Direction' }
+                    - { property: 'direction', label: 'Direction', type_options: { required: true} }
                     - { property: 'etat', label: 'Actif' }
             search:
                 help: null
@@ -105,7 +105,7 @@ easy_admin:
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
                     - { property: 'name', label: 'Nom Entité' }
-                    - { property: 'area', label: 'Zone'}
+                    - { property: 'area', label: 'Zone', type_options: { required: true} }
                     - { property: 'etat', label: 'Actif' }
             search:
                 help: null

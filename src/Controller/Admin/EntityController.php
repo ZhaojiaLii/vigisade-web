@@ -37,7 +37,7 @@ class EntityController extends EasyAdminController
             return;
         }
 
-        $this->addFlash('danger',  'Entity not saved, the name is used by this Entity : '.$oEntity[0]->getName().' with ID : '.$oEntity[0]->getID());
+        $this->addFlash('danger',  'Entité non sauvegardée, le nom est utilisé par : '.$oEntity[0]->getName().' qui possède ID : '.$oEntity[0]->getID());
     }
 
     /**
