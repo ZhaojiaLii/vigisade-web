@@ -137,9 +137,6 @@ class SurveyCategoryController extends EasyAdminController
      */
     public function renderTemplate($actionName, $templatePath, array $parameters = [])
     {
-        /**
-         * @var SurveyCategory
-         */
         $id = $this->request->get('id');
         $surveyId = $this->request->get('surveyId');
 
@@ -166,10 +163,10 @@ class SurveyCategoryController extends EasyAdminController
 
             $parameters['questions'] = $questions;
             $parameters['surveyCategoryId'] = $id;
-            $parameters['surveyId'] = $surveyId;
         }
 
-
+        $parameters['surveyId'] = $surveyId;
+        
         return $this->render($templatePath, $parameters);
     }
 }

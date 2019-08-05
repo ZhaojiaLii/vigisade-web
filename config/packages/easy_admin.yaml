@@ -190,11 +190,22 @@ easy_admin:
             class: App\Entity\SurveyQuestion
             label: 'Formulaire de question'
             controller: App\Controller\Admin\SurveyQuestionController
+            templates:
+                edit: 'admin/surveyQuestion/edit.html.twig'
+                new: 'admin/surveyQuestion/new.html.twig'
             disabled_actions: ['show', 'list', 'delete']
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { property: 'questionType', type: choice, type_options: {choices: {'Equipe':'Equipe', 'General':'General'}} }
-                    - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
+                    - { property: 'questionType', label: 'Type de question', type: choice, type_options: {choices: {'Equipe':'Equipe', 'General':'General'}} }
+                    - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType,
+                        type_options: {
+                            required: true,
+                            default_locale: 'fr',
+                            fields: {
+                                label: {label: 'Nom de la question', attr: {class : 'test'}},
+                                help: {label: 'Aide pour la question'}
+                            }
+                        }}
 
         #Management SurveyCategory
         SurveyCategory:
@@ -204,9 +215,17 @@ easy_admin:
             controller: App\Controller\Admin\SurveyCategoryController
             templates:
               edit: 'admin/surveyCategory/edit.html.twig'
+              new: 'admin/surveyCategory/new.html.twig'
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
+                - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType,
+                    type_options: {
+                        required: true,
+                        default_locale: 'fr',
+                        fields: {
+                            title: {label: 'Nom de la rubrique'}
+                        }
+                    }}
             list:
                 fields:
                 - { property: 'id' }
@@ -219,7 +238,16 @@ easy_admin:
                 edit: 'admin/survey/edit.html.twig'
             form: # 'form' is applied to both 'new' and 'edit' views
                 fields:
-                    - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: { required: true} }
+                    - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType,
+                        type_options: {
+                            required: true,
+                            default_locale: 'fr',
+                            fields: {
+                                title: {label: 'Nom du formulaire'},
+                                bestPracticeLabel: {label: 'Bonne Pratique - Question'},
+                                bestPracticeHelp: {label: 'Bonne Pratique - Aide'}
+                            }
+                        }}
                     - { property: 'team', label: 'Equipe Contrôlé', type: 'choice', type_options: {
                         multiple: false,
                         expanded: false,

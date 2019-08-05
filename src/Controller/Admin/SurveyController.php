@@ -77,9 +77,6 @@ class SurveyController extends EasyAdminController
      */
     public function renderTemplate($actionName, $templatePath, array $parameters = [])
     {
-        /**
-         * @var Survey
-         */
         $id = $this->request->get('id');
 
         if ($id) {
@@ -88,6 +85,8 @@ class SurveyController extends EasyAdminController
             $order = [];
             if ($survey->getCategories()) {
                 foreach ($survey->getCategories() as $categoryData) {
+                    $countQuestions = count($categoryData->getQuestions());
+                    $category['countQuestions'] = $countQuestions;
                     $category['id'] = $categoryData->getId();
                     $category['title'] = $categoryData->getTitle();
                     $category['order'] = $categoryData->getCategoryOrder();
