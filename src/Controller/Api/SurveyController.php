@@ -67,10 +67,10 @@ class SurveyController extends ApiController
 
         if (!$survey) {
             $message = [
-                'code' => '400',
+                'code' => '204',
                 'message' => 'The direction of this user is not related to any questionnaire'];
 
-            return new JsonResponse($message, 400);
+            return new JsonResponse($message, 204);
         }
 
         $responseArray = [
