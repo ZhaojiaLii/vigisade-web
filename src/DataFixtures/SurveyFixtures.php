@@ -12,10 +12,11 @@ use App\Entity\SurveyTranslation;
 use App\Repository\DirectionRepository;
 use App\Repository\SurveyRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 
-class SurveyFixtures extends Fixture
+class SurveyFixtures extends Fixture implements DependentFixtureInterface
 {
     private $em;
     private $directionRepository;
@@ -31,14 +32,10 @@ class SurveyFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        //$direction
-        $direction = new Direction();
-        $direction->setName('Test');
-        $direction->setEtat(1);
-
         //$survey
         $survey = new Survey();
-        $survey->setDirection($direction);
+        $survey->addDirection($this->em->getRepository(Direction::class)->find(1));
+        $survey->addDirection($this->em->getRepository(Direction::class)->find(2));
         $survey->setUpdatedAt(new \DateTime());
         $survey->setTeam(0);
         $survey->setCountTeam(1);
@@ -507,6 +504,12 @@ class SurveyFixtures extends Fixture
         $this->em->persist($survey);
 
         $this->em->flush();
+    }
+
+    public function getDependencies() {
+        return [
+            DirectionFixtures::class,
+        ];
     }
 }
 
