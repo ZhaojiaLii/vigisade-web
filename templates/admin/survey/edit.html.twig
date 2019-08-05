@@ -16,9 +16,7 @@
         {{ form_row(form.translations) }}
         {{ form_row(form.team) }}
         {{ form_row(form.direction) }}
-        <div class="form-group">
-            <label class="form-control-label">Rubriques</label>
-        </div>
+        <br/>
         <div class="form-group" style ="padding-top: 0;">
         {% if categories is not empty %}
             <label class="form-control-label"></label>
@@ -48,6 +46,7 @@
             </div>
         {% endif %}
         </div>
+        <br/>
         <a class="btn btn-primary" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'new', surveyId: surveyId}) }}">Ajouter une rubrique</a>
         {{ form_end(form) }}
     {% endblock entity_form %}
