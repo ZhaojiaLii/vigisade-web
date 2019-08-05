@@ -29,12 +29,6 @@ class Survey
     private $updatedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Direction", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $direction;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $team;
@@ -53,6 +47,11 @@ class Survey
      * @ORM\OneToMany(targetEntity="App\Entity\CorrectiveAction", mappedBy="survey")
      */
     private $correctiveActions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Direction", mappedBy="survey", cascade={"persist"})
+     */
+    private $direction;
 
     /**
      * @param $method
@@ -82,6 +81,7 @@ class Survey
     {
         $this->categories = new ArrayCollection();
         $this->correctiveActions = new ArrayCollection();
+        $this->direction = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,18 +98,6 @@ class Survey
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getDirection(): ?Direction
-    {
-        return $this->direction;
-    }
-
-    public function setDirection(?Direction $direction): self
-    {
-        $this->direction = $direction;
 
         return $this;
     }
@@ -199,8 +187,40 @@ class Survey
 
         return $this;
     }
+
     public function __toString()
     {
-        return $this->getId();
+        return $this->title;
+    }
+
+    /**
+     * @return Collection|Direction[]
+     */
+    public function getDirection(): Collection
+    {
+        return $this->direction;
+    }
+
+    public function addDirection(Direction $d): self
+    {
+        if (!$this->direction->contains($d)) {
+            $this->direction[] = $d;
+            $d->setSurvey($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDirection(Direction $d): self
+    {
+        if ($this->direction->contains($d)) {
+            $this->direction->removeElement($d);
+            // set the owning side to null (unless already changed)
+            if ($d->getSurvey() === $this) {
+                $d->setSurvey(null);
+            }
+        }
+
+        return $this;
     }
 }

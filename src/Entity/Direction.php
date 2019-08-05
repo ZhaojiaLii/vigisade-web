@@ -33,6 +33,11 @@ class Direction
      */
     private $etat;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Survey", inversedBy="direction")
+     */
+    private $survey;
+
 
     public function __construct()
     {
@@ -100,6 +105,18 @@ class Direction
     public function setEtat(bool $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getSurvey(): ?Survey
+    {
+        return $this->survey;
+    }
+
+    public function setSurvey(?Survey $survey): self
+    {
+        $this->survey = $survey;
 
         return $this;
     }

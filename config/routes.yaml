@@ -20,10 +20,6 @@ ajax_request_entity:
   path: admin/ajax_request_entity
   controller: App\Controller\Admin\AsyncController::getSpecificEntitySelect
 
-ajax_request_direction_survey:
-  path:   admin/ajax_request_direction_survey
-  controller: App\Controller\Admin\AsyncController::getDirectionSurveySelect
-
 ajax_request_direction_unique_name:
   path:   admin/ajax_request_direction_unique_name
   controller: App\Controller\Admin\AsyncController::getDirectionUniqueName

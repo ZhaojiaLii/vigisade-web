@@ -61,9 +61,7 @@ class SurveyController extends ApiController
         }
 
 
-        $survey = $this->em
-            ->getRepository(Survey::class)
-            ->findOneBy(['direction' => $direction]);
+        $survey = $direction->getSurvey();
 
         if (!$survey) {
             $message = [
@@ -75,7 +73,7 @@ class SurveyController extends ApiController
 
         $responseArray = [
             "surveyId" => $survey->getId(),
-            "surveyDirectionId" => $survey->getDirection() ? $survey->getDirection()->getId() : null,
+            "surveyDirectionId" => $direction ? $direction->getId() : null,
             "surveyAreaId" => $this->getUser()->getArea()? $this->getUser()->getArea()->getId() : null,
             "surveyEntityId" => $this->getUser()->getEntity() ? $this->getUser()->getEntity()->getId() : null,
             "surveyTeam" => $survey->getTeam() ? $survey->getTeam() : null,
