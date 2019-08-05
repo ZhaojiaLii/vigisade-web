@@ -62,6 +62,7 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Nom Direction' }
                     - { property: 'etat', label: 'Actif' }
+                    - { property: 'survey', label: 'Survey' }
 
         #Management Area
         Area:
@@ -229,6 +230,8 @@ easy_admin:
             list:
                 fields:
                 - { property: 'id' }
+
+        #Management Survey
         Survey:
             class: App\Entity\Survey
             label: 'Formulaire de visite'
@@ -257,7 +260,7 @@ easy_admin:
                             'Equipe': 'Equipe',
                             'Responsable': 'Responsable'
                         }}}
-                    - { property: 'direction' }
+                    - { property: 'direction'}
             list:
                 fields:
                     - { property: 'id' }

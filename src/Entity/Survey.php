@@ -187,9 +187,10 @@ class Survey
 
         return $this;
     }
+
     public function __toString()
     {
-        return $this->getId();
+        return $this->title;
     }
 
     /**
