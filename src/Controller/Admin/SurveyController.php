@@ -25,28 +25,6 @@ class SurveyController extends EasyAdminController
     }
 
     /**
-     * @param object $entity
-     */
-    public function persistEntity($entity)
-    {
-        $surveys = $this->em->getRepository(Survey::class)->findBy(['direction' => $entity->getDirection()]);
-
-        if(!$surveys){
-            parent::persistEntity($entity);
-            return;
-        }
-        $this->addFlash('danger',  'Formulaire non sauvergardé, la direction est utilisée par le formulaire : '.$surveys[0]->getTitle().' qui possède ID : '.$surveys[0]->getID());
-    }
-
-    /**
-     * @param object $entity
-     */
-    public function updateEntity($entity)
-    {
-        parent::updateEntity($entity);
-    }
-
-    /**
      * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction()

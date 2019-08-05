@@ -50,24 +50,6 @@ class AsyncController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function getDirectionSurveySelect(EntityManagerInterface $em, Request $request)
-    {
-        $idDirection = $request->request->get('id_direction');
-        $surveys = $em->getRepository(Survey::class)->findBy(['direction' => $idDirection]);
-        if(!$surveys){
-
-            return new JsonResponse(['message' => 'null']);
-        }
-
-        return new JsonResponse(['message' =>
-            'Cette direction est utilisé par le formulaire : '.$surveys[0]->getTitle().' qui possède ID : '.$surveys[0]->getID()]);
-    }
-
-    /**
-     * @param EntityManagerInterface $em
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function getDirectionUniqueName(EntityManagerInterface $em, Request $request)
     {
         $direction = $em->getRepository(Direction::class)->findBy([
