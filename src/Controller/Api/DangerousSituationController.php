@@ -67,9 +67,16 @@ class DangerousSituationController extends ApiController
         $data = json_decode($request->getContent(), true);
 
         if (empty($data)) {
-            $message = ['message' => 'The JSON sent contains invalid data or empty'];
+            return new JsonResponse(['code' => '400', 'message' => "The JSON sent contains invalid data or empty"], 400);
+        }
 
-            return new JsonResponse($message, 400);
+        // check all parameters mandatory in data
+        $dataKeys =  ['typeSituationDangerousID', 'dangerousSituationComment'];
+
+        foreach ($dataKeys as $key){
+            if(!array_key_exists($key, $data)) {
+                return new JsonResponse(['code' => '400', 'message' => "The parameter `".$key."` should be specified."], 400);
+            }
         }
 
         $dangerouseSituation = new DangerousSituation();
