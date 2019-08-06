@@ -273,63 +273,6 @@ class ResultController extends ApiController
     }
 
     /**
-     * @param Request $request
-     * @return \FOS\RestBundle\View\View|JsonResponse
-     * @throws \Exception
-     */
-    public function updateResult(Request $request)
-    {
-        $data = json_decode($request->getContent(), true);
-
-        if(empty($data)){
-            $message = ['message' => "The JSON sent contains invalid data or empty"];
-
-            return new JsonResponse($message, 400);
-        }
-
-        $result = $this->resultRepository->getResultByID($data['resultId']);
-
-        $result->setDate(new \DateTime($data['resultDate']));
-        $result->setPlace($data['resultPlace']);
-        $result->setClient($data['resultClient']);
-        $result->setValidated($data['resultValidated']);
-        $result->setBestPracticeDone($data['resultBestPracticeDone']);
-        $result->setBestPracticeComment($data['resultBestPracticeComment']);
-        $result->setBestPracticePhoto($data['resultBestPracticePhoto']);
-        $result->setSurvey($this->surveyRepository->find($data['resultSurveyId']));
-        $result->setUser($this->userRepository->find($data['resultUserId']));
-        $result->setDirection($this->directionRepository->find($data['resultDirectionId']));
-        $result->setArea($this->areaRepository->find($data['resultAreaId']));
-        $result->setEntity($this->entityRepository->find($data['resultEntityId']));
-
-        foreach ( $data['resultQuestion'] as $resultQuestionValue ){
-            $resultQuestion = $this->resultQuestionRepository->find($resultQuestionValue['resultQuestionId']);
-            $resultQuestion->setComment($resultQuestionValue['resultQuestionResultComment']);
-            $resultQuestion->setNotation($resultQuestionValue['resultQuestionResultNotation']);
-            $resultQuestion->setPhoto($resultQuestionValue['resultQuestionResultPhoto']);
-        }
-
-        foreach ( $data['resultTeamMember'] as $resultTeamMemberValue ){
-            $resultTeamMember = $this->resultTeamMemberRepository->find($resultTeamMemberValue['resultTeamMemberId']);
-            $resultTeamMember->setFirstName($resultTeamMemberValue['resultTeamMemberFirstName']);
-            $resultTeamMember->setLastName($resultTeamMemberValue['resultTeamMemberLastName']);
-            $resultTeamMember->setRole($resultTeamMemberValue['resultTeamMemberRole']);
-        }
-
-        $this->em->persist($result);
-        $this->em->flush();
-
-        if(!$this->em->contains($result)){
-
-            return new JsonResponse(["message" => "NOT UPDATED"], 400);
-        }
-
-        $responseArray = $this->resultRepository->getResultResponse($result->getId());
-
-        return $this->createResponse(SELF::RESULT, $responseArray);
-    }
-
-    /**
      * @return \FOS\RestBundle\View\View
      */
     public function getResults()
