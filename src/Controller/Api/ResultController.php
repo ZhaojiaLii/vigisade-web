@@ -145,48 +145,14 @@ class ResultController extends ApiController
         }
 
         // check all parameters of data
-        if(!array_key_exists('resultSurveyId', $data)) {
-            return ['message' => "The parameter `resultSurveyId` should be specified."];
-        }
+        $dataKeys =  ['resultSurveyId', 'resultUserId', 'resultDirectionId', 'resultAreaId', 'resultEntityId',
+                      'resultClient', 'resultValidated', 'resultBestPracticeDone', 'resultBestPracticeComment',
+                      'resultBestPracticePhoto'];
 
-        if(!array_key_exists('resultUserId', $data)) {
-            return ['message' => "The parameter `resultUserId` should be specified."];
-        }
-
-        if(!array_key_exists('resultDirectionId', $data)) {
-            return ['message' => "The parameter `resultDirectionId` should be specified."];
-        }
-
-        if(!array_key_exists('resultDirectionId', $data)) {
-            return ['message' => "The parameter `resultDirectionId` should be specified."];
-        }
-
-        if(!array_key_exists('resultAreaId', $data)) {
-            return ['message' => "The parameter `resultAreaId` should be specified."];
-        }
-
-        if(!array_key_exists('resultEntityId', $data)) {
-            return ['message' => "The parameter `resultEntityId` should be specified."];
-        }
-
-        if(!array_key_exists('resultClient', $data)) {
-            return ['message' => "The parameter `resultClient` should be specified."];
-        }
-
-        if(!array_key_exists('resultValidated', $data)) {
-            return ['message' => "The parameter `resultValidated` should be specified."];
-        }
-
-        if(!array_key_exists('resultBestPracticeDone', $data)) {
-            return ['message' => "The parameter `resultBestPracticeDone` should be specified."];
-        }
-
-        if(!array_key_exists('resultBestPracticeComment', $data)) {
-            return ['message' => "The parameter `resultBestPracticeComment` should be specified."];
-        }
-
-        if(!array_key_exists('resultBestPracticePhoto', $data)) {
-            return ['message' => "The parameter `resultBestPracticePhoto` should be specified."];
+        foreach ($dataKeys as $key){
+            if(!array_key_exists($key, $data)) {
+                return new JsonResponse(['code' => '400', 'message' => "The parameter `".$key."` should be specified."], 400);
+            }
         }
 
         // save Result
