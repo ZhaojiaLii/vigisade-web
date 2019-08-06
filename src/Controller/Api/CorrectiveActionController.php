@@ -114,7 +114,12 @@ class CorrectiveActionController extends ApiController
         $data = json_decode($request->getContent(), true);
 
         if(empty($data)){
-            return ['message' => "The JSON sent contains invalid data or empty"];
+            return new JsonResponse(['code' => '400', 'message' => "The JSON sent contains invalid data or empty"], 400);
+        }
+
+        // check if `id` exist in data
+        if(!array_key_exists('id', $data)) {
+            return new JsonResponse(['code' => '400', 'message' => "The parameter `id` should be specified."], 400);
         }
 
         $correctiveAction = $this->correctiveActionRepository->getCorrectiveActionByID($data['id']);
