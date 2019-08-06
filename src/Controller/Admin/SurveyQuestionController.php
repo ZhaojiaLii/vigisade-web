@@ -15,6 +15,7 @@ class SurveyQuestionController extends EasyAdminController
      * @var EntityManagerInterface
      */
     protected $em;
+
     /**
      * SurveyController constructor.
      * @param EntityManagerInterface $em
@@ -24,6 +25,9 @@ class SurveyQuestionController extends EasyAdminController
         $this->em = $em;
     }
 
+    /**
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function editAction()
     {
         $surveyCategoryId = $this->request->get('surveyCategoryId');
@@ -42,6 +46,9 @@ class SurveyQuestionController extends EasyAdminController
         return $response;
     }
 
+    /**
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function newAction()
     {
         $surveyCategoryId = $this->request->get('surveyCategoryId');
@@ -60,6 +67,9 @@ class SurveyQuestionController extends EasyAdminController
         return $response;
     }
 
+    /**
+     * @return RedirectResponse
+     */
     public function deleteQuestionAction()
     {
         $id = $this->request->get('id');

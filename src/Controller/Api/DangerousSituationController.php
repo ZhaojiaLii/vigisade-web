@@ -5,12 +5,10 @@ namespace App\Controller\Api;
 use App\Controller\ApiController;
 use App\Entity\DangerousSituation;
 use App\Entity\TypeDangerousSituation;
-use App\Repository\BestPracticeRepository;
 use App\Repository\DangerousSituationRepository;
 use App\Repository\TypeDangerousSituationRepository;
 use App\Service\UploadImageBase64;
 use JMS\Serializer\SerializerInterface;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +16,24 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DangerousSituationController extends ApiController
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
+
+    /**
+     * @var TypeDangerousSituationRepository
+     */
     private $typeDangerousSituationRepository;
+
+    /**
+     * @var DangerousSituationRepository
+     */
     private $dangerousSituationRepository;
+
+    /**
+     * @var UploadImageBase64
+     */
     private $uploadImageBase64;
 
     /**
@@ -46,7 +59,7 @@ class DangerousSituationController extends ApiController
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param SerializerInterface $serializer
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|JsonResponse
      * @throws \Exception
      */
     public function create(Request $request, EntityManagerInterface $em, SerializerInterface $serializer)

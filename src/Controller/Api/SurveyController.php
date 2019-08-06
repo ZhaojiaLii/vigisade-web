@@ -13,10 +13,29 @@ use App\Repository\SurveyRepository;
 
 class SurveyController extends ApiController
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
+
+    /**
+     * @var BestPracticeRepository
+     */
     private $bestPracticeRepository;
+
+    /**
+     * @var SurveyRepository
+     */
     private $surveyRepository;
+
+    /**
+     * @var SurveyTranslationRepository
+     */
     private $surveyTranslationRepository;
+
+    /**
+     * @var SurveyCategoryRepository
+     */
     private $surveyCategoryRepository;
 
     /**
@@ -43,7 +62,7 @@ class SurveyController extends ApiController
     }
 
     /**
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|JsonResponse
      */
     public function getSurvey()
     {

@@ -10,9 +10,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DirectionZoneEntityController extends ApiController
 {
+    /**
+     * @var DirectionRepository
+     */
     private $directionRepository;
+
+    /**
+     * @var TypeDangerousSituationRepository
+     */
     private $typeDangerousSituationRepository;
 
+    /**
+     * DirectionZoneEntityController constructor.
+     * @param DirectionRepository $directionRepository
+     * @param TypeDangerousSituationRepository $typeDangerousSituationRepository
+     */
     public function __construct(
         DirectionRepository $directionRepository,
         TypeDangerousSituationRepository $typeDangerousSituationRepository)
@@ -22,7 +34,7 @@ class DirectionZoneEntityController extends ApiController
     }
 
     /**
-     * Gets Information about Directions, Areas and entities
+     * Gets Information about Directions, Areas, entities and type dangerous situation
      * @return \FOS\RestBundle\View\View
      */
     public function getDirectionZoneEntityTypeDangerousSituation() {

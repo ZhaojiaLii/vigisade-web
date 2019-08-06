@@ -25,17 +25,64 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResultController extends ApiController
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
+
+    /**
+     * @var SurveyRepository
+     */
     private $surveyRepository;
+
+    /**
+     * @var UserRepository
+     */
     private $userRepository;
+
+    /**
+     * @var DirectionRepository
+     */
     private $directionRepository;
+
+    /**
+     * @var AreaRepository
+     */
     private $areaRepository;
+
+    /**
+     * @var EntityRepository
+     */
     private $entityRepository;
+
+    /**
+     * @var ResultRepository
+     */
     private $resultRepository;
+
+    /**
+     * @var ResultQuestionRepository
+     */
     private $resultQuestionRepository;
+
+    /**
+     * @var ResultTeamMemberRepository
+     */
     private $resultTeamMemberRepository;
+
+    /**
+     * @var SurveyQuestionRepository
+     */
     private $surveyQuestionRepository;
+
+    /**
+     * @var UploadImageBase64
+     */
     private $uploadImageBase64;
+
+    /**
+     * @var BestPracticeRepository
+     */
     private $bestPracticeRepository;
 
     const RESULT = "RESULT";
@@ -86,7 +133,7 @@ class ResultController extends ApiController
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return array|\FOS\RestBundle\View\View|JsonResponse
      * @throws \Exception
      */
     public function createResult(Request $request)
@@ -261,7 +308,7 @@ class ResultController extends ApiController
 
     /**
      * @param Request $request
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|JsonResponse
      * @throws \Exception
      */
     public function updateResult(Request $request)
@@ -317,7 +364,6 @@ class ResultController extends ApiController
     }
 
     /**
-     * @param Request $request
      * @return \FOS\RestBundle\View\View
      */
     public function getResults()
@@ -334,7 +380,6 @@ class ResultController extends ApiController
 
     /**
      * @param string $id
-     * @param Request $request
      * @return \FOS\RestBundle\View\View
      */
     public function getResult(string $id)

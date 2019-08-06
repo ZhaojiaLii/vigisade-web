@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 use App\Entity\Area;
 use App\Entity\Direction;
 use App\Entity\Entity;
-use App\Entity\Survey;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,6 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AsyncController extends AbstractController
 {
+    /**
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function getSpecificAreaSelect(EntityManagerInterface $em, Request $request)
     {
         $idDirection = $request->request->get('id_direction');
@@ -29,6 +33,11 @@ class AsyncController extends AbstractController
         return new JsonResponse($responseArray);
     }
 
+    /**
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function getSpecificEntitySelect(EntityManagerInterface $em, Request $request)
     {
         $idArea = $request->request->get('id_area');
@@ -64,6 +73,11 @@ class AsyncController extends AbstractController
         return new JsonResponse(['message' => 'null']);
     }
 
+    /**
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function getAreaUniqueName(EntityManagerInterface $em, Request $request)
     {
         $area = $em->getRepository(Area::class)->findBy([
@@ -78,6 +92,11 @@ class AsyncController extends AbstractController
         return new JsonResponse(['message' => 'null']);
     }
 
+    /**
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function getEntityUniqueName(EntityManagerInterface $em, Request $request)
     {
         $entity = $em->getRepository(Entity::class)->findBy([
