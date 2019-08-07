@@ -144,7 +144,7 @@ class ResultController extends ApiController
             return ['message' => "The JSON sent contains invalid data or empty"];
         }
 
-        // check all parameters of data
+        // check all parameters mandatory of data
         $dataKeys =  ['resultSurveyId', 'resultUserId', 'resultDirectionId', 'resultAreaId', 'resultEntityId',
                       'resultClient', 'resultValidated', 'resultBestPracticeDone', 'resultBestPracticeComment',
                       'resultBestPracticePhoto'];
@@ -255,6 +255,7 @@ class ResultController extends ApiController
                 $correctiveAction->setStatus('A traiter');
                 $correctiveAction->setQuestion($this->SurveyQuestionRepository->find($resultQuestion->getQuestion()->getId()));
                 $correctiveAction->setResult($this->resultRepository->find($resultQuestion->getResult()->getId()));
+                $correctiveAction->setArea($result->getArea());
 
                 $this->em->persist($correctiveAction);
 
@@ -273,6 +274,7 @@ class ResultController extends ApiController
     }
 
     /**
+     * this WS is not used
      * @param Request $request
      * @return \FOS\RestBundle\View\View|JsonResponse
      * @throws \Exception
