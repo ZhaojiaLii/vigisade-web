@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends BaseFixture
 {
     private $passwordEncoder;
-    private static $language = ["fr", "en", "es"];
+    private static $language = ["fr"];
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder){
         $this->passwordEncoder = $passwordEncoder;
@@ -17,46 +17,18 @@ class UserFixtures extends BaseFixture
 
     public function loadData(ObjectManager $manager)
     {
-        $this->createMany(3, 'main_users_admin', function($i) use ($manager) {
+        $this->createMany(1, 'main_users_admin', function($i) use ($manager) {
             $user = new User();
             $user->setEmail(sprintf('admin_%d@gmail.com', $i));
-            $user->setFirstName($this->faker->firstName);
-            $user->setLastname($this->faker->lastName);
+            $user->setFirstName("Sebastien");
+            $user->setLastname("Faye");
             $user->setRoles(['ROLE_ADMIN']);
             $user->setLanguage($this->faker->randomElement(self::$language));
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 '12345678'
             ));
-            $user->setActif($this->faker->boolean);
-            return $user;
-        });
-        $this->createMany(3, 'main_users_manager', function($i) use ($manager) {
-            $user = new User();
-            $user->setEmail(sprintf('manager_%d@gmail.com', $i));
-            $user->setFirstName($this->faker->firstName);
-            $user->setLastname($this->faker->lastName);
-            $user->setRoles(['ROLE_MANAGER']);
-            $user->setLanguage($this->faker->randomElement(self::$language));
-            $user->setPassword($this->passwordEncoder->encodePassword(
-                $user,
-                '12345678'
-            ));
-            $user->setActif($this->faker->boolean);
-            return $user;
-        });
-        $this->createMany(3, 'admin_users_conducteur', function($i) {
-            $user = new User();
-            $user->setEmail(sprintf('conducteur_%d@gmail.com', $i));
-            $user->setFirstName($this->faker->firstName);
-            $user->setLastname($this->faker->lastName);
-            $user->setRoles(['ROLE_CONDUCTEUR']);
-            $user->setLanguage($this->faker->randomElement(self::$language));
-            $user->setPassword($this->passwordEncoder->encodePassword(
-                $user,
-                '12345678'
-            ));
-            $user->setActif($this->faker->boolean);
+            $user->setActif("true");
             return $user;
         });
         $manager->flush();
