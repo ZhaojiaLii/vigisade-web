@@ -85,7 +85,7 @@ class CorrectiveActionController extends ApiController
         if($userRole[0] === 'ROLE_CONDUCTEUR'){
             $correctivesAction = $this->em
                 ->getRepository(CorrectiveAction::class)
-                ->findBy(['user' => $this->getUser(), 'status' => 'A traiter']);
+                ->findBy(['user' => $this->getUser()]);
 
             if (!$correctivesAction) {
                 $message = [
@@ -97,14 +97,14 @@ class CorrectiveActionController extends ApiController
             }
         }
 
-        //If the user has a ROLE_MANAGER => we show his corrective actions and the corrective action related to his Area (zone)
+        //If the user has a ROLE_MANAGER => we show his corrective actions and the corrective action related to his entity (Agence)
         if($userRole[0] === 'ROLE_MANAGER'){
 
             // if the user has a area = null
-            if ($this->getUser()->getArea() === null) {
+            if ($this->getUser()->getEntity() === null) {
                 $message = [
                     'code' => '200',
-                    'message' => "this user is not related to any area"
+                    'message' => "this user is not related to any entity"
                 ];
 
                 return new JsonResponse($message, 200);
@@ -112,12 +112,12 @@ class CorrectiveActionController extends ApiController
 
             $correctivesAction = $this->em
                 ->getRepository(CorrectiveAction::class)
-                ->findBy(['area' => $this->getUser()->getArea(), 'status' => 'A traiter']);
+                ->findBy(['entity' => $this->getUser()->getEntity()]);
 
             if (!$correctivesAction) {
                 $message = [
                     'code' => '200',
-                    'message' => "not found Corrective Action in this area `".$this->getUser()->getArea()."` with status `A Traiter`"
+                    'message' => "Corrective Action not found  in this entity `".$this->getUser()->getEntity()."`"
                 ];
 
                 return new JsonResponse($message, 200);
@@ -126,14 +126,25 @@ class CorrectiveActionController extends ApiController
 
         //If the user has a ROLE_ADMIN => we show all corrective actions
         if($userRole[0] === 'ROLE_ADMIN'){
+
+            // if the user has a direction = null
+            if ($this->getUser()->getDirection() === null) {
+                $message = [
+                    'code' => '200',
+                    'message' => "this user is not related to any Direction"
+                ];
+
+                return new JsonResponse($message, 200);
+            }
+
             $correctivesAction = $this->em
                 ->getRepository(CorrectiveAction::class)
-                ->findBy(['status' => 'A traiter']);
+                ->findBy(['direction' => $this->getUser()->getDirection()]);
 
             if (!$correctivesAction) {
                 $message = [
                     'code' => '200',
-                    'message' => "not found Corrective Action with status `A Traiter`"
+                    'message' => "Corrective Action not found"
                 ];
 
                 return new JsonResponse($message, 200);
@@ -149,6 +160,7 @@ class CorrectiveActionController extends ApiController
                 "category_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getCategory()->getID() : null,
                 "question_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getID() : null,
                 "result_id" => $correctiveAction->getResult() ? $correctiveAction->getResult()->getID() : null,
+                "result_question_id" => $correctiveAction->getResultQuestion() ? $correctiveAction->getResultQuestion()->getID() : null,
                 "status" => $correctiveAction->getStatus(),
                 "image" => $correctiveAction->getImage(),
                 "comment_question"=> $correctiveAction->getCommentQuestion(),

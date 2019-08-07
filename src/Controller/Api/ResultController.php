@@ -255,7 +255,10 @@ class ResultController extends ApiController
                 $correctiveAction->setStatus('A traiter');
                 $correctiveAction->setQuestion($this->SurveyQuestionRepository->find($resultQuestion->getQuestion()->getId()));
                 $correctiveAction->setResult($this->resultRepository->find($resultQuestion->getResult()->getId()));
+                $correctiveAction->setResultQuestion($resultQuestion);
+                $correctiveAction->setDirection($result->getDirection());
                 $correctiveAction->setArea($result->getArea());
+                $correctiveAction->setEntity($result->getEntity());
 
                 $this->em->persist($correctiveAction);
 
