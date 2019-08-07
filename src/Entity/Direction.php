@@ -38,10 +38,16 @@ class Direction
      */
     private $survey;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CorrectiveAction", mappedBy="direction")
+     */
+    private $correctiveActions;
+
 
     public function __construct()
     {
         $this->areas = new ArrayCollection();
+        $this->correctiveActions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,6 +123,37 @@ class Direction
     public function setSurvey(?Survey $survey): self
     {
         $this->survey = $survey;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CorrectiveAction[]
+     */
+    public function getCorrectiveActions(): Collection
+    {
+        return $this->correctiveActions;
+    }
+
+    public function addCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if (!$this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions[] = $correctiveAction;
+            $correctiveAction->setDirection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if ($this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions->removeElement($correctiveAction);
+            // set the owning side to null (unless already changed)
+            if ($correctiveAction->getDirection() === $this) {
+                $correctiveAction->setDirection(null);
+            }
+        }
 
         return $this;
     }
