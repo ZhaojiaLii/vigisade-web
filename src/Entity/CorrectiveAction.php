@@ -49,6 +49,11 @@ class CorrectiveAction
      */
     private $result;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Area", inversedBy="correctiveActions")
+     */
+    private $area;
+
     public function __construct()
     {
 
@@ -127,6 +132,18 @@ class CorrectiveAction
     public function setResult(?Result $result): self
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    public function getArea(): ?Area
+    {
+        return $this->area;
+    }
+
+    public function setArea(?Area $area): self
+    {
+        $this->area = $area;
 
         return $this;
     }
