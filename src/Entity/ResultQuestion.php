@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +50,16 @@ class ResultQuestion
      * @ORM\ManyToOne(targetEntity="App\Entity\ResultTeamMember", inversedBy="resultQuestions")
      */
     private $teamMembers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CorrectiveAction", mappedBy="resultQuestion")
+     */
+    private $correctiveActions;
+
+    public function __construct()
+    {
+        $this->correctiveActions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -117,6 +129,37 @@ class ResultQuestion
     public function setTeamMembers(?ResultTeamMember $teamMembers): self
     {
         $this->teamMembers = $teamMembers;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CorrectiveAction[]
+     */
+    public function getCorrectiveActions(): Collection
+    {
+        return $this->correctiveActions;
+    }
+
+    public function addCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if (!$this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions[] = $correctiveAction;
+            $correctiveAction->setResultQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if ($this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions->removeElement($correctiveAction);
+            // set the owning side to null (unless already changed)
+            if ($correctiveAction->getResultQuestion() === $this) {
+                $correctiveAction->setResultQuestion(null);
+            }
+        }
 
         return $this;
     }

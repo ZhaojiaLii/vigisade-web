@@ -38,10 +38,16 @@ class Area
      */
     private $etat;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CorrectiveAction", mappedBy="area")
+     */
+    private $correctiveActions;
+
 
     public function __construct()
     {
         $this->entities = new ArrayCollection();
+        $this->correctiveActions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,6 +123,37 @@ class Area
     public function setEtat(bool $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CorrectiveAction[]
+     */
+    public function getCorrectiveActions(): Collection
+    {
+        return $this->correctiveActions;
+    }
+
+    public function addCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if (!$this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions[] = $correctiveAction;
+            $correctiveAction->setArea($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCorrectiveAction(CorrectiveAction $correctiveAction): self
+    {
+        if ($this->correctiveActions->contains($correctiveAction)) {
+            $this->correctiveActions->removeElement($correctiveAction);
+            // set the owning side to null (unless already changed)
+            if ($correctiveAction->getArea() === $this) {
+                $correctiveAction->setArea(null);
+            }
+        }
 
         return $this;
     }

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190806141105 extends AbstractMigration
+final class Version20190807154747 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -23,7 +23,7 @@ final class Version20190806141105 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE type_dangerous_situation (id INT AUTO_INCREMENT NOT NULL, status TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE corrective_action (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, question_id INT DEFAULT NULL, result_id INT DEFAULT NULL, status VARCHAR(255) NOT NULL, image VARCHAR(255) DEFAULT NULL, comment_question LONGTEXT DEFAULT NULL, INDEX IDX_ECD872CEA76ED395 (user_id), INDEX IDX_ECD872CE1E27F6BF (question_id), INDEX IDX_ECD872CE7A7B643 (result_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE corrective_action (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, question_id INT DEFAULT NULL, result_id INT DEFAULT NULL, result_question_id INT DEFAULT NULL, direction_id INT DEFAULT NULL, area_id INT DEFAULT NULL, entity_id INT DEFAULT NULL, status VARCHAR(255) NOT NULL, image VARCHAR(255) DEFAULT NULL, comment_question LONGTEXT DEFAULT NULL, INDEX IDX_ECD872CEA76ED395 (user_id), INDEX IDX_ECD872CE1E27F6BF (question_id), INDEX IDX_ECD872CE7A7B643 (result_id), INDEX IDX_ECD872CE8B362F0 (result_question_id), INDEX IDX_ECD872CEAF73D997 (direction_id), INDEX IDX_ECD872CEBD0F409C (area_id), INDEX IDX_ECD872CE81257D5D (entity_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE area (id INT AUTO_INCREMENT NOT NULL, direction_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, etat TINYINT(1) NOT NULL, INDEX IDX_D7943D68AF73D997 (direction_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE survey_category_translation (id INT AUTO_INCREMENT NOT NULL, translatable_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, locale VARCHAR(255) NOT NULL, INDEX IDX_3750C35D2C2AC5D3 (translatable_id), UNIQUE INDEX survey_category_translation_unique_translation (translatable_id, locale), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE result (id INT AUTO_INCREMENT NOT NULL, survey_id INT DEFAULT NULL, user_id INT DEFAULT NULL, direction_id INT DEFAULT NULL, area_id INT DEFAULT NULL, entity_id INT DEFAULT NULL, best_practice_type_id INT DEFAULT NULL, date DATETIME NOT NULL, place LONGTEXT NOT NULL, client LONGTEXT NOT NULL, validated TINYINT(1) NOT NULL, best_practice_done TINYINT(1) NOT NULL, best_practice_comment LONGTEXT NOT NULL, best_practice_photo LONGTEXT NOT NULL, INDEX IDX_136AC113B3FE509D (survey_id), INDEX IDX_136AC113A76ED395 (user_id), INDEX IDX_136AC113AF73D997 (direction_id), INDEX IDX_136AC113BD0F409C (area_id), INDEX IDX_136AC11381257D5D (entity_id), INDEX IDX_136AC113702AFC92 (best_practice_type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
@@ -45,6 +45,10 @@ final class Version20190806141105 extends AbstractMigration
         $this->addSql('ALTER TABLE corrective_action ADD CONSTRAINT FK_ECD872CEA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE corrective_action ADD CONSTRAINT FK_ECD872CE1E27F6BF FOREIGN KEY (question_id) REFERENCES survey_question (id)');
         $this->addSql('ALTER TABLE corrective_action ADD CONSTRAINT FK_ECD872CE7A7B643 FOREIGN KEY (result_id) REFERENCES result (id)');
+        $this->addSql('ALTER TABLE corrective_action ADD CONSTRAINT FK_ECD872CE8B362F0 FOREIGN KEY (result_question_id) REFERENCES result_question (id)');
+        $this->addSql('ALTER TABLE corrective_action ADD CONSTRAINT FK_ECD872CEAF73D997 FOREIGN KEY (direction_id) REFERENCES direction (id)');
+        $this->addSql('ALTER TABLE corrective_action ADD CONSTRAINT FK_ECD872CEBD0F409C FOREIGN KEY (area_id) REFERENCES area (id)');
+        $this->addSql('ALTER TABLE corrective_action ADD CONSTRAINT FK_ECD872CE81257D5D FOREIGN KEY (entity_id) REFERENCES entity (id)');
         $this->addSql('ALTER TABLE area ADD CONSTRAINT FK_D7943D68AF73D997 FOREIGN KEY (direction_id) REFERENCES direction (id)');
         $this->addSql('ALTER TABLE survey_category_translation ADD CONSTRAINT FK_3750C35D2C2AC5D3 FOREIGN KEY (translatable_id) REFERENCES survey_category (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE result ADD CONSTRAINT FK_136AC113B3FE509D FOREIGN KEY (survey_id) REFERENCES survey (id)');
@@ -82,6 +86,7 @@ final class Version20190806141105 extends AbstractMigration
 
         $this->addSql('ALTER TABLE type_dangerous_situation_translation DROP FOREIGN KEY FK_C14CFDDE2C2AC5D3');
         $this->addSql('ALTER TABLE dangerous_situation DROP FOREIGN KEY FK_6C25E8364AC461E8');
+        $this->addSql('ALTER TABLE corrective_action DROP FOREIGN KEY FK_ECD872CEBD0F409C');
         $this->addSql('ALTER TABLE result DROP FOREIGN KEY FK_136AC113BD0F409C');
         $this->addSql('ALTER TABLE entity DROP FOREIGN KEY FK_E284468BD0F409C');
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649BD0F409C');
@@ -94,10 +99,13 @@ final class Version20190806141105 extends AbstractMigration
         $this->addSql('ALTER TABLE survey_question_translation DROP FOREIGN KEY FK_63CF5EBB2C2AC5D3');
         $this->addSql('ALTER TABLE survey_category_translation DROP FOREIGN KEY FK_3750C35D2C2AC5D3');
         $this->addSql('ALTER TABLE survey_question DROP FOREIGN KEY FK_EA000F6912469DE2');
+        $this->addSql('ALTER TABLE corrective_action DROP FOREIGN KEY FK_ECD872CE8B362F0');
+        $this->addSql('ALTER TABLE corrective_action DROP FOREIGN KEY FK_ECD872CE81257D5D');
         $this->addSql('ALTER TABLE result DROP FOREIGN KEY FK_136AC11381257D5D');
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D64981257D5D');
         $this->addSql('ALTER TABLE dangerous_situation DROP FOREIGN KEY FK_6C25E83681257D5D');
         $this->addSql('ALTER TABLE result_question DROP FOREIGN KEY FK_11F256AD83D88728');
+        $this->addSql('ALTER TABLE corrective_action DROP FOREIGN KEY FK_ECD872CEAF73D997');
         $this->addSql('ALTER TABLE area DROP FOREIGN KEY FK_D7943D68AF73D997');
         $this->addSql('ALTER TABLE result DROP FOREIGN KEY FK_136AC113AF73D997');
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649AF73D997');

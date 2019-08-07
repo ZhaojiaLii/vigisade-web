@@ -49,6 +49,29 @@ class CorrectiveAction
      */
     private $result;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ResultQuestion", inversedBy="correctiveActions")
+     */
+    private $resultQuestion;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Direction", inversedBy="correctiveActions")
+     */
+    private $direction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Area", inversedBy="correctiveActions")
+     */
+    private $area;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entity", inversedBy="correctiveActions")
+     */
+    private $entity;
+
+    /**
+     * CorrectiveAction constructor.
+     */
     public function __construct()
     {
 
@@ -127,6 +150,54 @@ class CorrectiveAction
     public function setResult(?Result $result): self
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    public function getArea(): ?Area
+    {
+        return $this->area;
+    }
+
+    public function setArea(?Area $area): self
+    {
+        $this->area = $area;
+
+        return $this;
+    }
+
+    public function getDirection(): ?Direction
+    {
+        return $this->direction;
+    }
+
+    public function setDirection(?Direction $direction): self
+    {
+        $this->direction = $direction;
+
+        return $this;
+    }
+
+    public function getEntity(): ?Entity
+    {
+        return $this->entity;
+    }
+
+    public function setEntity(?Entity $entity): self
+    {
+        $this->entity = $entity;
+
+        return $this;
+    }
+
+    public function getResultQuestion(): ?ResultQuestion
+    {
+        return $this->resultQuestion;
+    }
+
+    public function setResultQuestion(?ResultQuestion $resultQuestion): self
+    {
+        $this->resultQuestion = $resultQuestion;
 
         return $this;
     }
