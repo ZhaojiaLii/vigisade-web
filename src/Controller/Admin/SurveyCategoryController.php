@@ -16,6 +16,7 @@ class SurveyCategoryController extends EasyAdminController
      * @var EntityManagerInterface
      */
     protected $em;
+
     /**
      * SurveyController constructor.
      * @param EntityManagerInterface $em

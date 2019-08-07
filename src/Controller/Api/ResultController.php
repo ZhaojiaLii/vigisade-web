@@ -25,17 +25,64 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResultController extends ApiController
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
+
+    /**
+     * @var SurveyRepository
+     */
     private $surveyRepository;
+
+    /**
+     * @var UserRepository
+     */
     private $userRepository;
+
+    /**
+     * @var DirectionRepository
+     */
     private $directionRepository;
+
+    /**
+     * @var AreaRepository
+     */
     private $areaRepository;
+
+    /**
+     * @var EntityRepository
+     */
     private $entityRepository;
+
+    /**
+     * @var ResultRepository
+     */
     private $resultRepository;
+
+    /**
+     * @var ResultQuestionRepository
+     */
     private $resultQuestionRepository;
+
+    /**
+     * @var ResultTeamMemberRepository
+     */
     private $resultTeamMemberRepository;
+
+    /**
+     * @var SurveyQuestionRepository
+     */
     private $surveyQuestionRepository;
+
+    /**
+     * @var UploadImageBase64
+     */
     private $uploadImageBase64;
+
+    /**
+     * @var BestPracticeRepository
+     */
     private $bestPracticeRepository;
 
     const RESULT = "RESULT";
@@ -86,7 +133,7 @@ class ResultController extends ApiController
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return array|\FOS\RestBundle\View\View|JsonResponse
      * @throws \Exception
      */
     public function createResult(Request $request)
@@ -98,48 +145,14 @@ class ResultController extends ApiController
         }
 
         // check all parameters of data
-        if(!array_key_exists('resultSurveyId', $data)) {
-            return ['message' => "The parameter `resultSurveyId` should be specified."];
-        }
+        $dataKeys =  ['resultSurveyId', 'resultUserId', 'resultDirectionId', 'resultAreaId', 'resultEntityId',
+                      'resultClient', 'resultValidated', 'resultBestPracticeDone', 'resultBestPracticeComment',
+                      'resultBestPracticePhoto'];
 
-        if(!array_key_exists('resultUserId', $data)) {
-            return ['message' => "The parameter `resultUserId` should be specified."];
-        }
-
-        if(!array_key_exists('resultDirectionId', $data)) {
-            return ['message' => "The parameter `resultDirectionId` should be specified."];
-        }
-
-        if(!array_key_exists('resultDirectionId', $data)) {
-            return ['message' => "The parameter `resultDirectionId` should be specified."];
-        }
-
-        if(!array_key_exists('resultAreaId', $data)) {
-            return ['message' => "The parameter `resultAreaId` should be specified."];
-        }
-
-        if(!array_key_exists('resultEntityId', $data)) {
-            return ['message' => "The parameter `resultEntityId` should be specified."];
-        }
-
-        if(!array_key_exists('resultClient', $data)) {
-            return ['message' => "The parameter `resultClient` should be specified."];
-        }
-
-        if(!array_key_exists('resultValidated', $data)) {
-            return ['message' => "The parameter `resultValidated` should be specified."];
-        }
-
-        if(!array_key_exists('resultBestPracticeDone', $data)) {
-            return ['message' => "The parameter `resultBestPracticeDone` should be specified."];
-        }
-
-        if(!array_key_exists('resultBestPracticeComment', $data)) {
-            return ['message' => "The parameter `resultBestPracticeComment` should be specified."];
-        }
-
-        if(!array_key_exists('resultBestPracticePhoto', $data)) {
-            return ['message' => "The parameter `resultBestPracticePhoto` should be specified."];
+        foreach ($dataKeys as $key){
+            if(!array_key_exists($key, $data)) {
+                return new JsonResponse(['code' => '400', 'message' => "The parameter `".$key."` should be specified."], 400);
+            }
         }
 
         // save Result
@@ -261,7 +274,7 @@ class ResultController extends ApiController
 
     /**
      * @param Request $request
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|JsonResponse
      * @throws \Exception
      */
     public function updateResult(Request $request)
@@ -317,7 +330,6 @@ class ResultController extends ApiController
     }
 
     /**
-     * @param Request $request
      * @return \FOS\RestBundle\View\View
      */
     public function getResults()
@@ -334,7 +346,6 @@ class ResultController extends ApiController
 
     /**
      * @param string $id
-     * @param Request $request
      * @return \FOS\RestBundle\View\View
      */
     public function getResult(string $id)

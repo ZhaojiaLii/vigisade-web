@@ -4,7 +4,6 @@ namespace App\Controller\Api;
 
 use App\Controller\ApiController;
 use App\Entity\Header;
-use App\Exception\Http\NotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -12,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class HeaderController extends ApiController
 {
     /**
+     * Gets Information News
      * @param EntityManagerInterface $em
      * @return \FOS\RestBundle\View\View|JsonResponse
      */

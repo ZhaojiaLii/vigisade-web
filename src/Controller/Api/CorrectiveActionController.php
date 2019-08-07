@@ -17,11 +17,34 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class CorrectiveActionController extends ApiController
 {
+    /**
+     * @var SerializerInterface
+     */
     private $serializer;
+
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
+
+    /**
+     * @var SurveyQuestionRepository
+     */
     private $surveyQuestionRepository;
+
+    /**
+     * @var CorrectiveActionRepository
+     */
     private $correctiveActionRepository;
+
+    /**
+     * @var ResultRepository
+     */
     private $resultRepository;
+
+    /**
+     * @var UploadImageBase64
+     */
     private $uploadImageBase64;
 
     /**
@@ -49,7 +72,7 @@ class CorrectiveActionController extends ApiController
     }
 
     /**
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|JsonResponse
      */
     public function getCorrectiveActions()
     {
@@ -84,14 +107,19 @@ class CorrectiveActionController extends ApiController
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return array|JsonResponse
      */
     public function updateCorrectiveAction(Request $request)
     {
         $data = json_decode($request->getContent(), true);
 
         if(empty($data)){
-            return ['message' => "The JSON sent contains invalid data or empty"];
+            return new JsonResponse(['code' => '400', 'message' => "The JSON sent contains invalid data or empty"], 400);
+        }
+
+        // check if `id` exist in data
+        if(!array_key_exists('id', $data)) {
+            return new JsonResponse(['code' => '400', 'message' => "The parameter `id` should be specified."], 400);
         }
 
         $correctiveAction = $this->correctiveActionRepository->getCorrectiveActionByID($data['id']);
@@ -125,6 +153,7 @@ class CorrectiveActionController extends ApiController
             "image" => $correctiveAction->getImage(),
             "comment_question"=> $correctiveAction->getCommentQuestion(),
         ];
+
         return new JsonResponse($responseArray, Response::HTTP_CREATED);
     }
 }

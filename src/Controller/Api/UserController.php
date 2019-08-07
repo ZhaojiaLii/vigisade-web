@@ -42,6 +42,14 @@ class UserController extends ApiController
     private $entityRepository;
 
 
+    /**
+     * UserController constructor.
+     * @param UserRepository $userRepository
+     * @param EntityManagerInterface $em
+     * @param DirectionRepository $directionRepository
+     * @param AreaRepository $areaRepository
+     * @param EntityRepository $entityRepository
+     */
     public function __construct(
         UserRepository $userRepository,
         EntityManagerInterface $em,

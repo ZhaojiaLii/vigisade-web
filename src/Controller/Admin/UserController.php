@@ -24,12 +24,18 @@ class UserController extends EasyAdminController
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    /**
+     * @param object $entity
+     */
     public function persistEntity($entity)
     {
         $this->encodePassword($entity);
         parent::persistEntity($entity);
     }
 
+    /**
+     * @param $user
+     */
     public function encodePassword($user)
     {
         if (!$user instanceof User) {
@@ -41,6 +47,10 @@ class UserController extends EasyAdminController
         );
     }
 
+    /**
+     * @param User $entity
+     * @param Form|null $editForm
+     */
     protected function updateUserEntity(User $entity, Form $editForm = null)
     {
         if ($editForm) {
@@ -54,6 +64,13 @@ class UserController extends EasyAdminController
         parent::updateEntity($entity);
     }
 
+    /**
+     * @param string $entityClass
+     * @param string $sortDirection
+     * @param null $sortField
+     * @param null $dqlFilter
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
         $response =  parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
@@ -68,6 +85,15 @@ class UserController extends EasyAdminController
         return $response;
     }
 
+    /**
+     * @param string $entityClass
+     * @param string $searchQuery
+     * @param array $searchableFields
+     * @param null $sortField
+     * @param null $sortDirection
+     * @param null $dqlFilter
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = null, $sortDirection = null, $dqlFilter = null)
     {
         $response =  parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
