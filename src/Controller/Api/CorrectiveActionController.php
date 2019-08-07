@@ -76,15 +76,68 @@ class CorrectiveActionController extends ApiController
      */
     public function getCorrectiveActions()
     {
-        $correctivesAction = $this->em
-            ->getRepository(CorrectiveAction::class)
-            ->findBy(['user' => $this->getUser(), 'status' => 'A traiter']);
+        // GET the user Role
+        $userRole = $this->getUser()->getRoles();
 
-        if (!$correctivesAction) {
+        $correctivesAction = [];
 
-            $message = ['message' => "This user dont have Corrective Action"];
+        //If the user has a  ROLE_CONDUCTEUR => we show only his corrective actions
+        if($userRole[0] === 'ROLE_CONDUCTEUR'){
+            $correctivesAction = $this->em
+                ->getRepository(CorrectiveAction::class)
+                ->findBy(['user' => $this->getUser(), 'status' => 'A traiter']);
 
-            return new JsonResponse($message, 200);
+            if (!$correctivesAction) {
+                $message = [
+                    'code' => '200',
+                    'message' => "This user dont have Corrective Action"
+                ];
+
+                return new JsonResponse($message, 200);
+            }
+        }
+
+        //If the user has a ROLE_MANAGER => we show his corrective actions and the corrective action related to his Area (zone)
+        if($userRole[0] === 'ROLE_MANAGER'){
+
+            // if the user has a area = null
+            if ($this->getUser()->getArea() === null) {
+                $message = [
+                    'code' => '200',
+                    'message' => "this user is not related to any area"
+                ];
+
+                return new JsonResponse($message, 200);
+            }
+
+            $correctivesAction = $this->em
+                ->getRepository(CorrectiveAction::class)
+                ->findBy(['area' => $this->getUser()->getArea(), 'status' => 'A traiter']);
+
+            if (!$correctivesAction) {
+                $message = [
+                    'code' => '200',
+                    'message' => "not found Corrective Action in this area `".$this->getUser()->getArea()."` with status `A Traiter`"
+                ];
+
+                return new JsonResponse($message, 200);
+            }
+        }
+
+        //If the user has a ROLE_ADMIN => we show all corrective actions
+        if($userRole[0] === 'ROLE_ADMIN'){
+            $correctivesAction = $this->em
+                ->getRepository(CorrectiveAction::class)
+                ->findBy(['status' => 'A traiter']);
+
+            if (!$correctivesAction) {
+                $message = [
+                    'code' => '200',
+                    'message' => "not found Corrective Action with status `A Traiter`"
+                ];
+
+                return new JsonResponse($message, 200);
+            }
         }
 
         $responseArray = [];
@@ -92,7 +145,7 @@ class CorrectiveActionController extends ApiController
             $responseArray[] = [
                 "id" => $correctiveAction->getId() ,
                 "survey_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getCategory()->getSurvey()->getID() : null,
-                "user_id" => $this->getUser() ? $this->getUser()->getId() : null,
+                "user_id" => $correctiveAction->getUser() ? $correctiveAction->getUser()->getId() : null,
                 "category_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getCategory()->getID() : null,
                 "question_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getID() : null,
                 "result_id" => $correctiveAction->getResult() ? $correctiveAction->getResult()->getID() : null,
@@ -104,6 +157,7 @@ class CorrectiveActionController extends ApiController
 
         return $this->createResponse('CorrectiveAction', $responseArray);
     }
+
 
     /**
      * @param Request $request
