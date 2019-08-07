@@ -239,7 +239,7 @@ easy_admin:
             controller: App\Controller\Admin\SurveyController
             templates:
                 edit: 'admin/survey/edit.html.twig'
-            form: # 'form' is applied to both 'new' and 'edit' views
+            new:
                 fields:
                     - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType,
                         type_options: {
@@ -260,7 +260,28 @@ easy_admin:
                             'Equipe': 'Equipe',
                             'Responsable': 'Responsable'
                         }}}
-                    - { property: 'direction'}
+            edit:
+                fields:
+                    - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType,
+                        type_options: {
+                            required: true,
+                            default_locale: 'fr',
+                            fields: {
+                                title: {label: 'Nom du formulaire'},
+                                bestPracticeLabel: {label: 'Bonne Pratique - Question'},
+                                bestPracticeHelp: {label: 'Bonne Pratique - Aide'}
+                            }
+                        }}
+                    - { property: 'team', label: 'Equipe Contrôlé', type: 'choice', type_options: {
+                        multiple: false,
+                        expanded: false,
+                        mapped: true,
+                        choices: {
+                            'Aucun': 'Aucun',
+                            'Equipe': 'Equipe',
+                            'Responsable': 'Responsable'
+                        }}}
+                    - { property: 'direction', type_options: { disabled: true } }
             list:
                 fields:
                     - { property: 'id' }
