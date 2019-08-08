@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class SurveyController extends EasyAdminController
 {
@@ -23,6 +24,23 @@ class SurveyController extends EasyAdminController
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    protected function redirectToReferrer()
+    {
+        $refererAction = $this->request->query->get('action');
+        if ($refererAction == 'new') {
+            return $this->redirectToRoute('easyadmin', array(
+                'action' => 'edit',
+                'id' => PropertyAccess::createPropertyAccessor()->getValue($this->request->attributes->get('easyadmin')['item'], $this->entity['primary_key_field_name']),
+                'entity' => $this->request->query->get('entity'),
+            ));
+        } else {
+            return parent::redirectToReferrer();
+        }
     }
 
     /**
