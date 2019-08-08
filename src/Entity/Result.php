@@ -76,12 +76,12 @@ class Result
     private $bestPracticeDone;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $bestPracticeComment;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $bestPracticePhoto;
 

@@ -146,8 +146,7 @@ class ResultController extends ApiController
 
         // check all parameters mandatory of data
         $dataKeys =  ['resultSurveyId', 'resultUserId', 'resultDirectionId', 'resultAreaId', 'resultEntityId',
-                      'resultClient', 'resultValidated', 'resultBestPracticeDone', 'resultBestPracticeComment',
-                      'resultBestPracticePhoto'];
+                      'resultClient', 'resultValidated', 'resultBestPracticeDone', 'resultTeamMember'];
 
         foreach ($dataKeys as $key){
             if(!array_key_exists($key, $data)) {
@@ -161,10 +160,10 @@ class ResultController extends ApiController
         $result->setPlace($data['resultPlace']);
         $result->setClient($data['resultClient']);
         $result->setValidated($data['resultValidated']);
-        $result->setBestPracticeType($this->bestPracticeRepository->find($data['resultBestPracticeTypeId']));
+        $result->setBestPracticeType(isset($data['resultBestPracticeTypeId']) ? $this->bestPracticeRepository->find($data['resultBestPracticeTypeId']) : null);
         $result->setBestPracticeDone($data['resultBestPracticeDone']);
-        $result->setBestPracticeComment($data['resultBestPracticeComment']);
-        $result->setBestPracticePhoto($data['resultBestPracticePhoto']);
+        $result->setBestPracticeComment(isset($data['resultBestPracticeComment']) ? $data['resultBestPracticeComment'] : null);
+        $result->setBestPracticePhoto( isset($data['resultBestPracticePhoto']) ? $data['resultBestPracticePhoto'] : null);
         $result->setSurvey($this->surveyRepository->find($data['resultSurveyId']));
         $result->setUser($this->userRepository->find($data['resultUserId']));
         $result->setDirection($this->directionRepository->find($data['resultDirectionId']));
