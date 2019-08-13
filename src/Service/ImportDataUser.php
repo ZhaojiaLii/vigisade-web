@@ -14,6 +14,8 @@ use PhpOffice\PhpSpreadsheet\Reader\Csv as ReaderCsv;
 use PhpOffice\PhpSpreadsheet\Reader\Ods as ReaderOds;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ImportDataUser
@@ -103,43 +105,109 @@ class ImportDataUser
      */
     public function indexGoogleForms($output)
     {
-        $filename = __DIR__.'/../../import/googleForms_users.xlsx';
+        $filename = __DIR__ . '/../../import/googleForms_users.xlsx';
 
         if (!file_exists($filename)) {
-            throw new \Exception('File does not exist');
+            //throw new \Exception('File does not exist in vigisade-web/import ');
+            $output->writeln("<error>The File `googleForms_users.xlsx` does not exist in `vigisade-web/import` ! </error>");
+            return;
         }
 
         $spreadsheet = $this->readFile($filename);
         $data = $this->createDataFromSpreadsheet($spreadsheet);
         $dataUserValues = $data['Feuille 1']['columnValues'];
 
+        $output->writeln([
+            '',
+            '==========================================================================================================',
+            '===================================== <question>Import users from GoogleForms</question> ======================================',
+            '==========================================================================================================',
+            '',
+        ]);
+
         $progressBar = new ProgressBar($output, count($dataUserValues));
         $progressBar->start();
 
+        $usersNotSaved = [];
         foreach ($dataUserValues as $value){
+            if($this->entityRepository->getEntityByName($value[1]) === false ){
+                if(empty($value[1])){
+                    $usersNotSaved [] = ['email' => $value[8], 'entity' => "null"];
+                }else {
+                $usersNotSaved [] = ['email' => $value[0], 'entity' => $value[1]];
+                }
+            } elseif ($this->directionRepository->getDirectionByName($value[3]) === false){
+                if(empty($value[3])){
+                    $usersNotSaved [] = ['email' => $value[8], 'direction' => "null"];
+                }else {
+                $usersNotSaved [] = ['email' => $value[0], 'direction' => $value[3]];
+                }
+            } elseif ($this->areaRepository->getAreaByName($value[2]) === false){
+                if(empty($value[2])){
+                    $usersNotSaved [] = ['email' => $value[8], 'area' => "null"];
+                }else {
+                $usersNotSaved [] = ['email' => $value[0], 'area' => $value[2]];
+                }
+            } else {
+                $user = new User();
+                $user->setEmail($value[0]);
+                $user->setDirection($this->directionRepository->getDirectionByName($value[3]));
+                $user->setArea($this->areaRepository->getAreaByName($value[2]));
+                $user->setEntity($this->entityRepository->getEntityByName($value[1]));
+                $user->setFirstName('');
+                $user->setLastname('');
+                $user->setRoles(['ROLE_CONDUCTEUR']);
+                $user->setPassword($this->passwordEncoder->encodePassword(
+                    $user,
+                    random_bytes(8)
+                ));
+                $user->setActif(1);
+                $user->setUpdatedAt(new \DateTime());
+                $this->manager->persist($user);
+                $this->manager->flush();
 
-            $user = new User();
-            $user->setEmail($value[0]);
-            $user->setDirection($this->directionRepository->getDirectionByName($value[3]));
-            $user->setArea($this->areaRepository->getAreaByName($value[2]));
-            $user->setEntity($this->entityRepository->getEntityByName($value[1]));
-            $user->setFirstName('');
-            $user->setLastname('');
-            $user->setRoles(['Conducteur']);
-            $user->setPassword($this->passwordEncoder->encodePassword(
-                $user,
-                random_bytes(8)
-            ));
-            $user->setActif(1);
-            $user->setUpdatedAt(new \DateTime());
-            $this->manager->persist($user);
-            $this->manager->flush();
-
-            $progressBar->advance();
-
-            echo "  user ID ".$user->getId()." email ".$user->getEmail()." Succes ";
+                $progressBar->advance();
+                echo "  user ID " . $user->getId() . " email " . $user->getEmail() . " Succes ";
+            }
         }
         $progressBar->finish();
+        $output->writeln(['', '', '<comment>Users successfully generated from GoogleForm !</comment>']);
+
+        if(!empty($usersNotSaved)){
+            $output->writeln(['','','<error>========================================= '.count($usersNotSaved).' User(s) not saved ==========================================</error>']);
+            $arrayRows = [];
+            foreach ($usersNotSaved as $userNotSaved){
+                if(isset($userNotSaved['entity'])){
+                    if($userNotSaved['entity'] === "null"){
+                        $arrayRows[] = [$userNotSaved['email'], 'Entity    : `'.$userNotSaved['entity'].'`'];
+                    }else{
+                        $arrayRows[] = [$userNotSaved['email'], 'Entity    : `'.$userNotSaved['entity'].'` (NOT EXIST)'];
+                    }
+                }
+                if(isset($userNotSaved['direction'])){
+                    if($userNotSaved['direction'] === "null"){
+                        $arrayRows[] = [$userNotSaved['email'], 'Direction    : `'.$userNotSaved['direction'].'`'];
+                    }else{
+                        $arrayRows[] = [$userNotSaved['email'], 'Direction : `'.$userNotSaved['direction'].'` (NOT EXIST)'];
+                    }
+                }
+                if(isset($userNotSaved['area'])){
+                    if($userNotSaved['area'] === "null"){
+                        $arrayRows[] = [$userNotSaved['email'], 'Area    : `'.$userNotSaved['area'].'`'];
+                    }else {
+                        $arrayRows[] = [$userNotSaved['email'], 'Area      : `' . $userNotSaved['area'] . '` (NOT EXIST)'];
+                    }
+                }
+            }
+            $table = new Table($output);
+            $table
+                ->setHeaders(['EMAIL', 'Direction/Area/Entity'])
+                ->setRows($arrayRows)
+            ;
+            $table->render();
+
+            $output->writeln('<error>==========================================================================================================</error>');
+        }
     }
 
     /**
@@ -147,42 +215,115 @@ class ImportDataUser
      */
     public function indexEve($output)
     {
-        $filename = __DIR__.'/../../import/eve_users.xlsx';
+        $filename = __DIR__ . '/../../import/eve_users.xlsx';
 
         if (!file_exists($filename)) {
-            throw new \Exception('File does not exist');
+            //throw new \Exception('File does not exist');
+            $output->writeln("<error>The File `eve_users.xlsx` does not exist in `vigisade-web/import` ! </error>");
+            return;
         }
 
         $spreadsheet = $this->readFile($filename);
         $data = $this->createDataFromSpreadsheet($spreadsheet);
         $dataUserValues = $data['Feuil2']['columnValues'];
 
+        $output->writeln([
+            '',
+            '==========================================================================================================',
+            '========================================= <question>Import users from EVE</question> ==========================================',
+            '==========================================================================================================',
+            '',
+        ]);
+
         $progressBar = new ProgressBar($output, count($dataUserValues));
         $progressBar->start();
 
-        foreach ($dataUserValues as $value){
+        $usersNotSaved = [];
+        foreach ($dataUserValues as $value) {
+            if ($this->entityRepository->getEntityByName($value[3]) === false) {
+                if(empty($value[3])){
+                    $usersNotSaved [] = ['email' => $value[8], 'entity' => "null"];
+                }else {
+                    $usersNotSaved [] = ['email' => $value[8], 'entity' => $value[3]];
+                }
+            } elseif ($this->directionRepository->getDirectionByName($value[2]) === false) {
+                if(empty($value[2])){
+                    $usersNotSaved [] = ['email' => $value[8], 'direction' => "null"];
+                }else {
+                    $usersNotSaved [] = ['email' => $value[8], 'direction' => $value[2]];
+                }
+            } elseif ($this->areaRepository->getAreaByName($value[5]) === false) {
+                if(empty($value[5])){
+                    $usersNotSaved [] = ['email' => $value[8], 'area' => "null"];
+                }else {
+                    $usersNotSaved [] = ['email' => $value[8], 'area' => $value[5]];
+                }
+            } else {
+                $user = new User();
+                $user->setEmail($value[8]);
+                $user->setDirection($this->directionRepository->getDirectionByName($value[2]));
+                $user->setArea($this->areaRepository->getAreaByName($value[5]));
+                $user->setEntity($this->entityRepository->getEntityByName($value[3]));
+                $user->setFirstName($value[1]);
+                $user->setLastname($value[0]);
+                if($value[4] === null){ $value[4] = 'ROLE_CONDUCTEUR'; }
+                if($value[4] === "Conducteur"){ $value[4] = 'ROLE_CONDUCTEUR';}
+                if($value[4] === "Manager"){ $value[4] = 'ROLE_MANAGER';}
+                if($value[4] === "Administrateur"){ $value[4] = 'ROLE_ADMIN';}
+                $user->setRoles([$value[4]]);
+                $user->setPassword($this->passwordEncoder->encodePassword(
+                    $user,
+                    random_bytes(8)
+                ));
 
-            $user = new User();
-            $user->setEmail($value[8]);
-            $user->setDirection($this->directionRepository->getDirectionByName($value[2]));
-            $user->setArea($this->areaRepository->getAreaByName($value[5]));
-            $user->setEntity($this->entityRepository->getEntityByName($value[3]));
-            $user->setFirstName($value[1]);
-            $user->setLastname($value[0]);
-            $user->setRoles([$value[4]]);
-            $user->setPassword($this->passwordEncoder->encodePassword(
-                $user,
-                random_bytes(8)
-            ));
+                $user->setActif(($value[7] === "Actif") ? 1 : 0);
+                $user->setUpdatedAt(new \DateTime());
+                $this->manager->persist($user);
+                $this->manager->flush();
 
-            $user->setActif(($value[7] === "Actif") ? 1 : 0);
-            $user->setUpdatedAt(new \DateTime());
-            $this->manager->persist($user);
-            $this->manager->flush();
-
-            $progressBar->advance();
-            echo "  user ID ".$user->getId()." email ".$user->getEmail()." Succes ";
+                $progressBar->advance();
+                echo "  user ID " . $user->getId() . " email " . $user->getEmail() . " Succes ";
+            }
         }
         $progressBar->finish();
+        $output->writeln(['', '', '<comment>Users successfully generated from eve !</comment>', '']);
+        if(!empty($usersNotSaved)){
+            $output->writeln(['','','<error>========================================== '.count($usersNotSaved).' User(s) not saved ===========================================</error>']);
+
+            $arrayRows = [];
+            foreach ($usersNotSaved as $userNotSaved){
+                if(isset($userNotSaved['entity'])){
+                    if($userNotSaved['entity'] === "null"){
+                        $arrayRows[] = [$userNotSaved['email'], 'Entity    : `'.$userNotSaved['entity'].'`'];
+                    }else{
+                        $arrayRows[] = [$userNotSaved['email'], 'Entity    : `'.$userNotSaved['entity'].'` (NOT EXIST)'];
+                    }
+                }
+
+                if(isset($userNotSaved['direction'])){
+                    if($userNotSaved['direction'] === "null"){
+                        $arrayRows[] = [$userNotSaved['email'], 'Direction    : `'.$userNotSaved['direction'].'`'];
+                    }else{
+                        $arrayRows[] = [$userNotSaved['email'], 'Direction : `'.$userNotSaved['direction'].'` (NOT EXIST)'];
+                    }
+                }
+                if(isset($userNotSaved['area'])){
+                    if($userNotSaved['area'] === "null"){
+                        $arrayRows[] = [$userNotSaved['email'], 'Area    : `'.$userNotSaved['area'].'`'];
+                    }else {
+                        $arrayRows[] = [$userNotSaved['email'], 'Area      : `' . $userNotSaved['area'] . '` (NOT EXIST)'];
+                    }
+                }
+            }
+
+            $table = new Table($output);
+            $table
+                ->setHeaders(['EMAIL', 'Direction/Area/Entity'])
+                ->setRows($arrayRows)
+            ;
+            $table->render();
+
+            $output->writeln('<error>==========================================================================================================</error>');
+        }
     }
 }

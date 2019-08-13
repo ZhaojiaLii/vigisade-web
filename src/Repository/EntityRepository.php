@@ -35,7 +35,7 @@ class EntityRepository extends ServiceEntityRepository
             ->findBy(['name' => $name]);
 
         if (!$entity) {
-            throw new NotFoundException("This entity not exist ".$name);
+            return false;
         }
         return $entity[0];
     }

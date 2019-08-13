@@ -35,7 +35,7 @@ class AreaRepository extends ServiceEntityRepository
             ->findBy(['name' => $name]);
 
         if (!$area) {
-            throw new NotFoundException("This area not exist ".$name);
+            return false;
         }
         return $area[0];
     }

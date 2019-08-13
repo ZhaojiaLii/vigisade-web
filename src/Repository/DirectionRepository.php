@@ -36,7 +36,7 @@ class DirectionRepository extends ServiceEntityRepository
             ->findBy(['name' => $name]);
 
         if (!$direction) {
-            throw new NotFoundException("This direction not exist ".$name);
+            return false;
         }
         return $direction[0];
     }
