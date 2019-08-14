@@ -277,9 +277,8 @@ easy_admin:
                         expanded: false,
                         mapped: true,
                         choices: {
-                            'Aucun': 'Aucun',
-                            'Equipe': 'Equipe',
-                            'Responsable': 'Responsable'
+                            'Responsable': 'Responsable',
+                            'Equipe': 'Equipe'
                         }}}
                     - { property: 'direction', type_options: { disabled: true } }
             list:
