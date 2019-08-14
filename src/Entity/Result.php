@@ -71,7 +71,7 @@ class Result
     private $validated;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255)
      */
     private $bestPracticeDone;
 
