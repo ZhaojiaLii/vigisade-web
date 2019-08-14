@@ -163,6 +163,7 @@ class ImportDataUser
                 ));
                 $user->setActif(1);
                 $user->setUpdatedAt(new \DateTime());
+                $this->setLanguage('fr');
                 $this->manager->persist($user);
                 $this->manager->flush();
 
@@ -278,6 +279,7 @@ class ImportDataUser
 
                 $user->setActif(($value[7] === "Actif") ? 1 : 0);
                 $user->setUpdatedAt(new \DateTime());
+                $this->setLanguage('fr');
                 $this->manager->persist($user);
                 $this->manager->flush();
 
