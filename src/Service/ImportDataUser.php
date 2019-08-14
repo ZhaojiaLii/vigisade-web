@@ -163,7 +163,7 @@ class ImportDataUser
                 ));
                 $user->setActif(1);
                 $user->setUpdatedAt(new \DateTime());
-                $this->setLanguage('fr');
+                $user->setLanguage('fr');
                 $this->manager->persist($user);
                 $this->manager->flush();
 
@@ -279,7 +279,7 @@ class ImportDataUser
 
                 $user->setActif(($value[7] === "Actif") ? 1 : 0);
                 $user->setUpdatedAt(new \DateTime());
-                $this->setLanguage('fr');
+                $user->setLanguage('fr');
                 $this->manager->persist($user);
                 $this->manager->flush();
 
@@ -287,6 +287,25 @@ class ImportDataUser
                 echo "  user ID " . $user->getId() . " email " . $user->getEmail() . " Succes ";
             }
         }
+
+        /**
+         * user brocelia
+         */
+        $user = new User();
+        $user->setEmail('admin_vigisade@brocelia.fr');
+        $user->setFirstName('admin');
+        $user->setLastname('brocelia');
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            'admin@1234'
+        ));
+        $user->setActif(1);
+        $user->setUpdatedAt(new \DateTime());
+        $user->setLanguage('fr');
+        $this->manager->persist($user);
+        $this->manager->flush();
+
         $progressBar->finish();
         $output->writeln(['', '', '<comment>Users successfully generated from eve !</comment>', '']);
         if(!empty($usersNotSaved)){

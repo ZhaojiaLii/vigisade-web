@@ -69,13 +69,13 @@ class ImportUserCommand extends Command
         ]);
 
         //flash table users
-        /*$this->userRepository->RemoveUsers();
+        $this->userRepository->RemoveUsers();
 
         $output->writeln([
             '',
             '<comment>Flash table User Succes</comment>',
             '',
-        ]);*/
+        ]);
 
         $output->writeln($this->importDataUser->indexEve($output));
         $output->writeln($this->importDataUser->indexGoogleForms($output));
