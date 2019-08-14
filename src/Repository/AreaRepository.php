@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Area;
+use App\Exception\Http\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -14,8 +16,29 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class AreaRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $em;
+
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Area::class);
+        $this->em = $em;
     }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function getAreaByName($name)
+    {
+        $area = $this->em
+            ->getRepository(Area::class)
+            ->findBy(['name' => $name]);
+
+        if (!$area) {
+            return false;
+        }
+        return $area[0];
+    }
+
+    //todo remove all Area
 }
