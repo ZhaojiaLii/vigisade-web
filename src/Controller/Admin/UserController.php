@@ -55,13 +55,13 @@ class UserController extends EasyAdminController
     {
         if ($editForm) {
             $postedPassword = $editForm->get('plainPassword')->getData();
-
             if (!empty($postedPassword)) {
                 $this->encodePassword($entity);
             }
         }
 
         parent::updateEntity($entity);
+        $entity->setImageFile(null);
     }
 
     /**
