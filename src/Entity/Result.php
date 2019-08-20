@@ -87,7 +87,7 @@ class Result
 
     /**
      * @var Collection|ResultTeamMember[]
-     * @ORM\OneToMany(targetEntity="App\Entity\ResultTeamMember", mappedBy="result")
+     * @ORM\OneToMany(targetEntity="App\Entity\ResultTeamMember", mappedBy="result", cascade={"persist", "remove"})
      */
     private $teamMembers;
 

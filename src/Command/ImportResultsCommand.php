@@ -55,5 +55,6 @@ class ImportResultsCommand extends Command
             '',
         ]);
         $output->writeln($this->importDataResult->indexGoogleForms($output));
+        $output->writeln($this->importDataResult->NucleaireGoogleForms($output));
     }
 }
