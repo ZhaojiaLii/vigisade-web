@@ -84,6 +84,26 @@
 							"response": []
 						},
 						{
+							"name": "user/all/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/user/all/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"all",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "user/update/",
 							"request": {
 								"method": "POST",

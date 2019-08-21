@@ -12,3 +12,8 @@ api.user.create:
   path: /create/
   controller: App\Controller\Api\UserController::createUser
   methods: POST
+
+api.user.get.all:
+  path: /all/
+  controller: App\Controller\Api\UserController::getAllUser
+  methods: GET

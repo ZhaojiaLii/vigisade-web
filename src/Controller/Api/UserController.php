@@ -174,4 +174,40 @@ class UserController extends ApiController
 
         return new JsonResponse([ 'id' => $user->getId()], 201);
     }
+
+    /**
+     * @return \FOS\RestBundle\View\View|JsonResponse
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getAllUser()
+    {
+
+        $users = $this->em->getRepository(User::class)->findAll();
+        if (!$users) {
+            $message = ['message' => 'No users found'];
+
+            return new JsonResponse($message, 200);
+        }
+        $userArray = [];
+        foreach($users as $user){
+            $userArray[] = [
+                'id' => $user->getId(),
+                'mail' => $user->getEmail(),
+                'roles' => $user->getRoles(),
+                'directionId' => $user->getDirection() ? $user->getDirection()->getId() : null,
+                'areaId' => $user->getArea() ? $user->getArea()->getId() : null,
+                'entityId' => $user->getEntity() ? $user->getEntity()->getId() : null,
+                'language' => $user->getLanguage(),
+                'firstName' => $user->getFirstname(),
+                'lastName' => $user->getLastname(),
+                'photo' => $user->getImage(),
+                'countRemainingActions' => $this->userRepository->getCountRemainingActions($user->getId()),
+                'countCurrentMonthVisits' => $this->userRepository->getCountCurrentMonthVisits($user->getId()),
+                'countLastMonthVisits' => $this->userRepository->getCountLastMonthVisits($user->getId())
+            ];
+        }
+
+        return $this->createResponse('User', $userArray);
+    }
 }
