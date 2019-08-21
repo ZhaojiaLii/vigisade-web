@@ -20,6 +20,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Csv as ReaderCsv;
 use PhpOffice\PhpSpreadsheet\Reader\Ods as ReaderOds;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
+use PhpOffice\PhpSpreadsheet\Calculation\DateTime as DateTimeExcel;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
@@ -105,6 +106,8 @@ class ImportDataResult
                     }
                     if ($rowIndex > 2) {
                         $data[$worksheetTitle]['columnValues'][$rowIndex][] = $cell->getCalculatedValue();
+                        //todo format dateTime
+                        //$data[$worksheetTitle]['columnValues'][$rowIndex][0] = $cell->getCalculatedValue()->setFormatCode( PHPExcel_Style_NumberFormat::FORMAT_TEXT );
                     }
                 }
             }
@@ -159,15 +162,9 @@ class ImportDataResult
         $actionCorrectives = [];
         foreach ($dataHorsNucleaireValues as $data) {
             if (!empty($data[1])) {
-
-                $date = PHPExcel_Style_NumberFormat::toFormattedString($data[1], 'd/m/Y');
-                $date
-
-                dump($data[0], $date);
-                die;
                 // Result
                 $result = new Result();
-                $result->setDate(new \DateTime($data[0])); // Colonne Horodateur
+                $result->setDate(new \DateTime()); // Colonne Horodateur
                 $result->setPlace(!empty($data[3]) ? $data[3] : ""); // Colonne Lieu du chantier
                 $result->setClient($data[4]); // Colonne Client
                 $result->setValidated('Terminé'); //« Terminé »
@@ -520,9 +517,6 @@ class ImportDataResult
                 $output->writeln('<error>==================================== '.$i.' Corrective Action(s) not saved=====================================</error>');
 
             }
-
-
         }
-
     }
 }
