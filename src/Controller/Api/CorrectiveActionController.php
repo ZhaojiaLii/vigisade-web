@@ -160,6 +160,8 @@ class CorrectiveActionController extends ApiController
                 "category_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getCategory()->getID() : null,
                 "question_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getID() : null,
                 "result_id" => $correctiveAction->getResult() ? $correctiveAction->getResult()->getID() : null,
+                "resultUserfirstName" => $correctiveAction->getUser() ? $correctiveAction->getUser()->getFirstname() : null,
+                "resultUserlastName" => $correctiveAction->getUser() ? $correctiveAction->getUser()->getLastname() : null,
                 "result_question_id" => $correctiveAction->getResultQuestion() ? $correctiveAction->getResultQuestion()->getID() : null,
                 "status" => $correctiveAction->getStatus(),
                 "image" => $correctiveAction->getImage(),
