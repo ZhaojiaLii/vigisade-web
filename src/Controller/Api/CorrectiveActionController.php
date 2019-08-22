@@ -213,7 +213,7 @@ class CorrectiveActionController extends ApiController
         $responseArray = [
             "id" => $correctiveAction->getId()  ,
             "survey_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getCategory()->getSurvey()->getID() : null,
-            "user_id" => $this->getUser() ? $this->getUser()->getId() : null,
+            "user_id" => $correctiveAction->getUser() ? $correctiveAction->getUser()->getId() : null,
             "category_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getCategory()->getID() : null,
             "question_id" => $correctiveAction->getQuestion() ? $correctiveAction->getQuestion()->getID() : null,
             "result_id" => $correctiveAction->getResult() ? $correctiveAction->getResult()->getID() : null,
