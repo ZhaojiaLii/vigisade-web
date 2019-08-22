@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportResultsCommand extends Command
+class ImportResultsNucleaireCommand extends Command
 {
     /**
      * @var EntityManagerInterface
@@ -22,7 +22,7 @@ class ImportResultsCommand extends Command
     protected $em;
 
     // the name of the command (the part after "bin/console")
-    protected static $commandName = 'import:results';
+    protected static $commandName = 'import:results:nucleaire';
 
     public function __construct(
         string $name = null,
@@ -54,6 +54,6 @@ class ImportResultsCommand extends Command
             '<info>==========================================================================================================</info>',
             '',
         ]);
-        $output->writeln($this->importDataResult->indexGoogleForms($output));
+        $output->writeln($this->importDataResult->NucleaireGoogleForms($output));
     }
 }
