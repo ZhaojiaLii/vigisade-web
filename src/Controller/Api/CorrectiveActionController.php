@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Controller\ApiController;
 use App\Entity\CorrectiveAction;
+use App\Entity\User;
 use App\Repository\CorrectiveActionRepository;
 use App\Repository\ResultRepository;
 use App\Repository\SurveyQuestionRepository;
@@ -193,6 +194,19 @@ class CorrectiveActionController extends ApiController
         $correctiveAction = $this->correctiveActionRepository->getCorrectiveActionByID($data['id']);
         $correctiveAction->setCommentQuestion($data['comment_question']);
         $correctiveAction->setStatus($data['status']);
+
+        // set user_id
+        if (array_key_exists('user_id', $data)) {
+            $user = $this->em
+                ->getRepository(User::class)
+                ->findOneBy(['id' => $data['user_id']]);
+
+            if (!$user) {
+                return new JsonResponse(['code' => '400', 'message' => "User not found."], 400);
+            }
+
+            $correctiveAction->setUser($user);
+        }
 
         // get picture with format Base64
         $imageBase64 = $data['image'];
