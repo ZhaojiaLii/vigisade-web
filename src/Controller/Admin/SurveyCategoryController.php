@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Result;
 use App\Entity\Survey;
 use App\Entity\SurveyCategory;
 use App\Entity\SurveyQuestion;
@@ -63,6 +64,7 @@ class SurveyCategoryController extends EasyAdminController
     public function deleteCategoryAction()
     {
         $id = $this->request->get('id');
+        $surveyId = $this->request->get('surveyId');
 
         if ($id) {
             $surveyCategory = $this->em->getRepository(SurveyCategory::class)->findOneBy(['id' => $id]);
@@ -80,7 +82,8 @@ class SurveyCategoryController extends EasyAdminController
 
         return $this->redirectToRoute('easyadmin', array(
             'action' => 'list',
-            'entity' => 'Survey'
+            'entity' => 'Survey',
+            'id' => $surveyId
         ));
     }
 
@@ -143,6 +146,8 @@ class SurveyCategoryController extends EasyAdminController
 
         if ($id) {
             $surveyCategory = $this->em->getRepository(SurveyCategory::class)->findOneBy(['id' => $id]);
+            $result = $this->em->getRepository(Result::class)->findOneBy(['survey' => $surveyCategory->getSurvey()]);
+
             $questions = [];
             $order = [];
 
@@ -164,6 +169,7 @@ class SurveyCategoryController extends EasyAdminController
 
             $parameters['questions'] = $questions;
             $parameters['surveyCategoryId'] = $id;
+            $parameters['hasResult'] = $result ? true : false;
         }
 
         $parameters['surveyId'] = $surveyId;

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Result;
 use App\Entity\Survey;
 use App\Entity\SurveyCategory;
 use Doctrine\ORM\EntityManagerInterface;
@@ -77,9 +78,11 @@ class SurveyController extends EasyAdminController
         $id = $this->request->get('id');
 
         if ($id) {
-            $survey = $this->em->getRepository(Survey::class)->findOneBy(['id' => $id]);
             $categories = [];
             $order = [];
+            $survey = $this->em->getRepository(Survey::class)->findOneBy(['id' => $id]);
+            $result = $this->em->getRepository(Result::class)->findOneBy(['survey' => $survey]);
+
             if ($survey->getCategories()) {
                 foreach ($survey->getCategories() as $categoryData) {
                     $countQuestions = count($categoryData->getQuestions());
@@ -99,8 +102,8 @@ class SurveyController extends EasyAdminController
 
             }
             $parameters['categories'] = $categories;
+            $parameters['hasResult'] = $result ? true : false;
         }
-
 
         return $this->render($templatePath, $parameters);
     }
