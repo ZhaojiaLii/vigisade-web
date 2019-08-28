@@ -34,6 +34,11 @@
                             <td style="padding-right: 0;">
                                 <a class="btn btn-primary" href="{{ path('easyadmin', {entity: 'SurveyQuestion', action: 'edit', id: question.id, surveyCategoryId: surveyCategoryId, surveyId: surveyId}) }}">Editer</a>
                             <td>
+                            {% if hasResult == false %}
+                                <td style="padding-right: 0;">
+                                    <a class="btn btn-danger" href="{{ path('easyadmin', {entity: 'SurveyQuestion', action: 'deleteQuestion', id: question.id, surveyCategoryId: surveyCategoryId, surveyId: surveyId}) }}">Supprimer</a>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>

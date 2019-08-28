@@ -28,6 +28,7 @@
                         <th>QUESTIONS</th>
                         <th>ORDRE</th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -39,6 +40,11 @@
                             <td style="padding-right: 0;">
                                 <a class="btn btn-primary" style="margin-right: 0;" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'edit', id: category.id, surveyId: surveyId}) }}">Editer</a>
                             </td>
+                            {% if hasResult == false %}
+                                <td style="padding-right: 0;">
+                                    <a class="btn btn-danger" href="{{ path('easyadmin', {entity: 'SurveyCategory', action: 'deleteCategory', id: category.id, surveyId: surveyId}) }}">Supprimer</a>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
