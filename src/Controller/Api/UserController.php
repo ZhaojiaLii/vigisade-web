@@ -94,7 +94,8 @@ class UserController extends ApiController
             'photo' => $user->getImage(),
             'countRemainingActions' => $this->userRepository->getCountRemainingActions($user->getId()),
             'countCurrentMonthVisits' => $this->userRepository->getCountCurrentMonthVisits($user->getId()),
-            'countLastMonthVisits' => $this->userRepository->getCountLastMonthVisits($user->getId())
+            'countLastMonthVisits' => $this->userRepository->getCountLastMonthVisits($user->getId()),
+            'actif' => (int) $user->getActif()
         ];
 
         return $this->createResponse('User', $userArray);
