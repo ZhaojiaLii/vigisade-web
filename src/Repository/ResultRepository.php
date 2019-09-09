@@ -109,6 +109,24 @@ class ResultRepository extends ServiceEntityRepository
         $user = $this->userRepository->find($userId);
         $roleUser = $user->getRoles();
 
+        if ($roleUser[0] === "ROLE_CONDUCTEUR") {
+
+            return $this->getResultsByUser($user->getId());
+
+        } else if ($roleUser[0] === "ROLE_MANAGER"){
+
+            return $this->getResultsByEntity($user->getEntity());
+
+        } else if ($roleUser[0] === "ROLE_ADMIN"){
+
+            return $this->getResultsByDirection($user->getDirection());
+        }
+
+        return null;
+    }
+
+    public function getResultsByUser($userId)
+    {
         $results =  $this->createQueryBuilder('r')
             ->leftJoin('r.user', 'u')
             ->andWhere('u.id = :userId')
@@ -118,18 +136,17 @@ class ResultRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
+        $responseArray = [];
+
         if ($results) {
-            $responseArray = [];
-            if($roleUser[0] === "ROLE_CONDUCTEUR"){
-
-                foreach ($results as $result){
-
-                    $responseArray [] = [
+            foreach ($results as $result) {
+                $responseArray [] =
+                    [
                         "resultId" => $result->getId(),
                         "resultDirection" => $result->getDirection() ? $result->getDirection()->getId() : null,
                         "resultArea" => $result->getArea() ? $result->getArea()->getId() : null,
-                        "resultEntity" => $result->getEntity() ?  $result->getEntity()->getId() : null,
-                        "resultDate" => date_format($result->getDate() , 'Y-m-d'),
+                        "resultEntity" => $result->getEntity() ? $result->getEntity()->getId() : null,
+                        "resultDate" => date_format($result->getDate(), 'Y-m-d'),
                         "resultPlace" => $result->getPlace(),
                         "resultClient" => $result->getClient(),
                         "resultUserId" => $result->getUser() ? $result->getUser()->getId() : null,
@@ -137,19 +154,9 @@ class ResultRepository extends ServiceEntityRepository
                         "resultUserlastName" => $result->getUser() ? $result->getUser()->getLastname() : null,
                         "resultValidated" => $result->getValidated(),
                     ];
-                }
-
-                return $responseArray;
-
-            }else if($roleUser[0] === "ROLE_MANAGER"){
-
-                return $this->getResultsByEntity($user->getEntity());
-
-            }else if($roleUser[0] === "ROLE_ADMIN"){
-
-                return $this->getResultsByDirection($user->getDirection());
             }
         }
+        return $responseArray;
     }
 
     /**
@@ -174,7 +181,7 @@ class ResultRepository extends ServiceEntityRepository
                     "resultId" => $result->getId(),
                     "resultDirection" => $result->getDirection() ? $result->getDirection()->getId() : null,
                     "resultArea" => $result->getArea() ? $result->getArea()->getId() : null,
-                        "resultEntity" => $result->getEntity() ? $result->getEntity()->getId() : null,
+                    "resultEntity" => $result->getEntity() ? $result->getEntity()->getId() : null,
                     "resultDate" => date_format($result->getDate() , 'Y-m-d'),
                     "resultPlace" => $result->getPlace(),
                     "resultClient" => $result->getClient(),
@@ -195,8 +202,6 @@ class ResultRepository extends ServiceEntityRepository
      */
     public function getResultsByEntity($entity)
     {
-        $results = $this->findBy(['entity' => $entity]);
-
         $results =  $this->createQueryBuilder('r')
             ->leftJoin('r.entity', 'e')
             ->andWhere('e.id = :entity')
