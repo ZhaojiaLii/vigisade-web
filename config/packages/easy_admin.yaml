@@ -259,7 +259,6 @@ easy_admin:
                             'Responsable': 'Responsable',
                             'Equipe': 'Equipe'
                         }}}
-                    - { property: 'mailsAlertCorrectiveAction', label: 'Destinataires des mails alerte Action Corrective', help: 'Séparez les adresses mails par une virgule', type_options: { required: false } }
             edit:
                 fields:
                     - { property: 'translations', label: 'Langues', type: A2lix\TranslationFormBundle\Form\Type\TranslationsType,
@@ -281,7 +280,6 @@ easy_admin:
                             'Equipe': 'Equipe'
                         }}}
                     - { property: 'direction', type_options: { disabled: true } }
-                    - { property: 'mailsAlertCorrectiveAction', label: 'Destinataires des mails alerte Action Corrective', help: 'Séparez les adresses mails par une virgule', type_options: { required: false } }
             list:
                 fields:
                     - { property: 'id' }
