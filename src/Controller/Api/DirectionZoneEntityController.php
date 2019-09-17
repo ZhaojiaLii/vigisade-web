@@ -83,6 +83,7 @@ class DirectionZoneEntityController extends ApiController
         }
 
         //Get type Dangerous situations
+        $userLanguage = !in_array($userLanguage, ['fr', 'en' , 'es']) ? 'fr' : $userLanguage ; // default language 'fr'
         $list['typeDangerousSituations'] = $this->typeDangerousSituationRepository->getAllTypeDangerousSituation($userLanguage);
 
         return $this->createResponse('DIRECTION_ZONE_ENTITY_TYPE_DANGEROUSE_SITUATION', $list);
