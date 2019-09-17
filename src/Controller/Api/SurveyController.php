@@ -68,8 +68,7 @@ class SurveyController extends ApiController
     {
         $direction = $this->getUser()->getDirection();
         $userLanguage = $this->getUser()->getLanguage();
-
-        if(empty($userLanguage)){ $userLanguage = 'fr'; } // language by default
+        $userLanguage = !in_array($userLanguage, ['fr', 'en' , 'es']) ? 'fr' : $userLanguage ; // default language 'fr'
 
         if (!$direction) {
             $message = [
