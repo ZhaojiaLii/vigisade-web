@@ -2,3 +2,8 @@ api.dangerous_situation.create:
   path: /create/
   controller: App\Controller\Api\DangerousSituationController::create
   methods: POST
+
+api.dangerous_situation.history:
+  path: /history/
+  controller: App\Controller\Api\DangerousSituationController::getHistory
+  methods: GET
