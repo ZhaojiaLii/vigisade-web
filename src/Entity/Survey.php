@@ -190,6 +190,9 @@ class Survey
 
     public function __toString()
     {
+        if(is_null($this->title)) {
+            return 'NULL';
+        }
         return $this->title;
     }
 
