@@ -8,7 +8,6 @@ use App\Entity\TypeDangerousSituation;
 use App\Repository\DangerousSituationRepository;
 use App\Repository\TypeDangerousSituationRepository;
 use App\Service\UploadImageBase64;
-use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,11 +57,10 @@ class DangerousSituationController extends ApiController
     /**
      * @param Request $request
      * @param EntityManagerInterface $em
-     * @param SerializerInterface $serializer
      * @return \FOS\RestBundle\View\View|JsonResponse
      * @throws \Exception
      */
-    public function create(Request $request, EntityManagerInterface $em, SerializerInterface $serializer)
+    public function create(Request $request, EntityManagerInterface $em)
     {
         $data = json_decode($request->getContent(), true);
 
@@ -109,5 +107,100 @@ class DangerousSituationController extends ApiController
         $response = $this->dangerousSituationRepository->getDangerousSituationByID($dangerouseSituation->getId());
 
         return $this->createResponse('DangerousSituation', $response);
+    }
+
+    public function getHistory(Request $request, EntityManagerInterface $em){
+        // GET the user Role
+        $userRole = $this->getUser()->getRoles();
+
+        $dangerousSituations = [];
+
+        //If the user has a  ROLE_CONDUCTEUR => we show only his Dangerouse Situation
+        if($userRole[0] === 'ROLE_CONDUCTEUR'){
+            $dangerousSituations = $this->em
+                ->getRepository(DangerousSituation::class)
+                ->findBy(['user' => $this->getUser()]);
+
+            if (!$dangerousSituations) {
+                $message = [
+                    'code' => '200',
+                    'message' => "This user dont have Dangerouse Situation"
+                ];
+
+                return new JsonResponse($message, 200);
+            }
+        }
+
+        //If the user has a ROLE_MANAGER => we show his dangerous situation and the dangerous situation related to his entity (Agence)
+        if($userRole[0] === 'ROLE_MANAGER'){
+
+            if ($this->getUser()->getEntity() === null) {
+                $message = [
+                    'code' => '200',
+                    'message' => "this user is not related to any entity"
+                ];
+
+                return new JsonResponse($message, 200);
+            }
+
+            $dangerousSituations = $this->em
+                ->getRepository(DangerousSituation::class)
+                ->findBy(['entity' => $this->getUser()->getEntity()]);
+
+            if (!$dangerousSituations) {
+                $message = [
+                    'code' => '200',
+                    'message' => "This user dont have Dangerouse Situation"
+                ];
+
+                return new JsonResponse($message, 200);
+            }
+        }
+
+        //If the user has a ROLE_ADMIN => we show  dangerous situation related to his direction (direction)
+        if($userRole[0] === 'ROLE_ADMIN'){
+
+            // if the user has a direction = null
+            if ($this->getUser()->getDirection() === null) {
+                $message = [
+                    'code' => '200',
+                    'message' => "this user is not related to any Direction"
+                ];
+
+                return new JsonResponse($message, 200);
+            }
+
+            $dangerousSituations = $this->em
+                ->getRepository(DangerousSituation::class)
+                ->findBy(['direction' => $this->getUser()->getDirection()]);
+
+            if (!$dangerousSituations) {
+                $message = [
+                    'code' => '200',
+                    'message' => "Dangerouse Situation not found"
+                ];
+
+                return new JsonResponse($message, 200);
+            }
+        }
+
+        $responseArray = [];
+        foreach($dangerousSituations as $dangerousSituation){
+            $responseArray[] = [
+                "DangerousSituationId" => $dangerousSituation->getId() ,
+                "DangerousSituationTypeDangerousSituation" => $dangerousSituation->getTypeDangerousSituation() ? $dangerousSituation->getTypeDangerousSituation()->getId() : null,
+                "DangerousSituationDirection" => $dangerousSituation->getDirection() ? $dangerousSituation->getDirection()->getId() : null,
+                "DangerousSituationArea" => $dangerousSituation->getArea() ? $dangerousSituation->getArea()->getId() : null,
+                "DangerousSituationEntity" => $dangerousSituation->getEntity() ? $dangerousSituation->getEntity()->getId() : null,
+                "DangerousSituationUser" => $dangerousSituation->getUser() ? $dangerousSituation->getUser()->getId() : null,
+                "DangerousSituationFirstName" => $dangerousSituation->getUser() ? $dangerousSituation->getUser()->getFirstname() : null,
+                "DangerousSituationLastName" => $dangerousSituation->getUser() ? $dangerousSituation->getUser()->getLastname() : null,
+                "DangerousSituationDate" => $dangerousSituation->getDate(),
+                "DangerousSituationComment" => $dangerousSituation->getComment(),
+                "DangerousSituationPhoto" => $dangerousSituation->getPhoto(),
+            ];
+        }
+
+        return $this->createResponse('DangerousSituation', $responseArray);
     }
 }

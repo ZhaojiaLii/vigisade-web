@@ -349,6 +349,26 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "dangerous-situation/history/",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/dangerous-situation/history/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"dangerous-situation",
+										"history",
+										""
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"_postman_isSubFolder": true
