@@ -11,6 +11,8 @@
         "friendsofsymfony/rest-bundle": "^2.5",
         "jms/serializer-bundle": "^3.3",
         "knplabs/doctrine-behaviors": "~1.1",
+        "knpuniversity/oauth2-client-bundle": "^1.28",
+        "league/oauth2-google": "^3.0",
         "lexik/jwt-authentication-bundle": "^2.6",
         "phpoffice/phpspreadsheet": "^1.8",
         "sensio/framework-extra-bundle": "^5.3",
