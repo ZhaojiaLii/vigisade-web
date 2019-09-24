@@ -5,10 +5,10 @@ namespace App\Controller;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class GoogleController extends AbstractController
 {
@@ -48,8 +48,10 @@ class GoogleController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirect('/');
         } else {
-            return new JsonResponse(['token' => $this->jwtManager->create($this->getUser())]);
+            $redirectResponse = new RedirectResponse('/home');
+            $cookie = new Cookie('vigisade-tkn', $this->jwtManager->create($this->getUser()));
+            $redirectResponse->headers->setCookie($cookie);
+            return $redirectResponse;
         }
     }
-
 }
