@@ -105,7 +105,7 @@ JOIN eve_interne_categorie c ON q.id_categorie = c.id';
         $surveyTranslation->setTranslatable($survey);
         $surveyTranslation->setTitle('Télécoms');
         $surveyTranslation->setBestPracticeLabel('Avez-vous identifié une pratique remarquable au cours de cette visite');
-        $surveyTranslation->setLocale('FR');
+        $surveyTranslation->setLocale('fr');
 
         $this->manager->persist($surveyTranslation);
         $this->manager->flush();
@@ -158,7 +158,7 @@ JOIN eve_interne_categorie c ON q.id_categorie = c.id';
             $surveyQuestionTranslation->setTranslatable($surveyQuestion);
             $surveyQuestionTranslation->setLabel($value['question_nom']);
             $surveyQuestionTranslation->setHelp($value['question_description']);
-            $surveyQuestionTranslation->setLocale('FR');
+            $surveyQuestionTranslation->setLocale('fr');
 
             $this->manager->persist($surveyQuestionTranslation);
             $this->manager->flush();
