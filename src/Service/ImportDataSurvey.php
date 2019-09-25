@@ -8,6 +8,8 @@ use App\Entity\SurveyCategoryTranslation;
 use App\Entity\SurveyQuestion;
 use App\Entity\SurveyQuestionTranslation;
 use App\Entity\SurveyTranslation;
+use App\Repository\SurveyCategoryRepository;
+use App\Repository\SurveyCategoryTranslationRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -17,15 +19,21 @@ class ImportDataSurvey
 {
     private $passwordEncoder;
     private $em;
+    private $surveyCategoryTranslationRepository;
+    private $surveyCategoryRepository;
 
     public function __construct(
         UserPasswordEncoderInterface $passwordEncoder,
         EntityManagerInterface $em,
-        ObjectManager $manager
+        ObjectManager $manager,
+        SurveyCategoryTranslationRepository $surveyCategoryTranslationRepository,
+        SurveyCategoryRepository $surveyCategoryRepository
     ) {
         $this->passwordEncoder = $passwordEncoder;
         $this->em = $em;
         $this->manager = $manager;
+        $this->surveyCategoryTranslationRepository = $surveyCategoryTranslationRepository;
+        $this->surveyCategoryRepository = $surveyCategoryRepository;
     }
 
     /**
@@ -84,43 +92,51 @@ JOIN eve_interne_categorie c ON q.id_categorie = c.id';
         $progressBar = new ProgressBar($output, count($questionData));
         $progressBar->start();
 
+        // Survey
+        $survey = new Survey();
+        $survey->setTeam('Equipe');
+        $survey->setUpdatedAt(new \DateTime());
+
+        $this->manager->persist($survey);
+        $this->manager->flush();
+
+        //SurveyTranslation
+        $surveyTranslation = new SurveyTranslation();
+        $surveyTranslation->setTranslatable($survey);
+        $surveyTranslation->setTitle('Télécoms');
+        $surveyTranslation->setBestPracticeLabel('Avez-vous identifié une pratique remarquable au cours de cette visite');
+        $surveyTranslation->setLocale('FR');
+
+        $this->manager->persist($surveyTranslation);
+        $this->manager->flush();
+
         foreach ($questionData as $value) {
 
-            // Survey
-            $survey = new Survey();
-            $survey->setTeam('Equipe');
-            $survey->setUpdatedAt(new \DateTime());
+            $surveyCategoryTranslation = $this->em
+                ->getRepository(SurveyCategoryTranslation::class)->findOneBy(['title' => $value['categorie_nom']]);
 
-            $this->manager->persist($survey);
-            $this->manager->flush();
+            if (!$surveyCategoryTranslation) {
+                // SurveyCategory
+                $surveyCategory = new SurveyCategory();
+                $surveyCategory->setSurvey($survey);
+                $surveyCategory->setCategoryOrder(1);
+                $surveyCategory->setUpdatedAt(new \DateTime());
 
-            //SurveyTranslation
-            $surveyTranslation = new SurveyTranslation();
-            $surveyTranslation->setTranslatable($survey);
-            $surveyTranslation->setTitle('Télécoms');
-            $surveyTranslation->setBestPracticeLabel('Avez-vous identifié une pratique remarquable au cours de cette visite');
-            $surveyTranslation->setLocale('FR');
+                $this->manager->persist($surveyCategory);
+                $this->manager->flush();
 
-            $this->manager->persist($surveyTranslation);
-            $this->manager->flush();
+                // SurveyCategoryTranslation
+                $surveyCategoryTranslation = new SurveyCategoryTranslation();
+                $surveyCategoryTranslation->setTranslatable($surveyCategory);
+                $surveyCategoryTranslation->setTitle($value['categorie_nom']);
+                $surveyCategoryTranslation->setLocale('fr');
 
-            // SurveyCategory
-            $surveyCategory = new SurveyCategory();
-            $surveyCategory->setSurvey($survey);
-            $surveyCategory->setCategoryOrder(1);
-            $surveyCategory->setUpdatedAt(new \DateTime());
+                $this->manager->persist($surveyCategoryTranslation);
+                $this->manager->flush();
+            } else {
+                $surveyCategory = $this->surveyCategoryRepository->findOneBy(['id' => $surveyCategoryTranslation->getTranslatable()->getId()]);
+            }
 
-            $this->manager->persist($surveyCategory);
-            $this->manager->flush();
-
-            // SurveyCategoryTranslation
-            $surveyCategoryTranslation = new SurveyCategoryTranslation();
-            $surveyCategoryTranslation->setTranslatable($surveyCategory);
-            $surveyCategoryTranslation->setTitle($value['categorie_nom']);
-            $surveyCategoryTranslation->setLocale('FR');
-
-            $this->manager->persist($surveyCategoryTranslation);
-            $this->manager->flush();
 
             // SurveyQuestion
             $surveyQuestion = new SurveyQuestion();
