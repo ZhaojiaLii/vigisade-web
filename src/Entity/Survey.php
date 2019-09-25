@@ -54,6 +54,11 @@ class Survey
     private $direction;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mailsAlertCorrectiveAction;
+
+    /**
      * @param $method
      * @param $arguments
      * @return mixed
@@ -225,5 +230,21 @@ class Survey
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMailsAlertCorrectiveAction()
+    {
+        return $this->mailsAlertCorrectiveAction;
+    }
+
+    /**
+     * @param mixed $mailsAlertCorrectiveAction
+     */
+    public function setMailsAlertCorrectiveAction($mailsAlertCorrectiveAction): void
+    {
+        $this->mailsAlertCorrectiveAction = $mailsAlertCorrectiveAction;
     }
 }
