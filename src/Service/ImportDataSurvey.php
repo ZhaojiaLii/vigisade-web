@@ -37,18 +37,35 @@ class ImportDataSurvey
     }
 
     /**
+     * @param int $categoryId
      * @return mixed[]
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function getEveData()
+    protected function getEveQuestionsByCategory(int $categoryId)
     {
-        $sql = 'SELECT 
-c.nom as categorie_nom,
+        $sql = "SELECT 
 q.type as question_type,
 q.nom as question_nom,
 q.description as question_description 
 FROM eve_interne_question q 
-JOIN eve_interne_categorie c ON q.id_categorie = c.id';
+WHERE q.id_categorie = $categoryId";
+
+        $conn = $this->em->getConnection();
+        $data = $conn->prepare($sql);
+        $data->execute();
+        return $data->fetchAll();
+    }
+
+    /**
+     * @return mixed[]
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    protected function getEveCategories()
+    {
+        $sql = 'SELECT 
+q.id as categorie_id,
+q.nom as categorie_nom
+FROM eve_interne_categorie q';
 
         $conn = $this->em->getConnection();
         $data = $conn->prepare($sql);
@@ -79,7 +96,7 @@ JOIN eve_interne_categorie c ON q.id_categorie = c.id';
 
         $this->em->flush();
 
-        $questionData = $this->getEveData();
+        $eveCategories = $this->getEveCategories();
 
         $output->writeln([
             '',
@@ -89,7 +106,7 @@ JOIN eve_interne_categorie c ON q.id_categorie = c.id';
             '',
         ]);
 
-        $progressBar = new ProgressBar($output, count($questionData));
+        $progressBar = new ProgressBar($output, count($eveCategories));
         $progressBar->start();
 
         // Survey
@@ -110,61 +127,57 @@ JOIN eve_interne_categorie c ON q.id_categorie = c.id';
         $this->manager->persist($surveyTranslation);
         $this->manager->flush();
 
-        foreach ($questionData as $value) {
+        foreach ($eveCategories as $value) {
 
-            $surveyCategoryTranslation = $this->em
-                ->getRepository(SurveyCategoryTranslation::class)->findOneBy(['title' => $value['categorie_nom']]);
+            // SurveyCategory
+            $surveyCategory = new SurveyCategory();
+            $surveyCategory->setSurvey($survey);
+            $surveyCategory->setCategoryOrder(1);
+            $surveyCategory->setUpdatedAt(new \DateTime());
 
-            if (!$surveyCategoryTranslation) {
-                // SurveyCategory
-                $surveyCategory = new SurveyCategory();
-                $surveyCategory->setSurvey($survey);
-                $surveyCategory->setCategoryOrder(1);
-                $surveyCategory->setUpdatedAt(new \DateTime());
-
-                $this->manager->persist($surveyCategory);
-                $this->manager->flush();
-
-                // SurveyCategoryTranslation
-                $surveyCategoryTranslation = new SurveyCategoryTranslation();
-                $surveyCategoryTranslation->setTranslatable($surveyCategory);
-                $surveyCategoryTranslation->setTitle($value['categorie_nom']);
-                $surveyCategoryTranslation->setLocale('fr');
-
-                $this->manager->persist($surveyCategoryTranslation);
-                $this->manager->flush();
-            } else {
-                $surveyCategory = $this->surveyCategoryRepository->findOneBy(['id' => $surveyCategoryTranslation->getTranslatable()->getId()]);
-            }
-
-
-            // SurveyQuestion
-            $surveyQuestion = new SurveyQuestion();
-            $surveyQuestion->setCategory($surveyCategory);
-
-            if ($value['question_type'] == 'multiple') {
-                $surveyQuestion->setQuestionType('Equipe');
-            } else if ($value['question_type'] == 'simple') {
-                $surveyQuestion->setQuestionType('Général');
-            }
-
-            $surveyQuestion->setQuestionOrder(1);
-
-            $this->manager->persist($surveyQuestion);
+            $this->manager->persist($surveyCategory);
             $this->manager->flush();
 
-            // SurveyQuestionTranslation
-            $surveyQuestionTranslation = new SurveyQuestionTranslation();
-            $surveyQuestionTranslation->setTranslatable($surveyQuestion);
-            $surveyQuestionTranslation->setLabel($value['question_nom']);
-            $surveyQuestionTranslation->setHelp($value['question_description']);
-            $surveyQuestionTranslation->setLocale('fr');
+            // SurveyCategoryTranslation
+            $surveyCategoryTranslation = new SurveyCategoryTranslation();
+            $surveyCategoryTranslation->setTranslatable($surveyCategory);
+            $surveyCategoryTranslation->setTitle($value['categorie_nom']);
+            $surveyCategoryTranslation->setLocale('fr');
 
-            $this->manager->persist($surveyQuestionTranslation);
+            $this->manager->persist($surveyCategoryTranslation);
             $this->manager->flush();
+
+            $eveQuestions = $this->getEveQuestionsByCategory($value['categorie_id']);
+            foreach($eveQuestions as $eveQuestion) {
+                // SurveyQuestion
+                $surveyQuestion = new SurveyQuestion();
+                $surveyQuestion->setCategory($surveyCategory);
+
+                if ($eveQuestion['question_type'] == 'multiple') {
+                    $surveyQuestion->setQuestionType('Equipe');
+                } else if ($eveQuestion['question_type'] == 'simple') {
+                    $surveyQuestion->setQuestionType('Général');
+                }
+
+                $surveyQuestion->setQuestionOrder(1);
+
+                $this->manager->persist($surveyQuestion);
+                $this->manager->flush();
+
+                // SurveyQuestionTranslation
+                $surveyQuestionTranslation = new SurveyQuestionTranslation();
+                $surveyQuestionTranslation->setTranslatable($surveyQuestion);
+                $surveyQuestionTranslation->setLabel($eveQuestion['question_nom']);
+                $surveyQuestionTranslation->setHelp($eveQuestion['question_description']);
+                $surveyQuestionTranslation->setLocale('fr');
+
+                $this->manager->persist($surveyQuestionTranslation);
+                $this->manager->flush();
+            }
+
 
             $progressBar->advance();
-            echo "  question ID " . $surveyQuestion->getId() . " nom " . $surveyQuestionTranslation->getLabel() . " Succes ";
+            echo "  question ID " . $surveyCategory->getId() . " nom " . $surveyCategoryTranslation->getTitle() . " Succes ";
         }
 
         $progressBar->finish();
