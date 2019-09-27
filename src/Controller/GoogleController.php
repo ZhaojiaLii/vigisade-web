@@ -49,7 +49,7 @@ class GoogleController extends AbstractController
             return $this->redirect('/');
         } else {
             $redirectResponse = new RedirectResponse('/home');
-            $cookie = new Cookie('vigisade-tkn', $this->jwtManager->create($this->getUser()));
+            $cookie = new Cookie('vigisade-tkn', $this->jwtManager->create($this->getUser()), 0, '/', null, false, false);
             $redirectResponse->headers->setCookie($cookie);
             return $redirectResponse;
         }
