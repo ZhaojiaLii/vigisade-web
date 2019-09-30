@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends ApiController
 {
@@ -38,6 +39,10 @@ class UserController extends ApiController
      */
     private $entityRepository;
 
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
 
     /**
      * UserController constructor.
@@ -52,13 +57,15 @@ class UserController extends ApiController
         EntityManagerInterface $em,
         DirectionRepository $directionRepository,
         AreaRepository $areaRepository,
-        EntityRepository $entityRepository
+        EntityRepository $entityRepository,
+        UserPasswordEncoderInterface $passwordEncoder
     ) {
         $this->em = $em;
         $this->directionRepository = $directionRepository;
         $this->areaRepository = $areaRepository;
         $this->entityRepository = $entityRepository;
         $this->userRepository = $userRepository;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -168,7 +175,10 @@ class UserController extends ApiController
         $user->setDirection($direction);
         $user->setArea($area);
         $user->setEntity($entity);
-        $user->setPassword($data['password']);
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            $data['password']
+        ));
         $user->setImage($data['image']);
         $user->setLanguage(array_key_exists('language', $data) ? $data['language'] : 'fr');
         $user->setActif(true);
