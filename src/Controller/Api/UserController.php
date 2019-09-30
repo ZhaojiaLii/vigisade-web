@@ -92,6 +92,7 @@ class UserController extends ApiController
             'countRemainingActions' => $this->userRepository->getCountRemainingActions($user->getId()),
             'countCurrentMonthVisits' => $this->userRepository->getCountCurrentMonthVisits($user->getId()),
             'countLastMonthVisits' => $this->userRepository->getCountLastMonthVisits($user->getId()),
+            'completedProfile' => $user->getCompletedProfile(),
             'actif' => (int) $user->getActif()
         ];
 
