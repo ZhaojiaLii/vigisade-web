@@ -157,14 +157,22 @@ class UserController extends ApiController
             return new JsonResponse($message, 400);
         }
 
+        $direction = array_key_exists('direction_id', $data) ? $this->directionRepository->find($data['direction_id']) : null;
+        $area = array_key_exists('area_id', $data) ? $this->areaRepository->find($data['area_id']) : null;
+        $entity = array_key_exists('entity_id', $data) ? $this->entityRepository->find($data['entity_id']) : null;
+
         $user = new User();
         $user->setEmail($data['email']);
         $user->setfirstname($data['firstname']);
         $user->setLastname($data['lastname']);
+        $user->setDirection($direction);
+        $user->setArea($area);
+        $user->setEntity($entity);
         $user->setPassword($data['password']);
         $user->setImage($data['image']);
         $user->setLanguage(array_key_exists('language', $data) ? $data['language'] : 'fr');
         $user->setActif(true);
+        $user->setCompletedProfile(($direction && $area && $entity)? true : false);
         $this->em->persist($user);
         $this->em->flush();
 
