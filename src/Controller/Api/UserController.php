@@ -126,6 +126,7 @@ class UserController extends ApiController
         $user->setArea($area);
         $user->setEntity($entity);
         $user->setLanguage(array_key_exists('language', $data) ? $data['language'] : 'fr');
+        $user->setCompletedProfile(($direction && $area && $entity)? true : false);
         $user->setImage($data['image']);
 
         $this->em->persist($user);
@@ -135,7 +136,8 @@ class UserController extends ApiController
             'id' => $user->getId(),
             'direction' => $direction ? $direction->getId() : null,
             'area' => $area ? $area->getId() : null,
-            'entity' => $entity ? $entity->getId() : null
+            'entity' => $entity ? $entity->getId() : null,
+            'completedProfile' => $user->getCompletedProfile()
 
         ], 200);
     }
