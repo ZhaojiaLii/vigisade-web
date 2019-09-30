@@ -34,7 +34,7 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(min=8)
      */
     private $password;
@@ -118,6 +118,11 @@ class User implements UserInterface
      *     maxMessage = "Cette valeur ne peut pas contenir plus {{ limit }} caractères."  )
      */
     private $plainPassword;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $completedProfile;
 
     public function __construct()
     {
@@ -435,6 +440,18 @@ class User implements UserInterface
     public function setLanguage(string $language): self
     {
         $this->language = $language;
+
+        return $this;
+    }
+
+    public function getCompletedProfile(): ?bool
+    {
+        return $this->completedProfile;
+    }
+
+    public function setCompletedProfile(bool $completedProfile): self
+    {
+        $this->completedProfile = $completedProfile;
 
         return $this;
     }

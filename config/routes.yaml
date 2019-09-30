@@ -8,6 +8,14 @@ api:
 api_login_check:
   path: /api/login_check
 
+connect_google:
+  path: /api/connect/google
+  controller: App\Controller\GoogleController::connectAction
+
+connect_google_check:
+  path: api/connect/google/check
+  controller: App\Controller\GoogleController::connectCheckAction
+
 admin:
   resource: routes/admin.yaml
   prefix: /admin
