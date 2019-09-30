@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Controller\ApiController;
-use App\Exception\Http\NotFoundException;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Repository\AreaRepository;
@@ -13,8 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 class UserController extends ApiController
 {
