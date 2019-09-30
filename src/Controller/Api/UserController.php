@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Controller\ApiController;
-use App\Exception\Http\NotFoundException;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Repository\AreaRepository;
@@ -13,8 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends ApiController
 {
@@ -41,6 +39,10 @@ class UserController extends ApiController
      */
     private $entityRepository;
 
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
 
     /**
      * UserController constructor.
@@ -55,13 +57,15 @@ class UserController extends ApiController
         EntityManagerInterface $em,
         DirectionRepository $directionRepository,
         AreaRepository $areaRepository,
-        EntityRepository $entityRepository
+        EntityRepository $entityRepository,
+        UserPasswordEncoderInterface $passwordEncoder
     ) {
         $this->em = $em;
         $this->directionRepository = $directionRepository;
         $this->areaRepository = $areaRepository;
         $this->entityRepository = $entityRepository;
         $this->userRepository = $userRepository;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -95,6 +99,7 @@ class UserController extends ApiController
             'countRemainingActions' => $this->userRepository->getCountRemainingActions($user->getId()),
             'countCurrentMonthVisits' => $this->userRepository->getCountCurrentMonthVisits($user->getId()),
             'countLastMonthVisits' => $this->userRepository->getCountLastMonthVisits($user->getId()),
+            'completedProfile' => $user->getCompletedProfile(),
             'actif' => (int) $user->getActif()
         ];
 
@@ -129,6 +134,7 @@ class UserController extends ApiController
         $user->setArea($area);
         $user->setEntity($entity);
         $user->setLanguage(array_key_exists('language', $data) ? $data['language'] : 'fr');
+        $user->setCompletedProfile(($direction && $area && $entity)? true : false);
         $user->setImage($data['image']);
 
         $this->em->persist($user);
@@ -138,7 +144,8 @@ class UserController extends ApiController
             'id' => $user->getId(),
             'direction' => $direction ? $direction->getId() : null,
             'area' => $area ? $area->getId() : null,
-            'entity' => $entity ? $entity->getId() : null
+            'entity' => $entity ? $entity->getId() : null,
+            'completedProfile' => $user->getCompletedProfile()
 
         ], 200);
     }
@@ -157,14 +164,25 @@ class UserController extends ApiController
             return new JsonResponse($message, 400);
         }
 
+        $direction = array_key_exists('direction_id', $data) ? $this->directionRepository->find($data['direction_id']) : null;
+        $area = array_key_exists('area_id', $data) ? $this->areaRepository->find($data['area_id']) : null;
+        $entity = array_key_exists('entity_id', $data) ? $this->entityRepository->find($data['entity_id']) : null;
+
         $user = new User();
         $user->setEmail($data['email']);
         $user->setfirstname($data['firstname']);
         $user->setLastname($data['lastname']);
-        $user->setPassword($data['password']);
+        $user->setDirection($direction);
+        $user->setArea($area);
+        $user->setEntity($entity);
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            $data['password']
+        ));
         $user->setImage($data['image']);
         $user->setLanguage(array_key_exists('language', $data) ? $data['language'] : 'fr');
         $user->setActif(true);
+        $user->setCompletedProfile(($direction && $area && $entity)? true : false);
         $this->em->persist($user);
         $this->em->flush();
 
