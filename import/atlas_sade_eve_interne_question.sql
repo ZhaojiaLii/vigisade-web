@@ -34,6 +34,7 @@ CREATE TABLE `eve_interne_question` (
   `environement` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+<<<<<<< HEAD
 
 LOCK TABLES `eve_interne_question` WRITE;
 /*!40000 ALTER TABLE `eve_interne_question` DISABLE KEYS */;
@@ -41,6 +42,8 @@ INSERT INTO `eve_interne_question` VALUES (2,2,'multiple','n',1,'Aptitude médic
 /*!40000 ALTER TABLE `eve_interne_question` ENABLE KEYS */;
 UNLOCK TABLES;
 
+=======
+>>>>>>> origin/jmal-89960
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
