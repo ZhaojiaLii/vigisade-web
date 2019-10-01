@@ -28,6 +28,7 @@ class UserFixtures extends BaseFixture
                 $user,
                 '12345678'
             ));
+            $user->setCompletedProfile(false);
             $user->setActif("true");
             return $user;
         });
