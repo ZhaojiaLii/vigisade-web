@@ -29,6 +29,7 @@ class UserController extends EasyAdminController
      */
     public function persistEntity($entity)
     {
+        $entity->setCompletedProfile(($entity->getDirection() && $entity->getArea() && $entity->getEntity())? true : false);
         $this->encodePassword($entity);
         parent::persistEntity($entity);
     }
@@ -60,6 +61,7 @@ class UserController extends EasyAdminController
             }
         }
 
+        $entity->setCompletedProfile(($entity->getDirection() && $entity->getArea() && $entity->getEntity())? true : false);
         parent::updateEntity($entity);
         $entity->setImageFile(null);
     }
