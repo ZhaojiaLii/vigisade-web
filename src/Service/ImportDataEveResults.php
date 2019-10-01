@@ -88,6 +88,7 @@ FROM eve_suivi_nc';
         $filenameEvePjInterneControle = __DIR__ . '/../../import/atlas_sade_eve_pj_interne_controle.sql';
         $filenameEveSecuriteControle = __DIR__ . '/../../import/atlas_sade_eve_securite_controle.sql';
         $filenameEveSuiviNc = __DIR__ . '/../../import/atlas_sade_eve_suivi_nc.sql';
+        $fienameEveQuestion = __DIR__ . '/../../import/atlas_sade_eve_interne_question.sql';
 
         if (!file_exists($filenameEveInterneEquipe) || !file_exists($filenameEvePjInterneControle) || !file_exists($filenameEveSecuriteControle) || !file_exists($filenameEveSuiviNc)) {
             //throw new \Exception('File does not exist in vigisade-web/import ');
@@ -106,6 +107,9 @@ FROM eve_suivi_nc';
 
         // Execute atlas_sade_eve_suivi_nc.sql
         $this->em->getConnection()->exec(file_get_contents($filenameEveSuiviNc));
+
+        // Execute atlas_sade_eve_interne_question.sql
+        $this->em->getConnection()->exec(file_get_contents($fienameEveQuestion));
 
         $this->em->flush();
 
@@ -212,7 +216,7 @@ FROM eve_suivi_nc';
                         $correctiveAction->setStatus("A traiter");
                     }
 
-                    $correctiveAction->setImage($value['pj_nom']);
+                    $correctiveAction->setImage('');
                     $this->manager->persist($correctiveAction);
                     $this->manager->flush();
                 }
