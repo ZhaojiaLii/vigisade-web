@@ -134,19 +134,19 @@ class ImportDataUser
                 if(empty($value[1])){
                     $usersNotSaved [] = ['email' => $value[8], 'entity' => "null"];
                 }else {
-                $usersNotSaved [] = ['email' => $value[0], 'entity' => $value[1]];
+                    $usersNotSaved [] = ['email' => $value[0], 'entity' => $value[1]];
                 }
             } elseif ($this->directionRepository->getDirectionByName($value[3]) === false){
                 if(empty($value[3])){
                     $usersNotSaved [] = ['email' => $value[8], 'direction' => "null"];
                 }else {
-                $usersNotSaved [] = ['email' => $value[0], 'direction' => $value[3]];
+                    $usersNotSaved [] = ['email' => $value[0], 'direction' => $value[3]];
                 }
             } elseif ($this->areaRepository->getAreaByName($value[2]) === false){
                 if(empty($value[2])){
                     $usersNotSaved [] = ['email' => $value[8], 'area' => "null"];
                 }else {
-                $usersNotSaved [] = ['email' => $value[0], 'area' => $value[2]];
+                    $usersNotSaved [] = ['email' => $value[0], 'area' => $value[2]];
                 }
             } else {
                 $user = new User();
@@ -161,6 +161,7 @@ class ImportDataUser
                     $user,
                     random_bytes(8)
                 ));
+                $user->setCompletedProfile(($user->getDirection() && $user->getArea() && $user->getEntity())? true : false);
                 $user->setActif(1);
                 $user->setUpdatedAt(new \DateTime());
                 $user->setLanguage('fr');
@@ -276,7 +277,7 @@ class ImportDataUser
                     $user,
                     random_bytes(8)
                 ));
-
+                $user->setCompletedProfile(($user->getDirection() && $user->getArea() && $user->getEntity())? true : false);
                 $user->setActif(($value[7] === "Actif") ? 1 : 0);
                 $user->setUpdatedAt(new \DateTime());
                 $user->setLanguage('fr');
@@ -303,6 +304,7 @@ class ImportDataUser
         $user->setActif(1);
         $user->setUpdatedAt(new \DateTime());
         $user->setLanguage('fr');
+        $user->setCompletedProfile(($user->getDirection() && $user->getArea() && $user->getEntity())? true : false);
         $this->manager->persist($user);
         $this->manager->flush();
 
