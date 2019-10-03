@@ -9,6 +9,7 @@ use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -123,7 +124,7 @@ class GoogleAuthenticator extends SocialAuthenticator
      */
     public function onAuthenticationFailure(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $exception)
     {
-        return new Response('Auth header required', 401);
+        return new RedirectResponse('/', 302, ['Login-Error' => 'Connexion impossible, veuillez contacter un administrateur réseau']);
     }
 
     /**
