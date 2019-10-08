@@ -119,6 +119,11 @@ class User implements UserInterface
      */
     private $plainPassword;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $completedProfile;
+
     public function __construct()
     {
         $this->results = new ArrayCollection();
@@ -435,6 +440,18 @@ class User implements UserInterface
     public function setLanguage(string $language): self
     {
         $this->language = $language;
+
+        return $this;
+    }
+
+    public function getCompletedProfile(): ?bool
+    {
+        return $this->completedProfile;
+    }
+
+    public function setCompletedProfile(bool $completedProfile): self
+    {
+        $this->completedProfile = $completedProfile;
 
         return $this;
     }
