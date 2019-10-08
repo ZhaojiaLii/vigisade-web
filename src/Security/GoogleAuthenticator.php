@@ -4,11 +4,11 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Client;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,15 +23,18 @@ class GoogleAuthenticator extends SocialAuthenticator
     private $clientRegistry;
     private $em;
     private $router;
+    private $userProvider;
 
     public function __construct(
         ClientRegistry $clientRegistry,
         EntityManagerInterface $em,
-        RouterInterface $router
+        RouterInterface $router,
+        JwtUserProvider $userProvider
     ) {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->router = $router;
+        $this->userProvider = $userProvider;
     }
 
 
@@ -73,7 +76,21 @@ class GoogleAuthenticator extends SocialAuthenticator
         }
 
         $userProvider->refreshUser($user);
+
+        if (!$userProvider->loadUserByUsername($user->getUsername())) {
+            $this->googleLogout($credentials);
+        }
+
         return $userProvider->loadUserByUsername($user->getUsername());
+    }
+
+    /**
+     * @param $credentials
+     */
+    public function googleLogout($credentials)
+    {
+        $client = new Client(['base_uri' => '/', 'http_errors' => false]);
+        $client->get('https://accounts.google.com/o/oauth2/revoke?token='.$credentials->getToken());
     }
 
     /**
@@ -124,7 +141,10 @@ class GoogleAuthenticator extends SocialAuthenticator
      */
     public function onAuthenticationFailure(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $exception)
     {
-        return new RedirectResponse('/', 302, ['Login-Error' => 'Connexion impossible, veuillez contacter un administrateur réseau']);
+        $redirectResponse = new RedirectResponse('/');
+        $cookie = new Cookie('login-error', 'Connexion impossible, veuillez contacter un administateur réseau', 0, '/', null, false, false);
+        $redirectResponse->headers->setCookie($cookie);
+        return $redirectResponse;
     }
 
     /**
